@@ -8,6 +8,7 @@ import GrievenceCard from "./Components/GrievenceCard";
 import ReviewCard from "./Components/ReviewCard";
 import PeopleCard from "./Components/PeopleCard";
 import TabView from "./Components/TabView";
+import AddProfile from "./Components/AddProfile";
 
 function App() {
   return (
