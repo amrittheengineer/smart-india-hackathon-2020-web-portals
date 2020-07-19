@@ -34,7 +34,7 @@ export default function OutlinedCard() {
         <Typography className={classes.pos} color="textSecondary">
           Title of Review
         </Typography>
-        <RatingStar />
+        <RatingStar readOnly />
         <br />
         <Typography variant="body2" component="p">
           The teaching quality is very good. The knowledge of the subject from

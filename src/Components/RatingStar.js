@@ -41,7 +41,6 @@ export default function HoverRating() {
         onChangeActive={(event, newHover) => {
           setHover(newHover);
         }}
-        readOnly
       />
       {value !== null && (
         <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>
