@@ -11,11 +11,12 @@ import TabView from "./Components/TabView";
 import AddProfile from "./Components/AddProfile";
 import EditReview from "./Components/EditReview";
 import EditGrievence from "./Components/EditGrievence";
+import LoginCard from "./Components/LoginCard";
 
 function App() {
   return (
     <div>
-      <MainSidebar />
+      <LoginCard />
     </div>
   );
 }

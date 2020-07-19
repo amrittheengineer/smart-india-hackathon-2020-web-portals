@@ -33,21 +33,25 @@ export default function OutlinedCard() {
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography variant="h5" component="h2" color="primary">
-                    Review
+                    Login
                 </Typography>
-                <TextField id="standard-basic" label="Enter the title" />
-                <br />
-                <br />
-                <Typography variant="h6" component="p">
-                    Enter the Star Rating
-                </Typography>
-                <RatingStar />
                 <br />
                 <TextField
-                    id="standard-textarea"
-                    label="Review in Brief"
-                    multiline
-                    fullWidth
+                    required
+                    id="outlined-required"
+                    label="UserId"
+                    defaultValue=""
+                    variant="outlined"
+                />
+                <br />
+                <br />
+                <TextField
+                    required
+                    id="outlined-password-input"
+                    label="Password"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="outlined"
                 />
             </CardContent>
             <br />

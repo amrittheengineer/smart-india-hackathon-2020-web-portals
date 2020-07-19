@@ -35,7 +35,7 @@ export default function OutlinedCard() {
         setAge(event.target.value);
     };
     return (
-        <Card className={classes.root} variant="outlined">
+        <Card className={classes.root} variant="outlined" color="primary">
             <CardContent>
                 <Typography variant="h5" component="h2">
                     Review
