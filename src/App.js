@@ -10,11 +10,12 @@ import PeopleCard from "./Components/PeopleCard";
 import TabView from "./Components/TabView";
 import AddProfile from "./Components/AddProfile";
 import EditReview from "./Components/EditReview";
+import EditGrievence from "./Components/EditGrievence";
 
 function App() {
   return (
     <div>
-      <EditReview />
+      <MainSidebar />
     </div>
   );
 }
