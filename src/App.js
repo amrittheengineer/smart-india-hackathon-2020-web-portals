@@ -11,7 +11,7 @@ import LoginCard from "./Components/LoginCard";
 function App() {
   return (
     <div>
-      <GrievenceCard />
+      <EducationalOfficerPage />
     </div>
   );
 }
