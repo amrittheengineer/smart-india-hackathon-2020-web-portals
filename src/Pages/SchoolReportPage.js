@@ -2,7 +2,7 @@ import React from "react";
 import InaccurateReportButton from "../Components/InaccurateReportButton";
 import VisitCard from "../Components/VisitCard";
 
-export default function SchoolGrievencePage() {
+export default function SchoolReportPage() {
     return (
         <div>
             <InaccurateReportButton />

@@ -149,8 +149,8 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
           {/*Uncomment below to view the page,Router should be used here*/}
-          {/*<SchoolGrievencePage />*/}
           {/*<SchoolReportPage />*/}
+          {/*<SchoolGrievencePage />*/}
           {/*<SchoolQRcodePage />*/}
       </main>
     </div>
