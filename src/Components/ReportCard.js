@@ -31,10 +31,7 @@ export default function OutlinedCard() {
                     Title of Grievence
         </Typography>
                 <Typography variant="body2" component="p">
-                    The library in our school is very good . For this we require 5 Stars
-                    or atleast 4 Stars but they rewarded 1 Star . So this is not at all
-                    acceptable. Even we allow our students to library once in a week for
-                    2 hours. So we are reporting against the decision by the Officer.
+                    blah blah
         </Typography>
             </CardContent>
         </Card>

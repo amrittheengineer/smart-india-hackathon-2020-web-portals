@@ -157,7 +157,7 @@ function ResponsiveDrawer(props) {
         {/*<EOGrievencePage />*/}
         {/*<EOVisitorPage />*/}
         {/*<EOSchoolPage />*/}
-        <EODashboardPage />
+        {/*<EODashboardPage />*/}
       </main>
     </div>
   );
