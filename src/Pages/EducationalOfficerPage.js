@@ -17,6 +17,9 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SidebarItem from "../Components/SidebarItem";
 import EOGrievencePage from "./EOGrievencePage";
+import EOVisitorPage from "./EOVisitorPage";
+import EOSchoolPage from "./EOSchoolPage";
+import EODashboardPage from "./EODashboardPage";
 
 const drawerWidth = 240;
 
@@ -152,6 +155,9 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {/*<EOGrievencePage />*/}
+        {/*<EOVisitorPage />*/}
+        {/*<EOSchoolPage />*/}
+        <EODashboardPage />
       </main>
     </div>
   );

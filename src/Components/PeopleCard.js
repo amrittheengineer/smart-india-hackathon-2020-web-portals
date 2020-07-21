@@ -22,17 +22,17 @@ export default function ImgMediaCard() {
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Photo of School/Visitor"
+          alt="Photo of Visitor"
           height="240"
           image="/user-logo.png"
-          title="Photo of School or Visitor"
+          title="Photo of Visitor"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             Name
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Designation or Address
+            Designation
           </Typography>
         </CardContent>
       </CardActionArea>
