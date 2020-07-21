@@ -17,6 +17,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SidebarItem from "../Components/SidebarItem";
 import SchoolGrievencePage from "./SchoolGrievencePage";
 import SchoolReportPage from "./SchoolReportPage";
+import SchoolQRcodePage from "./SchoolQRcodePage";
 
 const drawerWidth = 240;
 
@@ -150,6 +151,7 @@ function ResponsiveDrawer(props) {
           {/*Uncomment below to view the page,Router should be used here*/}
           {/*<SchoolGrievencePage />*/}
           {/*<SchoolReportPage />*/}
+          {/*<SchoolQRcodePage />*/}
       </main>
     </div>
   );
