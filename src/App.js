@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import EducationalOfficerPage from "./Pages/EducationalOfficerPage";
 import SchoolPage from "./Pages/SchoolPage";
 import PeopleCard from "./Components/PeopleCard";
