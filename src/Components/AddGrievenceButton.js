@@ -6,7 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import RadioButton from "./RadioButton";
+import EditGrievence from "./EditGrievence";
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
@@ -22,50 +22,15 @@ export default function FormDialog() {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        + Add new Profile
+        + Create Grievence
       </Button>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Add new</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please enter the following details to add a Profile.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="First Name"
-            type="text"
-            variant="outlined"
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Last Name"
-            type="text"
-            variant="outlined"
-            fullWidth
-          />
-          <br />
-          <br />
-          <RadioButton />
-          <br />
-          <br />
-          <TextField
-            id="outlined-number"
-            label="Identification Number"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            variant="outlined"
-          />
+          <EditGrievence />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

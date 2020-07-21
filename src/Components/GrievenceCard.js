@@ -28,16 +28,16 @@ export default function OutlinedCard() {
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <Typography variant="h5" component="h2">
-          Anonymous
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
           Title of Grievence
         </Typography>
+        <Typography className={classes.pos} color="textSecondary">
+          Type of Grievence
+        </Typography>
         <Typography variant="body2" component="p">
-          The teaching quality is very good. The knowledge of the subject from
-          the teacher's perspective could be improved. The staffs do not have
-          the proper experience to handle the students of this capability to
-          work on projects.
+          The library in our school needs to be improved . For this we require 
+          more racks and shelfs to be implemented in our school. More than this
+          the students need more books that are related to their subject through
+          which their creativity and knowledge can be improved.
         </Typography>
       </CardContent>
     </Card>

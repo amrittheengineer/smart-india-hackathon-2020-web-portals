@@ -4,14 +4,14 @@ import SchoolPage from "./Pages/SchoolPage";
 import GrievenceCard from "./Components/GrievenceCard";
 import PeopleCard from "./Components/PeopleCard";
 import TabView from "./Components/TabView";
-import AddProfile from "./Components/AddProfile";
+import AddGrievenceButton from "./Components/AddGrievenceButton";
 import EditGrievence from "./Components/EditGrievence";
 import LoginCard from "./Components/LoginCard";
 
 function App() {
   return (
     <div>
-      <EducationalOfficerPage />
+      <GrievenceCard />
     </div>
   );
 }

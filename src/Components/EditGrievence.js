@@ -38,7 +38,7 @@ export default function OutlinedCard() {
         <Card className={classes.root} variant="outlined" color="primary">
             <CardContent>
                 <Typography variant="h5" component="h2">
-                    Review
+                    Add Grievence
                 </Typography>
                 <TextField id="standard-basic" label="Enter the title" />
                 <br />
@@ -61,22 +61,19 @@ export default function OutlinedCard() {
                         <MenuItem value={20}>Canteen</MenuItem>
                         <MenuItem value={30}>Class</MenuItem>
                         <MenuItem value={40}>Lab</MenuItem>
-                        <MenuItem value={50}>Ground</MenuItem>
+                        <MenuItem value={50}>Library</MenuItem>
                     </Select>
                 </FormControl>
                 <br />
                 <br />
                 <TextField
                     id="standard-textarea"
-                    label="Review in Brief"
+                    label="In Brief"
                     multiline
                     fullWidth
                 />
             </CardContent>
             <br />
-            <CardActions>
-                <Button size="small" color="primary">Submit</Button>
-            </CardActions>
         </Card>
     );
 }
