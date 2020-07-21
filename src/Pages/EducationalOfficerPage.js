@@ -14,8 +14,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import HomeIcon from "@material-ui/icons/Home";
-import CommentIcon from "@material-ui/icons/Comment";
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import SchoolIcon from '@material-ui/icons/School';
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
@@ -69,10 +70,10 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Home"].map((text, index) => (
+        {["Dashboard"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              <HomeIcon />
+              <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
@@ -80,10 +81,10 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        {["Comments"].map((text, index) => (
+        {["Visitors"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              <CommentIcon />
+              <SupervisorAccountIcon />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
@@ -91,7 +92,18 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        {["Grievences"].map((text, index) => (
+        {["Schools"].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>
+              <SchoolIcon />
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {["Grievance"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
               <AnnouncementIcon />
@@ -133,7 +145,7 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Staff Dashboard
+            Visitor Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -168,6 +180,9 @@ function ResponsiveDrawer(props) {
           </Drawer>
         </Hidden>
       </nav>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+      </main>
     </div>
   );
 }

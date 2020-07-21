@@ -14,9 +14,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import ApartmentIcon from "@material-ui/icons/Apartment";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import FaceIcon from "@material-ui/icons/Face";
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import CropFreeIcon from '@material-ui/icons/CropFree';
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
@@ -70,10 +69,10 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Departments"].map((text, index) => (
+        {["Reports/Stats"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              <ApartmentIcon />
+              <AssessmentIcon />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
@@ -81,32 +80,21 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        {["Staffs"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              <SupervisorAccountIcon />
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["Students"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              <FaceIcon />
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["Grievences"].map((text, index) => (
+        {["Grievence"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
               <AnnouncementIcon />
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {["QR Code"].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>
+              <CropFreeIcon />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
@@ -145,7 +133,7 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Institute Dashboard
+            School Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -180,6 +168,9 @@ function ResponsiveDrawer(props) {
           </Drawer>
         </Hidden>
       </nav>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+      </main>
     </div>
   );
 }
