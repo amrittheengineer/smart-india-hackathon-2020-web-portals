@@ -5,7 +5,7 @@ import SchoolPage from "./Pages/SchoolPage";
 function App() {
   return (
     <div>
-      <EducationalOfficerPage />
+      <SchoolPage />
     </div>
   );
 }
