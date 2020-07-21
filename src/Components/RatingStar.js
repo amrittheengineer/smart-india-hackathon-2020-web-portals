@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 });
 
 export default function HoverRating() {
-  const [value, setValue] = React.useState(3);
+  const [value, setValue] = React.useState(3.5);
   const [hover, setHover] = React.useState(-1);
   const classes = useStyles();
 
@@ -41,6 +41,7 @@ export default function HoverRating() {
         onChangeActive={(event, newHover) => {
           setHover(newHover);
         }}
+        readOnly
       />
       {value !== null && (
         <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>
