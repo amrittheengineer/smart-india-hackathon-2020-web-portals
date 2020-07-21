@@ -6,10 +6,15 @@ import {
   Divider,
 } from "@material-ui/core";
 
-const SidebarItem = ({ title, iconComponent, isActive }) => {
+const SidebarItem = ({ title, iconComponent, isActive, onClick }) => {
   return (
-    <React.Fragment key={title}>
-      <ListItem button selected={isActive} style={{ padding: "16px" }}>
+    <React.Fragment>
+      <ListItem
+        button
+        selected={isActive}
+        style={{ padding: "16px" }}
+        onClick={onClick}
+      >
         <ListItemIcon>{iconComponent}</ListItemIcon>
         <ListItemText primary={title} />
       </ListItem>

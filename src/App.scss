@@ -1,0 +1,19 @@
+$color: #003171;
+$background: #27272f;
+$white: #fff;
+
+.mainbar {
+  width: 100%;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .app-bar {
+    height: 9vh;
+  }
+  .mainbar-content {
+    overflow-y: auto;
+    padding: 16px;
+    height: 91vh;
+  }
+}

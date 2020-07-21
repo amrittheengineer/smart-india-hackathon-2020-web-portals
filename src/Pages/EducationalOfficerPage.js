@@ -90,7 +90,7 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {sidebarOptions.map((option) => (
-          <SidebarItem {...option} isActive />
+          <SidebarItem key={option.title} {...option} isActive />
         ))}
       </List>
     </div>
