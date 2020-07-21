@@ -15,6 +15,9 @@ import CropFreeIcon from "@material-ui/icons/CropFree";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SidebarItem from "../Components/SidebarItem";
+import SchoolGrievencePage from "./SchoolGrievencePage";
+import SchoolReportPage from "./SchoolReportPage";
+import SchoolQRcodePage from "./SchoolQRcodePage";
 
 const drawerWidth = 240;
 
@@ -145,6 +148,10 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+          {/*Uncomment below to view the page,Router should be used here*/}
+          {/*<SchoolReportPage />*/}
+          {/*<SchoolGrievencePage />*/}
+          {/*<SchoolQRcodePage />*/}
       </main>
     </div>
   );
