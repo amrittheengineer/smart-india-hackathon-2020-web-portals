@@ -25,14 +25,14 @@ export default function ImgMediaCard() {
           alt="Contemplative Reptile"
           height="240"
           image="/user-logo.png"
-          title="Photo of Staff or Student"
+          title="Photo of School or Visitor"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             Name
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Staff or Student
+            Designation or Address
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -27,8 +27,9 @@ export default function CenteredTabs() {
         textColor="primary"
         centered
       >
-        <Tab label="Public Grievence" />
-        <Tab label="Private Grievence" />
+        <Tab label="Pending (3)" />
+        <Tab label="Completed" />
+        <Tab label="Revaluation Request (2)" />
       </Tabs>
     </Paper>
   );
