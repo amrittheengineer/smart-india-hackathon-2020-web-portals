@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { GlobalStateContextProvider } from "./Context/GlobalStateContext";
 import DEORoutes from "./DEO/DEORoutes";
+import SchoolRoutes from "./School/SchoolRoutes";
+import { SchoolContextProvider } from "./Context/SchoolContext";
 
 function App() {
   return (
@@ -9,7 +11,10 @@ function App() {
       <GlobalStateContextProvider>
         <Switch>
           <Route path="/deo" component={DEORoutes} />
-          <Route path="/" component={() => <Redirect to="/deo" />} />
+          <SchoolContextProvider>
+            <Route path="/school" component={SchoolRoutes} />
+          </SchoolContextProvider>
+          <Route path="/" component={() => <Redirect to="/school" />} />
         </Switch>
       </GlobalStateContextProvider>
     </BrowserRouter>

@@ -17,3 +17,18 @@ $white: #fff;
     height: 91vh;
   }
 }
+
+.container {
+  height: 100%;
+  display: flex;
+  // background-color: #c1c1c1;
+  .content {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    flex: 1;
+    .progress-image {
+      width: 20%;
+    }
+  }
+}
