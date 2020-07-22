@@ -150,7 +150,7 @@ function ResponsiveDrawer(props) {
         <div className={classes.toolbar} />
           {/*Uncomment below to view the page,Router should be used here*/}
           {/*<SchoolReportPage />*/}
-          {/*<SchoolGrievencePage />*/}
+          {/*<SchoolGrievencePage />
           {/*<SchoolQRcodePage />*/}
       </main>
     </div>
