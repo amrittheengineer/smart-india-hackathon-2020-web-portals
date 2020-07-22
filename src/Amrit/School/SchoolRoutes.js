@@ -119,7 +119,10 @@ const SchoolRoutes = ({ history, location }) => {
               component={component}
             />
           ))}
-          <Route path="/" render={() => <Redirect to="/school/qr-code" />} />
+          <Route
+            path="/school"
+            component={() => <Redirect to="/school/qr-code" />}
+          />
         </Switch>
       </main>
     </div>

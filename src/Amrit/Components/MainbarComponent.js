@@ -16,12 +16,12 @@ export const EmptyComponent = () => {
   );
 };
 
-export const Loading = () => {
+export const Loading = ({ message }) => {
   return (
     <div className="container">
       <div className="content">
         <CircularProgress />
-        <div>Loading</div>
+        <p>{message}</p>
       </div>
     </div>
   );
@@ -31,7 +31,7 @@ export const MainbarErrorMessage = ({ message }) => {
   return (
     <div className="container">
       <div className="content">
-        <div>{message}</div>
+        <p>{message}</p>
       </div>
     </div>
   );

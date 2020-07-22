@@ -11,10 +11,10 @@ function App() {
       <GlobalStateContextProvider>
         <Switch>
           <Route path="/deo" component={DEORoutes} />
+          <Route path="/" exact component={() => <Redirect to="/school" />} />
           <SchoolContextProvider>
             <Route path="/school" component={SchoolRoutes} />
           </SchoolContextProvider>
-          <Route path="/" component={() => <Redirect to="/school" />} />
         </Switch>
       </GlobalStateContextProvider>
     </BrowserRouter>

@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./Amrit/App";
 // import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import SchoolQRcodePage from "./Pages/SchoolQRcodePage";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

@@ -12,7 +12,9 @@ import { Loading, MainbarErrorMessage } from "../Components/MainbarComponent";
 
 function SchoolQRCode() {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
-  const [qrCodeComponent, setQrCodeComponent] = useState(<Loading />);
+  const [qrCodeComponent, setQrCodeComponent] = useState(
+    <Loading message="Loading QR Code" />
+  );
   const { getQrCode } = useContext(SchoolContext);
 
   useEffect(() => {
