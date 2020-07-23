@@ -28,4 +28,6 @@ module.exports = {
 
     "#079992",
   ],
+  INDEX_OLD_REPORTS: 1,
+  INDEX_NEW_REPORTS: 0,
 };

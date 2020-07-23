@@ -35,22 +35,98 @@ export const SchoolContextProvider = ({ children }) => {
     });
   };
 
+  const getChartPlots = (reportArray) => {
+    let aggregateData = {};
+    reportArray.forEach(({ reportDate, ...report }) => {
+      Object.keys(report).map((r) => {
+        const reportValues = report[r];
+        if (!aggregateData[r]) {
+          aggregateData[r] = [];
+        }
+        aggregateData[r].push(
+          reportValues.reduce((old, { score, total }) => {
+            return old + (score / total) * 100;
+          }, 0) / reportValues.length
+        );
+      });
+    });
+    const parameters = Object.keys(aggregateData);
+    parameters.forEach((p) => {
+      aggregateData[p] =
+        aggregateData[p].reduce((old, current) => {
+          return old + current;
+        }, 0) / aggregateData[p].length;
+    });
+    return aggregateData;
+  };
+
+  const getRawReport = (reportParam) => {
+    let aggregateData = {};
+    const { reportDate, ...report } = reportParam;
+    Object.keys(report).map((entity) => {
+      if (!aggregateData[entity]) {
+        aggregateData[entity] = [];
+      }
+
+      report[entity].forEach(({ question, answer }) =>
+        aggregateData[entity].push({
+          question,
+          answer,
+        })
+      );
+    });
+    // const parameters = Object.keys(aggregateData);
+    // parameters.forEach((p) => {
+    //   aggregateData[p] =
+    //     aggregateData[p].reduce((old, current) => {
+    //       return old + current;
+    //     }, 0) / aggregateData[p].length;
+    // });
+    return aggregateData;
+  };
+
   const getSchoolReport = () => {
     return new Promise((resolve, reject) => {
       if (!schoolId) {
         return reject(NOT_LOGGED_IN);
       }
-      return resolve([
-        { Library: { q1: 5, q2: 6, q3: 2, q4: 9 }, reportDate: 1595449379918 },
+      const sampleData = [
         {
-          Library: { q1: 15, q2: 26, q3: 22, q4: 14 },
+          Library: [
+            { question: "q1", answer: "Answer", score: 5, total: 8 },
+            { question: "q2", answer: "Answer", score: 5, total: 8 },
+            { question: "q3", answer: "Answer", score: 5, total: 8 },
+            { question: "q4", answer: "Answer", score: 5, total: 8 },
+          ],
+          reportDate: 1595449379918,
+        },
+        {
+          Library: [
+            { question: "q1", answer: "Answer", score: 5, total: 8 },
+            { question: "q2", answer: "Answer", score: 5, total: 8 },
+            { question: "q3", answer: "Answer", score: 5, total: 8 },
+            { question: "q4", answer: "Answer", score: 5, total: 8 },
+          ],
+          Mess: [
+            { question: "q1", answer: "Answer", score: 5, total: 8 },
+            { question: "q2", answer: "Answer", score: 5, total: 8 },
+            { question: "q3", answer: "Answer", score: 5, total: 8 },
+            { question: "q4", answer: "Answer", score: 5, total: 8 },
+          ],
           reportDate: 1595339379918,
         },
-        {
-          Library: { q1: 13, q2: 56, q3: 72, q4: 54 },
-          reportDate: 1595229379918,
-        },
-      ]);
+      ];
+      // {
+      //   Library: {
+      //     q1: { answer: "Answer", score: 5, total: 8 },
+      //     q2: { answer: "Answer", score: 5, total: 8 },
+      //     q3: { answer: "Answer", score: 5, total: 8 },
+      //     q4: { answer: "Answer", score: 5, total: 8 },
+      //   },
+      //   reportDate: 1595229379918,
+      // },
+      console.log(getRawReport(sampleData[0]));
+      return resolve(sampleData);
       fetch("/sample/school-qr-code.json?schoolId=" + schoolId, {
         method: "GET",
       })

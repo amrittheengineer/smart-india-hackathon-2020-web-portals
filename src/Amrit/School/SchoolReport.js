@@ -7,7 +7,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
 import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
-import { NO_REPORTS, colors } from "../Constants";
+import {
+  NO_REPORTS,
+  colors,
+  INDEX_OLD_REPORTS,
+  INDEX_NEW_REPORTS,
+} from "../Constants";
 import { SchoolContext } from "../Context/SchoolContext";
 
 function SchoolReport() {
@@ -20,7 +25,11 @@ function SchoolReport() {
   useEffect(() => {
     let unmounted = false;
     getSchoolReport()
-      .then(() => {
+      .then((reportsArray) => {
+        const latestReport = reportsArray.sort((a, b) => a - b).splice(0, 1);
+
+        const oldReportsAggregate = reportsArray;
+
         setTimeout(() => {
           if (!unmounted)
             setReportComponent(
@@ -29,19 +38,19 @@ function SchoolReport() {
                   datasets: [
                     {
                       fill: colors[1],
-                      data: [8, 36, 36, 68, 64, 50, 96],
+                      data: [8, 36, 36, 68, 64, 50, 43],
                       // type: "line",
                       backgroundColor: colors[1],
                       label: "New Report",
                       borderColor: colors[1],
                     },
                     {
-                      fill: colors[0],
+                      // fill: false,
                       data: [28, 24, 32, 53, 68, 44, 90],
                       // type: "line",
                       label: "Old Reports",
-                      backgroundColor: colors[0],
-                      borderColor: colors[0],
+                      backgroundColor: "#c1c1c1",
+                      borderColor: "#c1c1c1",
                     },
                   ],
                   labels: [
@@ -99,7 +108,18 @@ function SchoolReport() {
                   },
                   tooltips: {
                     callbacks: {
-                      label: (item, data) => {},
+                      label: (item, data) => {
+                        if (item.datasetIndex === INDEX_OLD_REPORTS) {
+                        } else if (item.datasetIndex === INDEX_NEW_REPORTS) {
+                          const oldReportsEntityValue =
+                            data.datasets[INDEX_OLD_REPORTS][item.index];
+                          const newReportsEntityValue =
+                            data.datasets[INDEX_NEW_REPORTS][item.index];
+
+                          // const total
+                        }
+                        return item.yLabel;
+                      },
                     },
                   },
                 }}
