@@ -4,6 +4,7 @@ module.exports = {
   NO_REPORTS: 3,
   colors: [
     "#e34309",
+    "#3f51b5",
     "#374874",
     "#3ede04",
     "#b71540",
@@ -28,6 +29,6 @@ module.exports = {
 
     "#079992",
   ],
-  INDEX_OLD_REPORTS: 1,
-  INDEX_NEW_REPORTS: 0,
+  INDEX_OLD_REPORT: 0,
+  INDEX_NEW_REPORT: 1,
 };

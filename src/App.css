@@ -21,6 +21,11 @@
   height: 91vh;
 }
 
+.modal-input {
+  width: 100%;
+  margin-bottom: 16px !important;
+}
+
 .container {
   height: 100%;
   display: -webkit-box;

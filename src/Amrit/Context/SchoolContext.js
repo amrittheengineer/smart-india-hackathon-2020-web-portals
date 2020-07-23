@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { NOT_LOGGED_IN, NO_PENDING_VISITS, NO_REPORTS } from "../Constants";
 
 export const SchoolContext = createContext();
@@ -85,20 +85,57 @@ export const SchoolContextProvider = ({ children }) => {
     return aggregateData;
   };
 
+  const [latestReport, setLatestReport] = useState(null);
+  const [previousReport, setPreviousReport] = useState(null);
+
+  const [inAccurateReport, setInAccurateReport] = useState(null);
+
+  useEffect(() => {
+    getSchoolReport();
+  }, [schoolId]);
+
   const getSchoolReport = () => {
     return new Promise((resolve, reject) => {
       if (!schoolId) {
         return reject(NOT_LOGGED_IN);
       }
+      fetch("/sample/school-report.json?schoolId=" + schoolId, {
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .then((sampleData) => {
+          if (sampleData) {
+            console.log(sampleData);
+            // Sort in descending
+            sampleData.sort((a, b) => b.reportDate - a.reportDate);
+            setLatestReport(sampleData[0]);
+            setPreviousReport(sampleData[1]);
+
+            setInAccurateReport(sampleData[0].inaccurateReport);
+          }
+        });
       const sampleData = [
         {
           Library: [
-            { question: "q1", answer: "Answer", score: 5, total: 8 },
-            { question: "q2", answer: "Answer", score: 5, total: 8 },
-            { question: "q3", answer: "Answer", score: 5, total: 8 },
-            { question: "q4", answer: "Answer", score: 5, total: 8 },
+            { question: "q1", answer: "Answer", score: 6, total: 8 },
+            { question: "q2", answer: "Answer", score: 6, total: 8 },
+            { question: "q3", answer: "Answer", score: 6, total: 8 },
+            { question: "q4", answer: "Answer", score: 6, total: 8 },
+          ],
+          Mess: [
+            { question: "q1", answer: "Answer", score: 7, total: 8 },
+            { question: "q2", answer: "Answer", score: 7, total: 8 },
+            { question: "q3", answer: "Answer", score: 7, total: 8 },
+            { question: "q4", answer: "Answer", score: 7, total: 8 },
           ],
           reportDate: 1595449379918,
+          inaccurateReport: {
+            categories: ["Library"],
+            message: "Library is good!",
+          },
+          remarks: {
+            Library: "Need to improve international author books quality.",
+          },
         },
         {
           Library: [
@@ -125,8 +162,8 @@ export const SchoolContextProvider = ({ children }) => {
       //   },
       //   reportDate: 1595229379918,
       // },
-      console.log(getRawReport(sampleData[0]));
-      return resolve(sampleData);
+      // console.log(getRawReport(sampleData[0]));
+      return resolve();
       fetch("/sample/school-qr-code.json?schoolId=" + schoolId, {
         method: "GET",
       })
@@ -146,7 +183,17 @@ export const SchoolContextProvider = ({ children }) => {
   };
 
   return (
-    <SchoolContext.Provider value={{ schoolId, getQrCode, getSchoolReport }}>
+    <SchoolContext.Provider
+      value={{
+        schoolId,
+        getQrCode,
+        getSchoolReport,
+        latestReport,
+        previousReport,
+        getChartPlots,
+        inAccurateReport,
+      }}
+    >
       {children}
     </SchoolContext.Provider>
   );
