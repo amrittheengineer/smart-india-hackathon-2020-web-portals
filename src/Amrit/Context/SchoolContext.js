@@ -110,6 +110,7 @@ export const SchoolContextProvider = ({ children }) => {
 
   useEffect(() => {
     getSchoolReport();
+    getGrievances();
   }, [school.id]);
 
   useEffect(() => {
@@ -266,21 +267,32 @@ export const SchoolContextProvider = ({ children }) => {
   const { showToast } = useContext(GlobalStateContext);
 
   const [grievances, setGrievances] = useState([
-    {
-      category: "Library",
-      message: "We need new books out there for good knowledge!",
-      subject: "Need Books",
-      date: 1595618220673,
-      status: "Accepted",
-    },
-    {
-      category: "Library",
-      message: "We need more pullingo to join our school!",
-      subject: "hi",
-      date: 1595601220673,
-      status: "Pending",
-    },
+    // {
+    //   category: "Library",
+    //   message: "We need new books out there for good knowledge!",
+    //   subject: "Need Books",
+    //   date: 1595618220673,
+    //   status: "Accepted",
+    // },
+    // {
+    //   category: "Library",
+    //   message: "We need more pullingo to join our school!",
+    //   subject: "hi",
+    //   date: 1595601220673,
+    //   status: "Pending",
+    // },
   ]);
+
+  const getGrievances = () => {
+    fetch("/sample/school-grievance.json?school.id=" + school.id, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setGrievances(res);
+      })
+      .catch((err) => console.error(err));
+  };
 
   const reportInaccurate = (message, categories, callback) => {
     setTimeout(() => {
