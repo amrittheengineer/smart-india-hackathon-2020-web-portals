@@ -61,16 +61,7 @@ const SchoolRemark = () => {
       <div className="mainbar-content">
         {latestReport && latestReport.remarks ? (
           latestReport.remarks.length > 0 ? (
-            [
-              ...latestReport.remarks,
-              ...latestReport.remarks,
-              ...latestReport.remarks,
-              ...latestReport.remarks,
-              ...latestReport.remarks,
-              ...latestReport.remarks,
-              ...latestReport.remarks,
-              ...latestReport.remarks,
-            ].map((remark, ind) => {
+            latestReport.remarks.map((remark, ind) => {
               return <RemarkCard remark={remark} key={ind} />;
             })
           ) : (

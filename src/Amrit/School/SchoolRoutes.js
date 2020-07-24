@@ -130,7 +130,7 @@ const SchoolRoutes = ({ history, location }) => {
           <Route
             key="default"
             path="/school"
-            component={() => <Redirect to="/school/qr-code" />}
+            component={() => <Redirect to="/school/reports" />}
           />
         </Switch>
       </main>

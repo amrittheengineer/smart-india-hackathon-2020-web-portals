@@ -1,23 +1,29 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { NOT_LOGGED_IN, NO_PENDING_VISITS, NO_REPORTS } from "../Constants";
+import { GlobalStateContext } from "./GlobalStateContext";
 
 export const SchoolContext = createContext();
 
 // Logged in
-const schoolIdTemp = "iuerhifrehfue";
+const schoolidTemp = "iuerhifrehfue";
 
 // Logged out
-// const schoolIdTemp = null;
+// const school.idTemp = null;
 
 export const SchoolContextProvider = ({ children }) => {
-  const [schoolId, setSchoolId] = useState(schoolIdTemp);
+  const [school, setschool] = useState({
+    id: "vegrygue-irg-434jhveb",
+    name: "VRS School",
+    mId: "ciue2933-vrtgu3-5",
+    deoId: "iceurfh-4985j-3fve",
+  });
 
   const getQrCode = () => {
     return new Promise((resolve, reject) => {
-      if (!schoolId) {
+      if (!school.id) {
         return reject(NOT_LOGGED_IN);
       }
-      fetch("/sample/school-qr-code.json?schoolId=" + schoolId, {
+      fetch("/sample/school-qr-code.json?school.id=" + school.id, {
         method: "GET",
       })
         .then((res) => res.json())
@@ -43,9 +49,16 @@ export const SchoolContextProvider = ({ children }) => {
           aggregateData[categoryName] = [];
         }
         aggregateData[categoryName].push(
-          fieldData.reduce((old, { score, total }) => {
-            return old + (score / total) * 100;
-          }, 0) / fieldData.length
+          // fieldData.reduce((old, { score, total }) => {
+          //   return old + (score / total) * 100;
+          // }, 0) / fieldData.length
+          (fieldData.reduce((old, { score }) => {
+            return old + score;
+          }, 0) /
+            fieldData.reduce((old, { total }) => {
+              return old + total;
+            }, 0)) *
+            100
         );
       });
     });
@@ -93,11 +106,11 @@ export const SchoolContextProvider = ({ children }) => {
   const [previousReportChart, setPreviousReportChart] = useState(null);
 
   const [inAccurateReport, setInAccurateReport] = useState(null);
-  const [remarks, setRemarks] = useState(null);
+  // const [remarks, setRemarks] = useState(null);
 
   useEffect(() => {
     getSchoolReport();
-  }, [schoolId]);
+  }, [school.id]);
 
   useEffect(() => {
     if (latestReport) {
@@ -141,10 +154,10 @@ export const SchoolContextProvider = ({ children }) => {
 
   const getSchoolReport = () => {
     return new Promise((resolve, reject) => {
-      if (!schoolId) {
+      if (!school.id) {
         return reject(NOT_LOGGED_IN);
       }
-      fetch("/sample/school-report.json?schoolId=" + schoolId, {
+      fetch("/sample/school-report.json?school.id=" + school.id, {
         method: "GET",
       })
         .then((res) => res.json())
@@ -232,7 +245,7 @@ export const SchoolContextProvider = ({ children }) => {
       // },
       // console.log(getRawReport(sampleData[0]));
       return resolve();
-      fetch("/sample/school-qr-code.json?schoolId=" + schoolId, {
+      fetch("/sample/school-qr-code.json?school.id=" + school.id, {
         method: "GET",
       })
         .then((res) => res.json())
@@ -250,12 +263,43 @@ export const SchoolContextProvider = ({ children }) => {
     });
   };
 
+  const { showToast } = useContext(GlobalStateContext);
+
+  const [grievances, setGrievances] = useState([
+    {
+      category: "Library",
+      message: "We need new books out there for good knowledge!",
+      subject: "Need Books",
+      date: 1595618220673,
+      status: "Accepted",
+    },
+    {
+      category: "Library",
+      message: "We need more pullingo to join our school!",
+      subject: "hi",
+      date: 1595601220673,
+      status: "Pending",
+    },
+  ]);
+
   const reportInaccurate = (message, categories, callback) => {
-    setInAccurateReport({
-      categories,
-      message,
-    });
     setTimeout(() => {
+      setInAccurateReport({
+        categories,
+        message,
+      });
+      showToast("Reported to DEO successfully!");
+      callback();
+    }, 2000);
+  };
+
+  const reportGrievance = (category, message, subject, callback) => {
+    setTimeout(() => {
+      setGrievances((prev) => [
+        ...prev,
+        { category, message, subject, date: Date.now(), status: "Pending" },
+      ]);
+      showToast("Reported to DEO successfully!");
       callback();
     }, 2000);
   };
@@ -263,19 +307,20 @@ export const SchoolContextProvider = ({ children }) => {
   return (
     <SchoolContext.Provider
       value={{
-        schoolId,
+        school,
         getQrCode,
         getSchoolReport,
         latestReport,
         previousReport,
         getChartPlots,
         inAccurateReport,
-        remarks,
         labels,
         setLabels,
         latestReportChart,
         previousReportChart,
         reportInaccurate,
+        reportGrievance,
+        grievances,
       }}
     >
       {children}

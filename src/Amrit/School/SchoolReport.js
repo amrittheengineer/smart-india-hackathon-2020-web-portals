@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
@@ -25,6 +25,7 @@ const SchoolReport = ({ history }) => {
     SchoolContext
   );
   const { isDEO } = useContext(AuthContext);
+  const chartRef = useRef(null);
 
   return (
     <>
@@ -59,8 +60,9 @@ const SchoolReport = ({ history }) => {
       </AppBar>
       <div className="mainbar-content">
         {labels ? (
-          labels.length > 0 ? (
+          labels.length > 0 && latestReportChart ? (
             <Bar
+              ref={chartRef}
               data={{
                 datasets: [
                   {

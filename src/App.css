@@ -26,7 +26,7 @@
   display: -ms-flexbox;
   display: flex;
   border-radius: 4px;
-  margin: 16px;
+  margin: 16px 8px;
   -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
           box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
   padding: 16px 16px 16px 0;
@@ -39,6 +39,11 @@
   -ms-flex-item-align: center;
       align-self: center;
   margin: 0 16px;
+}
+
+.message-container .message-icon svg {
+  height: 72px;
+  width: 72px;
 }
 
 .message-container .message-body {
@@ -75,11 +80,24 @@
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
 }
 
 .message-container .message-body .message-action svg {
   margin: 4px;
   cursor: pointer;
+}
+
+.post-category {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 1.4rem;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .modal-input {

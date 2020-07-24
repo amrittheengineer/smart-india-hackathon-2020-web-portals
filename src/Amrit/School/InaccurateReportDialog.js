@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   formControl: {
-    margin: theme.spacing(3),
+    margin: "16px",
   },
 }));
 
@@ -39,7 +39,7 @@ function CheckboxesGroup({ categories, selected, selectedCategories }) {
   };
 
   useEffect(() => {
-    selectedCategories.current = [...selected];
+    selectedCategories.current = [...selected, ...selectedCategories.current];
   }, [selected]);
 
   return (
@@ -136,6 +136,7 @@ const InaccurateReportDialog = ({ visible, closeThis, categories }) => {
           <Button
             style={inAccurateReport ? { display: "none" } : {}}
             onClick={() => {
+              console.log(selectedCategories.current);
               const message = inputMessageRef.current.value.trim();
               if (!message) {
                 return showToast("Kindly brief your complaint.");
