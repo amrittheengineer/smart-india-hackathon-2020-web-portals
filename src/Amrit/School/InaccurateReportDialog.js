@@ -14,6 +14,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { Loading } from "../Components/MainbarComponent";
 import { TextField } from "@material-ui/core";
 import { SchoolContext } from "../Context/SchoolContext";
+import { GlobalStateContext } from "../Context/GlobalStateContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,21 +25,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CheckboxesGroup({ categories, selected }) {
+function CheckboxesGroup({ categories, selected, selectedCategories }) {
   const classes = useStyles();
-  const selectedCategories = useRef([...selected] || []);
 
   const handleTickEvent = (event) => {
     if (event.target.checked) {
       selectedCategories.current.push(event.target.name);
     } else {
-      selectedCategories.current.filter((d) => d !== event.target.name);
+      selectedCategories.current = selectedCategories.current.filter(
+        (d) => d !== event.target.name
+      );
     }
   };
 
+  useEffect(() => {
+    selectedCategories.current = [...selected];
+  }, [selected]);
+
   return (
     <div className={classes.root}>
-      <FormControl component="fieldset" className={classes.formControl}>
+      <FormControl
+        disabled={!!selected.length}
+        component="fieldset"
+        className={classes.formControl}
+      >
         <FormLabel component="legend">Choose the category</FormLabel>
         <FormGroup>
           {categories.map((c) => (
@@ -46,7 +56,7 @@ function CheckboxesGroup({ categories, selected }) {
               key={c}
               control={
                 <Checkbox
-                  defaultChecked={selectedCategories.current.includes(c)}
+                  defaultChecked={selected.includes(c)}
                   onChange={handleTickEvent}
                   name={c}
                 />
@@ -58,7 +68,7 @@ function CheckboxesGroup({ categories, selected }) {
             key={"Other"}
             control={
               <Checkbox
-                defaultChecked={selectedCategories.current.includes("Other")}
+                defaultChecked={selected.includes("Other")}
                 onChange={handleTickEvent}
                 name="Other"
               />
@@ -74,7 +84,13 @@ function CheckboxesGroup({ categories, selected }) {
 
 const InaccurateReportDialog = ({ visible, closeThis, categories }) => {
   const [requestingAPI, setRequestingAPI] = useState(false);
-  const { inAccurateReport } = useContext(SchoolContext);
+  const { inAccurateReport, reportInaccurate } = useContext(SchoolContext);
+  const { showToast } = useContext(GlobalStateContext);
+  const selectedCategories = useRef(
+    inAccurateReport ? [...inAccurateReport.categories] : []
+  );
+  const inputMessageRef = useRef(null);
+
   useEffect(() => {}, []);
   return (
     <>
@@ -85,11 +101,21 @@ const InaccurateReportDialog = ({ visible, closeThis, categories }) => {
             <Loading message="Reporting to DEO..." />
           ) : (
             <div>
+              {visible ? (
+                <CheckboxesGroup
+                  categories={categories || []}
+                  selected={inAccurateReport ? inAccurateReport.categories : []}
+                  selectedCategories={selectedCategories}
+                />
+              ) : null}
               <TextField
                 id="outlined-basic"
                 label="Complaint in brief"
                 variant="outlined"
                 multiline={true}
+                inputProps={{ style: { height: "80px" } }}
+                inputRef={inputMessageRef}
+                disabled={!!inAccurateReport}
                 defaultValue={(() => {
                   if (inAccurateReport && inAccurateReport.message) {
                     return inAccurateReport.message;
@@ -100,23 +126,30 @@ const InaccurateReportDialog = ({ visible, closeThis, categories }) => {
                 //   inputRef={(input) => (inputMessageRef.current = input)}
                 className="modal-input"
               />
-              {visible ? (
-                <CheckboxesGroup
-                  categories={categories || []}
-                  selected={inAccurateReport ? inAccurateReport.categories : []}
-                />
-              ) : null}
             </div>
           )}
         </DialogContent>
         <DialogActions style={requestingAPI ? { display: "none" } : {}}>
           <Button onClick={closeThis} color="primary">
-            Cancel
+            {inAccurateReport ? "Close" : `Cancel`}
           </Button>
           <Button
+            style={inAccurateReport ? { display: "none" } : {}}
             onClick={() => {
+              const message = inputMessageRef.current.value.trim();
+              if (!message) {
+                return showToast("Kindly brief your complaint.");
+              }
+              if (selectedCategories.current.length === 0) {
+                return showToast("Please choose category.");
+              }
+
               setRequestingAPI(true);
-              //   closeThis();
+
+              reportInaccurate(message, selectedCategories.current, () => {
+                closeThis();
+                setRequestingAPI(false);
+              });
             }}
             color="primary"
           >

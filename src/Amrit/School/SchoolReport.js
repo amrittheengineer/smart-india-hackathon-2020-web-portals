@@ -17,99 +17,17 @@ import { SchoolContext } from "../Context/SchoolContext";
 import { Button } from "@material-ui/core";
 import InaccurateReportButton from "../../Components/InaccurateReportButton";
 import InaccurateReportDialog from "./InaccurateReportDialog";
+import { AuthContext } from "../Context/AuthContext";
 
-const SchoolReport = () => {
+const SchoolReport = ({ history }) => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
-  const [latestReportChart, setLatestReportChart] = useState(null);
-  const [previousReportChart, setPreviousReportChart] = useState(null);
-  const [labels, setLabels] = useState([]);
-  const { latestReport, previousReport, getChartPlots } = useContext(
+  const { labels, latestReportChart, previousReportChart } = useContext(
     SchoolContext
   );
-
-  const [reportDialogOpen, setReportDialogOpen] = useState(false);
-
-  const getReportsOnly = (rep) => {
-    if (!rep) {
-      return null;
-    }
-    const { reportDate, inaccurateReport, remarks, ...reportRest } = rep;
-    return reportRest;
-  };
-  useEffect(() => {
-    if (latestReport) {
-      let newPlots = getChartPlots([getReportsOnly(latestReport)]);
-      const newRepCopy = [];
-
-      // Setting labels
-      const labels = Object.keys(getReportsOnly(latestReport));
-      if (labels.length > 0) {
-        labels.forEach((l) => {
-          newRepCopy.push(newPlots[l]);
-        });
-
-        setLatestReportChart(newRepCopy);
-        setLabels(labels);
-      } else {
-        setLabels(null);
-      }
-    }
-  }, [latestReport]);
-
-  useEffect(() => {
-    if (previousReport) {
-      let prevPlots = getChartPlots([getReportsOnly(previousReport)]);
-      const prevRepCopy = [];
-
-      // Setting labels
-      const labels = Object.keys(getReportsOnly(latestReport));
-      if (labels.length > 0) {
-        labels.forEach((l) => {
-          prevRepCopy.push(prevPlots[l]);
-        });
-        setPreviousReportChart(prevRepCopy);
-      }
-    }
-  }, [previousReport]);
-
-  useEffect(() => {
-    let unmounted = false;
-    // getSchoolReport()
-    //   .then((reportsArray) => {
-    //     // const latestReport = reportsArray.sort((a, b) => a - b).splice(0, 1);
-
-    //     // const oldReportsAggregate = reportsArray;
-
-    //     setTimeout(() => {
-    //       if (!unmounted) setReportComponent();
-    //     }, 1000);
-    //   })
-    //   .catch((err) => {
-    //     setTimeout(() => {
-    //       if (!unmounted)
-    //         setReportComponent(
-    //           <MainbarErrorMessage
-    //             message={
-    //               err === NO_REPORTS
-    //                 ? "No reports available"
-    //                 : "Something went wrong!"
-    //             }
-    //           />
-    //         );
-    //     }, 1000);
-    //   });
-    return () => {
-      unmounted = true;
-    };
-  }, []);
+  const { isDEO } = useContext(AuthContext);
 
   return (
     <>
-      <InaccurateReportDialog
-        visible={reportDialogOpen}
-        closeThis={() => setReportDialogOpen(false)}
-        categories={labels}
-      />
       {/* <InaccurateReportButton /> */}
       <AppBar position="relative" className="app-bar">
         <Toolbar>
@@ -128,21 +46,14 @@ const SchoolReport = () => {
           <Button
             color="inherit"
             variant="outlined"
-            onClick={() => {}}
-            size="small"
-            style={{ marginRight: "24px" }}
-          >
-            View Remarks
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
             onClick={() => {
-              setReportDialogOpen(true);
+              console.log(isDEO);
+              history.push(isDEO ? "" : "/school/reports/remarks");
             }}
             size="small"
+            // style={{ marginRight: "24px" }}
           >
-            Claim Inaccurate
+            View Remarks
           </Button>
         </Toolbar>
       </AppBar>

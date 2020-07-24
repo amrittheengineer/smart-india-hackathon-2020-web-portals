@@ -21,6 +21,67 @@
   height: 91vh;
 }
 
+.message-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 4px;
+  margin: 16px;
+  -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+  padding: 16px 16px 16px 0;
+}
+
+.message-container .message-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-item-align: center;
+      align-self: center;
+  margin: 0 16px;
+}
+
+.message-container .message-body {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.message-container .message-body .posted-by {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.message-container .message-body .message {
+  font-size: 1.2rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+
+.message-container .message-body .message-action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.message-container .message-body .message-action svg {
+  margin: 4px;
+  cursor: pointer;
+}
+
 .modal-input {
   width: 100%;
   margin-bottom: 16px !important;
@@ -31,6 +92,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  overflow-y: auto;
 }
 
 .container .content {

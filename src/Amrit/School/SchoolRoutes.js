@@ -16,6 +16,7 @@ import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import SchoolReport from "./SchoolReport";
 import SchoolListGrievance from "./SchoolGrievance";
 import SchoolQRCode from "./SchoolQRCode";
+import SchoolRemark from "./SchoolRemark";
 
 const sidebarOptions = [
   {
@@ -112,6 +113,12 @@ const SchoolRoutes = ({ history, location }) => {
       </nav>
       <main className="mainbar">
         <Switch>
+          <Route
+            key="remarks"
+            path="/school/reports/remarks"
+            exact
+            component={SchoolRemark}
+          />
           {sidebarOptions.map(({ title, component }) => (
             <Route
               key={title}
@@ -119,7 +126,9 @@ const SchoolRoutes = ({ history, location }) => {
               component={component}
             />
           ))}
+
           <Route
+            key="default"
             path="/school"
             component={() => <Redirect to="/school/qr-code" />}
           />

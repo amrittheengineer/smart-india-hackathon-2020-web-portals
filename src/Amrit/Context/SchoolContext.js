@@ -37,16 +37,15 @@ export const SchoolContextProvider = ({ children }) => {
 
   const getChartPlots = (reportArray) => {
     let aggregateData = {};
-    reportArray.forEach(({ reportDate, ...report }) => {
-      Object.keys(report).map((r) => {
-        const reportValues = report[r];
-        if (!aggregateData[r]) {
-          aggregateData[r] = [];
+    reportArray.forEach(({ reportData }) => {
+      reportData.map(({ categoryName, fieldData }) => {
+        if (!aggregateData[categoryName]) {
+          aggregateData[categoryName] = [];
         }
-        aggregateData[r].push(
-          reportValues.reduce((old, { score, total }) => {
+        aggregateData[categoryName].push(
+          fieldData.reduce((old, { score, total }) => {
             return old + (score / total) * 100;
-          }, 0) / reportValues.length
+          }, 0) / fieldData.length
         );
       });
     });
@@ -85,14 +84,60 @@ export const SchoolContextProvider = ({ children }) => {
     return aggregateData;
   };
 
+  const [labels, setLabels] = useState([]);
+
   const [latestReport, setLatestReport] = useState(null);
   const [previousReport, setPreviousReport] = useState(null);
 
+  const [latestReportChart, setLatestReportChart] = useState(null);
+  const [previousReportChart, setPreviousReportChart] = useState(null);
+
   const [inAccurateReport, setInAccurateReport] = useState(null);
+  const [remarks, setRemarks] = useState(null);
 
   useEffect(() => {
     getSchoolReport();
   }, [schoolId]);
+
+  useEffect(() => {
+    if (latestReport) {
+      let newPlots = getChartPlots([latestReport]);
+      const newRepCopy = [];
+
+      // Setting labels
+      const labels = latestReport.reportData.map(
+        ({ categoryName }) => categoryName
+      ); // Object.keys(getReportsOnly(latestReport));
+      if (labels.length > 0) {
+        labels.forEach((l) => {
+          newRepCopy.push(newPlots[l]);
+        });
+
+        setLatestReportChart(newRepCopy);
+        setLabels(labels);
+      } else {
+        setLabels(null);
+      }
+    }
+  }, [latestReport]);
+
+  useEffect(() => {
+    if (previousReport) {
+      let prevPlots = getChartPlots([previousReport]);
+      const prevRepCopy = [];
+
+      // Setting labels
+      const labels = latestReport.reportData.map(
+        ({ categoryName }) => categoryName
+      );
+      if (labels.length > 0) {
+        labels.forEach((l) => {
+          prevRepCopy.push(prevPlots[l]);
+        });
+        setPreviousReportChart(prevRepCopy);
+      }
+    }
+  }, [previousReport]);
 
   const getSchoolReport = () => {
     return new Promise((resolve, reject) => {
@@ -105,7 +150,68 @@ export const SchoolContextProvider = ({ children }) => {
         .then((res) => res.json())
         .then((sampleData) => {
           if (sampleData) {
-            console.log(sampleData);
+            // console.log(sampleData);
+
+            const sampleData2 = [
+              {
+                reportData: [
+                  {
+                    categoryName: "Library",
+                    fieldData: [
+                      { question: "q1", answer: "Answer", score: 6, total: 8 },
+                      { question: "q2", answer: "Answer", score: 6, total: 8 },
+                      { question: "q3", answer: "Answer", score: 6, total: 8 },
+                      { question: "q4", answer: "Answer", score: 6, total: 8 },
+                    ],
+                  },
+                  {
+                    categoryName: "Mess",
+                    fieldData: [
+                      { question: "q1", answer: "Answer", score: 7, total: 8 },
+                      { question: "q2", answer: "Answer", score: 7, total: 8 },
+                      { question: "q3", answer: "Answer", score: 7, total: 8 },
+                      { question: "q4", answer: "Answer", score: 7, total: 8 },
+                    ],
+                  },
+                ],
+                reportDate: 1595449379918,
+                inaccurateReport: {
+                  categories: ["Library"],
+                  message: "Library is good!",
+                },
+                remarks: [
+                  {
+                    categoryName: "Library",
+                    message:
+                      "Need to improve international author books quality.",
+                  },
+                ],
+              },
+              {
+                reportData: [
+                  {
+                    categoryName: "Library",
+                    fieldData: [
+                      { question: "q1", answer: "Answer", score: 5, total: 8 },
+                      { question: "q2", answer: "Answer", score: 5, total: 8 },
+                      { question: "q3", answer: "Answer", score: 5, total: 8 },
+                      { question: "q4", answer: "Answer", score: 5, total: 8 },
+                    ],
+                  },
+                  {
+                    categoryName: "Mess",
+                    fieldData: [
+                      { question: "q1", answer: "Answer", score: 4, total: 8 },
+                      { question: "q2", answer: "Answer", score: 4, total: 8 },
+                      { question: "q3", answer: "Answer", score: 4, total: 8 },
+                      { question: "q4", answer: "Answer", score: 4, total: 8 },
+                    ],
+                  },
+                ],
+                reportDate: 1595339379918,
+              },
+            ];
+
             // Sort in descending
             sampleData.sort((a, b) => b.reportDate - a.reportDate);
             setLatestReport(sampleData[0]);
@@ -114,45 +220,7 @@ export const SchoolContextProvider = ({ children }) => {
             setInAccurateReport(sampleData[0].inaccurateReport);
           }
         });
-      const sampleData = [
-        {
-          Library: [
-            { question: "q1", answer: "Answer", score: 6, total: 8 },
-            { question: "q2", answer: "Answer", score: 6, total: 8 },
-            { question: "q3", answer: "Answer", score: 6, total: 8 },
-            { question: "q4", answer: "Answer", score: 6, total: 8 },
-          ],
-          Mess: [
-            { question: "q1", answer: "Answer", score: 7, total: 8 },
-            { question: "q2", answer: "Answer", score: 7, total: 8 },
-            { question: "q3", answer: "Answer", score: 7, total: 8 },
-            { question: "q4", answer: "Answer", score: 7, total: 8 },
-          ],
-          reportDate: 1595449379918,
-          inaccurateReport: {
-            categories: ["Library"],
-            message: "Library is good!",
-          },
-          remarks: {
-            Library: "Need to improve international author books quality.",
-          },
-        },
-        {
-          Library: [
-            { question: "q1", answer: "Answer", score: 5, total: 8 },
-            { question: "q2", answer: "Answer", score: 5, total: 8 },
-            { question: "q3", answer: "Answer", score: 5, total: 8 },
-            { question: "q4", answer: "Answer", score: 5, total: 8 },
-          ],
-          Mess: [
-            { question: "q1", answer: "Answer", score: 5, total: 8 },
-            { question: "q2", answer: "Answer", score: 5, total: 8 },
-            { question: "q3", answer: "Answer", score: 5, total: 8 },
-            { question: "q4", answer: "Answer", score: 5, total: 8 },
-          ],
-          reportDate: 1595339379918,
-        },
-      ];
+
       // {
       //   Library: {
       //     q1: { answer: "Answer", score: 5, total: 8 },
@@ -182,6 +250,16 @@ export const SchoolContextProvider = ({ children }) => {
     });
   };
 
+  const reportInaccurate = (message, categories, callback) => {
+    setInAccurateReport({
+      categories,
+      message,
+    });
+    setTimeout(() => {
+      callback();
+    }, 2000);
+  };
+
   return (
     <SchoolContext.Provider
       value={{
@@ -192,6 +270,12 @@ export const SchoolContextProvider = ({ children }) => {
         previousReport,
         getChartPlots,
         inAccurateReport,
+        remarks,
+        labels,
+        setLabels,
+        latestReportChart,
+        previousReportChart,
+        reportInaccurate,
       }}
     >
       {children}

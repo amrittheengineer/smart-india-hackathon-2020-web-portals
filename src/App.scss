@@ -17,6 +17,50 @@ $white: #fff;
     height: 91vh;
   }
 }
+.message-container {
+  // background-color: #c1c1c1;
+  display: flex;
+
+  border-radius: 4px;
+  margin: 16px;
+  // flex: 1;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+
+  .message-icon {
+    display: flex;
+    align-self: center;
+    margin: 0 16px;
+  }
+  padding: 16px 16px 16px 0;
+  .message-body {
+    flex: 1;
+    // width: 72%;
+    display: flex;
+    // flex-grow: 1;
+    flex-direction: column;
+    .posted-by {
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+    .message {
+      font-size: 1.2rem;
+      flex: 1;
+      margin-top: 8px;
+      overflow-wrap: anywhere;
+    }
+    .message-action {
+      display: flex;
+      // margin-top: 8px;
+      justify-content: flex-end;
+      // align-items: flex-end;
+      // flex-direction: column;
+      svg {
+        margin: 4px;
+        cursor: pointer;
+      }
+    }
+  }
+}
 .modal-input {
   width: 100%;
   margin-bottom: 16px !important;
@@ -25,6 +69,7 @@ $white: #fff;
 .container {
   height: 100%;
   display: flex;
+  overflow-y: auto;
   // background-color: #c1c1c1;
   .content {
     justify-self: center;

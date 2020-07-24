@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { makeStyles, useTheme } from "@material-ui/core";
+import { makeStyles, useTheme, Snackbar } from "@material-ui/core";
 
 export const GlobalStateContext = createContext();
 
@@ -44,6 +44,15 @@ export const GlobalStateContextProvider = ({ children }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [toast, showToast] = React.useState("");
+
+  React.useEffect(() => {
+    if (toast) {
+      setTimeout(() => {
+        showToast("");
+      }, 3000);
+    }
+  }, [toast]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -51,9 +60,20 @@ export const GlobalStateContextProvider = ({ children }) => {
 
   return (
     <GlobalStateContext.Provider
-      value={{ classes, theme, mobileOpen, handleDrawerToggle }}
+      value={{
+        classes,
+        theme,
+        mobileOpen,
+        handleDrawerToggle,
+        showToast,
+      }}
     >
       {children}
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        message={toast}
+        open={toast !== ""}
+      />
     </GlobalStateContext.Provider>
   );
 };
