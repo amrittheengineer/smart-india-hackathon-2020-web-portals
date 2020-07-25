@@ -5,23 +5,25 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
-import { Tabs, Tab, Badge, Box } from "@material-ui/core";
+import { Tabs, Tab, Badge, Box, Chip, Button } from "@material-ui/core";
 import FlatList from "flatlist-react";
 import { DEOContext } from "../Context/DEOContext";
 import { InfoOutlined } from "@material-ui/icons";
 import ErrorTwoToneIcon from "@material-ui/icons/ErrorTwoTone";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import AssignmentTurnedInTwoToneIcon from "@material-ui/icons/AssignmentTurnedInTwoTone";
 import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
-import { MainbarErrorMessage } from "../Components/MainbarComponent";
+import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
+import { parameterEstimateWarningThreshold } from "../Constants";
 
 function DEOListReport() {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
   const { visitList } = useContext(DEOContext);
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(2);
 
-  const [pendingVisits, setPendingVisits] = useState([]);
-  const [completedVisits, setCompletedVisits] = useState([]);
-  const [inaccurateVisits, setInaccurateVisits] = useState([]);
+  const [pendingVisits, setPendingVisits] = useState(null);
+  const [completedVisits, setCompletedVisits] = useState(null);
+  const [inaccurateVisits, setInaccurateVisits] = useState(null);
 
   useEffect(() => {
     if (visitList) {
@@ -64,7 +66,10 @@ function DEOListReport() {
         >
           <LinkTab
             label={
-              <Badge color="secondary" badgeContent={pendingVisits.length}>
+              <Badge
+                color="secondary"
+                badgeContent={pendingVisits ? pendingVisits.length : 0}
+              >
                 <Typography>Pending Visits</Typography>
               </Badge>
             }
@@ -72,7 +77,10 @@ function DEOListReport() {
           <LinkTab label="Completed" />
           <LinkTab
             label={
-              <Badge color="secondary" badgeContent={33}>
+              <Badge
+                color="secondary"
+                badgeContent={inaccurateVisits ? inaccurateVisits.length : 0}
+              >
                 <Typography>Inaccurate Claims</Typography>
               </Badge>
             }
@@ -81,77 +89,92 @@ function DEOListReport() {
       </AppBar>
       <div className="mainbar-content">
         <TabPanel value={tabIndex} index={0}>
-          {pendingVisits && pendingVisits.length > 0 ? (
-            <FlatList
-              list={pendingVisits.sort((a, b) =>
-                a.reportDate > b.reportDate ? -1 : 1
-              )}
-              renderItem={(v) => {
-                // return <p>Hello</p>;
-                return (
-                  <VisitReportCardPending key={`${v.reportDate}`} visit={v} />
-                );
-              }}
-              groupBy={(g) => `${new Date(g.reportDate).toDateString()}`}
-              groupSeparator={(group, idx, groupLabel) => (
-                <div className="post-category">{groupLabel}</div>
-              )}
-            />
+          {pendingVisits ? (
+            pendingVisits.length > 0 ? (
+              <FlatList
+                list={pendingVisits.sort((a, b) =>
+                  a.reportDate > b.reportDate ? -1 : 1
+                )}
+                renderItem={(v) => {
+                  // return <p>Hello</p>;
+                  return (
+                    <VisitReportCardPending key={`${v.reportDate}`} visit={v} />
+                  );
+                }}
+                groupBy={(g) => `${new Date(g.reportDate).toDateString()}`}
+                groupSeparator={(group, idx, groupLabel) => (
+                  <div className="post-category">{groupLabel}</div>
+                )}
+              />
+            ) : (
+              // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
+              <MainbarErrorMessage message="No grievances found." />
+            )
           ) : (
-            // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
-            <MainbarErrorMessage message="No grievances found." />
+            <Loading message="Loading pending visits" />
           )}
         </TabPanel>
         <TabPanel value={tabIndex} index={1}>
-          {completedVisits && completedVisits.length > 0 ? (
-            <FlatList
-              list={completedVisits.sort((a, b) =>
-                a.reportDate > b.reportDate ? -1 : 1
-              )}
-              renderItem={(v) => {
-                // return <p>Hello</p>;
-                return (
-                  <VisitReportCardCompleted key={`${v.reportDate}`} visit={v} />
-                );
-              }}
-              groupBy={(g) => `${new Date(g.reportDate).toDateString()}`}
-              groupSeparator={(group, idx, groupLabel) => (
-                <div className="post-category">{groupLabel}</div>
-              )}
-            />
+          {completedVisits ? (
+            completedVisits.length > 0 ? (
+              <FlatList
+                list={completedVisits.sort((a, b) =>
+                  a.reportDate > b.reportDate ? -1 : 1
+                )}
+                renderItem={(v) => {
+                  // return <p>Hello</p>;
+                  return (
+                    <VisitReportCardCompleted
+                      key={`${v.reportDate}`}
+                      visit={v}
+                    />
+                  );
+                }}
+                groupBy={(g) => `${new Date(g.reportDate).toDateString()}`}
+                groupSeparator={(group, idx, groupLabel) => (
+                  <div className="post-category">{groupLabel}</div>
+                )}
+              />
+            ) : (
+              // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
+              <MainbarErrorMessage message="No grievances found." />
+            )
           ) : (
-            // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
-            <MainbarErrorMessage message="No grievances found." />
+            <Loading message="Loading completed visits" />
           )}
         </TabPanel>
         <TabPanel value={tabIndex} index={2}>
-          {inaccurateVisits && inaccurateVisits.length > 0 ? (
-            <FlatList
-              list={inaccurateVisits.sort((a, b) =>
-                a.inaccurateReport.complaintDate >
-                b.inaccurateReport.complaintDate
-                  ? -1
-                  : 1
-              )}
-              renderItem={(v) => {
-                // return <p>Hello</p>;
-                return (
-                  <VisitReportCardInaccurate
-                    key={`${v.reportDate}`}
-                    visit={v}
-                  />
-                );
-              }}
-              groupBy={(g) =>
-                `${new Date(g.inaccurateReport.complaintDate).toDateString()}`
-              }
-              groupSeparator={(group, idx, groupLabel) => (
-                <div className="post-category">{groupLabel}</div>
-              )}
-            />
+          {inaccurateVisits ? (
+            inaccurateVisits.length > 0 ? (
+              <FlatList
+                list={inaccurateVisits.sort((a, b) =>
+                  a.inaccurateReport.complaintDate >
+                  b.inaccurateReport.complaintDate
+                    ? -1
+                    : 1
+                )}
+                renderItem={(v) => {
+                  // return <p>Hello</p>;
+                  return (
+                    <VisitReportCardInaccurate
+                      key={`${v.reportDate}`}
+                      visit={v}
+                    />
+                  );
+                }}
+                groupBy={(g) =>
+                  `${new Date(g.inaccurateReport.complaintDate).toDateString()}`
+                }
+                groupSeparator={(group, idx, groupLabel) => (
+                  <div className="post-category">{groupLabel}</div>
+                )}
+              />
+            ) : (
+              // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
+              <MainbarErrorMessage message="No grievances found." />
+            )
           ) : (
-            // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
-            <MainbarErrorMessage message="No grievances found." />
+            <Loading message="Loading inaccuarate complaints" />
           )}
         </TabPanel>
       </div>
@@ -193,7 +216,19 @@ const VisitReportCardPending = ({ visit }) => {
   );
 };
 const VisitReportCardCompleted = ({ visit }) => {
-  const { getSchoolName, getMEOName } = useContext(DEOContext);
+  const { getSchoolName, getMEOName, calculateReportData } = useContext(
+    DEOContext
+  );
+
+  const [reportEstimate, setReportEstimate] = useState({});
+
+  useEffect(() => {
+    if (visit.reportData) {
+      let d = calculateReportData([visit]);
+      setReportEstimate(d);
+      console.log(d);
+    }
+  }, []);
 
   return (
     <div className="message-container">
@@ -206,6 +241,39 @@ const VisitReportCardCompleted = ({ visit }) => {
         </div>
         <div className="message italic">
           Visitor : {getMEOName(visit.mId) || "Mr. VVVVV"}
+        </div>
+        <div className="message">
+          {reportEstimate
+            ? [...Object.keys(reportEstimate)].map((r, i) => (
+                <Chip
+                  color={
+                    reportEstimate[r] > parameterEstimateWarningThreshold
+                      ? "primary"
+                      : "secondary"
+                  }
+                  icon={
+                    reportEstimate[r] > parameterEstimateWarningThreshold ? (
+                      <CheckCircleIcon />
+                    ) : (
+                      <ErrorTwoToneIcon />
+                    )
+                  }
+                  key={r}
+                  label={r}
+                  className="category-indicator"
+                />
+              ))
+            : null}
+          {/* <Chip
+            color="primary"
+            label="Clickable Link"
+            className="category-indicator"
+          />
+          <Chip
+            color="secondary"
+            label="Clickable Link"
+            className="category-indicator"
+          /> */}
         </div>
       </div>
       <div className="italic">{`Visited on : ${new Date(
@@ -226,12 +294,14 @@ const VisitReportCardCompleted = ({ visit }) => {
   );
 };
 const VisitReportCardInaccurate = ({ visit }) => {
-  const { getSchoolName, getMEOName } = useContext(DEOContext);
+  const { getSchoolName, getMEOName, calculateReportData } = useContext(
+    DEOContext
+  );
 
   return (
     <div className="message-container">
       <div className="message-icon">
-        <ErrorTwoToneIcon color="primary" />
+        <ErrorTwoToneIcon color="secondary" />
       </div>
       <div className="message-body">
         <div className="posted-by">
@@ -239,6 +309,9 @@ const VisitReportCardInaccurate = ({ visit }) => {
         </div>
         <div className="message italic">
           Visitor : {getMEOName(visit.mId) || "Mr. VVVVV"}
+        </div>
+        <div className="message">
+          <Button variant="outlined">View Claim</Button>
         </div>
       </div>
       <div className="italic">{`Visited on : ${new Date(
@@ -273,18 +346,7 @@ function LinkTab(props) {
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      // hidden={value !== index}
-      id={`nav-tabpanel-${index}`}
-      aria-labelledby={`nav-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </div>
-  );
+  return value === index ? children : null;
 };
 
 export default DEOListReport;

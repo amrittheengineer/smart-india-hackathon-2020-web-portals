@@ -41,37 +41,6 @@ export const SchoolContextProvider = ({ children }) => {
     });
   };
 
-  const getChartPlots = (reportArray) => {
-    let aggregateData = {};
-    reportArray.forEach(({ reportData }) => {
-      reportData.map(({ categoryName, fieldData }) => {
-        if (!aggregateData[categoryName]) {
-          aggregateData[categoryName] = [];
-        }
-        aggregateData[categoryName].push(
-          // fieldData.reduce((old, { score, total }) => {
-          //   return old + (score / total) * 100;
-          // }, 0) / fieldData.length
-          (fieldData.reduce((old, { score }) => {
-            return old + score;
-          }, 0) /
-            fieldData.reduce((old, { total }) => {
-              return old + total;
-            }, 0)) *
-            100
-        );
-      });
-    });
-    const parameters = Object.keys(aggregateData);
-    parameters.forEach((p) => {
-      aggregateData[p] =
-        aggregateData[p].reduce((old, current) => {
-          return old + current;
-        }, 0) / aggregateData[p].length;
-    });
-    return aggregateData;
-  };
-
   const getRawReport = (reportParam) => {
     let aggregateData = {};
     const { reportDate, ...report } = reportParam;
@@ -264,7 +233,7 @@ export const SchoolContextProvider = ({ children }) => {
     });
   };
 
-  const { showToast } = useContext(GlobalStateContext);
+  const { showToast, getChartPlots } = useContext(GlobalStateContext);
 
   const [grievances, setGrievances] = useState([
     // {

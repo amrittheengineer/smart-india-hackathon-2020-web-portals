@@ -32,4 +32,5 @@ module.exports = {
   INDEX_OLD_REPORT: 0,
   INDEX_NEW_REPORT: 1,
   grievanceCategories: ["Library", "Hygiene", "Transportation"],
+  parameterEstimateWarningThreshold: 80,
 };

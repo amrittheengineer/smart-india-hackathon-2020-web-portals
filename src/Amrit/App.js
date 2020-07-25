@@ -6,6 +6,7 @@ import SchoolRoutes from "./School/SchoolRoutes";
 import { SchoolContextProvider } from "./Context/SchoolContext";
 import { AuthContextProvider } from "./Context/AuthContext";
 import { DEOContextProvider } from "./Context/DEOContext";
+import { createMuiTheme } from "@material-ui/core";
 
 function App() {
   return (

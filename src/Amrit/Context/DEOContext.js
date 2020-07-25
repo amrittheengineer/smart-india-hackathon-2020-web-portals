@@ -96,7 +96,7 @@ export const DEOContextProvider = ({ children }) => {
   };
 
   const [labels, setLabels] = useState([]);
-  const [visitList, setVisitList] = useState([]);
+  const [visitList, setVisitList] = useState(null);
 
   const [latestReport, setLatestReport] = useState(null);
   const [previousReport, setPreviousReport] = useState(null);
@@ -248,6 +248,8 @@ export const DEOContextProvider = ({ children }) => {
 
   const schoolId = "iwje0-3843u94-43j";
   const meoId = "feur-4934-fcieru2";
+
+  const calculateReportData = (reportData) => getChartPlots(reportData);
 
   const getSchoolList = () => {
     setTimeout(() => {
@@ -497,6 +499,7 @@ export const DEOContextProvider = ({ children }) => {
         getSchoolName,
         visitList,
         getMEOName,
+        calculateReportData,
       }}
     >
       {children}
