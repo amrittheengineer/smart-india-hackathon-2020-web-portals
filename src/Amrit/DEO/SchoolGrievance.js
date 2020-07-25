@@ -63,6 +63,7 @@ function SchoolListGrievance() {
             groupSeparator={(group, idx, groupLabel) => (
               <div className="post-category">{groupLabel}</div>
             )}
+            groupReversed
           />
         ) : (
           // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)

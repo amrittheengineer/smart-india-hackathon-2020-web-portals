@@ -5,6 +5,7 @@ import DEORoutes from "./DEO/DEORoutes";
 import SchoolRoutes from "./School/SchoolRoutes";
 import { SchoolContextProvider } from "./Context/SchoolContext";
 import { AuthContextProvider } from "./Context/AuthContext";
+import { DEOContextProvider } from "./Context/DEOContext";
 
 function App() {
   return (
@@ -12,8 +13,10 @@ function App() {
       <GlobalStateContextProvider>
         <AuthContextProvider>
           <Switch>
+            <Route path="/" exact component={() => <Redirect to="/deo" />} />
+            {/* <DEOContextProvider> */}
             <Route path="/deo" component={DEORoutes} />
-            <Route path="/" exact component={() => <Redirect to="/school" />} />
+            {/* </DEOContextProvider> */}
             <SchoolContextProvider>
               <Route path="/school" component={SchoolRoutes} />
             </SchoolContextProvider>

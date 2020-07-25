@@ -18,6 +18,7 @@ import DEOListSchool from "./DEOSchools";
 import DEOListReport from "./DEOVisitorReport";
 import DEOListGrievance from "./DEOGrievance";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { DEOContextProvider } from "../Context/DEOContext";
 
 const sidebarOptions = [
   {
@@ -84,52 +85,54 @@ function DEORoutes({ history, location }) {
   const container = window.document.body;
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <main className="mainbar">
-        <Switch>
-          {sidebarOptions.map(({ title, component }) => (
-            <Route
-              key={title}
-              path={"/deo/" + title.toLowerCase()}
-              component={component}
-            />
-          ))}
-          <Route path="/" render={() => <Redirect to="/deo/reports" />} />
-        </Switch>
-      </main>
-    </div>
+    <DEOContextProvider>
+      <div className={classes.root}>
+        <CssBaseline />
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Hidden smUp implementation="css">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor={theme.direction === "rtl" ? "right" : "left"}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        <main className="mainbar">
+          <Switch>
+            {sidebarOptions.map(({ title, component }) => (
+              <Route
+                key={title}
+                path={"/deo/" + title.toLowerCase()}
+                component={component}
+              />
+            ))}
+            <Route path="/" render={() => <Redirect to="/deo/reports" />} />
+          </Switch>
+        </main>
+      </div>
+    </DEOContextProvider>
   );
 }
 
