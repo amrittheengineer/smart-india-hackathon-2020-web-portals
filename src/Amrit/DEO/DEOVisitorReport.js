@@ -13,8 +13,14 @@ import ErrorTwoToneIcon from "@material-ui/icons/ErrorTwoTone";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import AssignmentTurnedInTwoToneIcon from "@material-ui/icons/AssignmentTurnedInTwoTone";
 import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
-import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
+import {
+  MainbarErrorMessage,
+  Loading,
+  LinkTab,
+  TabPanel,
+} from "../Components/MainbarComponent";
 import { parameterEstimateWarningThreshold } from "../Constants";
+import ViewInaccurateClaimDialog from "./ViewInaccurateClaimDialog";
 
 function DEOListReport() {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
@@ -22,8 +28,9 @@ function DEOListReport() {
   const [tabIndex, setTabIndex] = useState(2);
 
   const [pendingVisits, setPendingVisits] = useState(null);
-  const [completedVisits, setCompletedVisits] = useState(null);
   const [inaccurateVisits, setInaccurateVisits] = useState(null);
+  const [completedVisits, setCompletedVisits] = useState(null);
+  const [inaccurateClaim, setInaccurateClaim] = useState(null);
 
   useEffect(() => {
     if (visitList) {
@@ -39,6 +46,10 @@ function DEOListReport() {
 
   return (
     <>
+      <ViewInaccurateClaimDialog
+        inaccurateClaim={inaccurateClaim}
+        closeThis={() => setInaccurateClaim(null)}
+      />
       <AppBar position="static" color="primary">
         <Toolbar>
           <IconButton
@@ -159,6 +170,7 @@ function DEOListReport() {
                     <VisitReportCardInaccurate
                       key={`${v.reportDate}`}
                       visit={v}
+                      setInaccurateClaim={setInaccurateClaim}
                     />
                   );
                 }}
@@ -293,7 +305,7 @@ const VisitReportCardCompleted = ({ visit }) => {
     </div>
   );
 };
-const VisitReportCardInaccurate = ({ visit }) => {
+const VisitReportCardInaccurate = ({ visit, setInaccurateClaim }) => {
   const { getSchoolName, getMEOName, calculateReportData } = useContext(
     DEOContext
   );
@@ -311,7 +323,18 @@ const VisitReportCardInaccurate = ({ visit }) => {
           Visitor : {getMEOName(visit.mId) || "Mr. VVVVV"}
         </div>
         <div className="message">
-          <Button variant="outlined">View Claim</Button>
+          <Button
+            onClick={() =>
+              setInaccurateClaim(
+                Object.assign(visit.inaccurateReport, {
+                  schoolId: visit.schoolId,
+                })
+              )
+            }
+            variant="outlined"
+          >
+            View Claim
+          </Button>
         </div>
       </div>
       <div className="italic">{`Visited on : ${new Date(
@@ -330,23 +353,6 @@ const VisitReportCardInaccurate = ({ visit }) => {
     </div> */}
     </div>
   );
-};
-
-function LinkTab(props) {
-  return (
-    <Tab
-      component="div"
-      onClick={(event) => {
-        event.preventDefault();
-      }}
-      {...props}
-    />
-  );
-}
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return value === index ? children : null;
 };
 
 export default DEOListReport;

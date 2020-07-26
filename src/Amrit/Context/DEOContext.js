@@ -226,7 +226,9 @@ export const DEOContextProvider = ({ children }) => {
 
   const { showToast } = useContext(GlobalStateContext);
 
-  const [grievances, setGrievances] = useState([
+  const [grievances, setGrievances] = useState(
+    null
+    // [
     // {
     //   category: "Library",
     //   message: "We need new books out there for good knowledge!",
@@ -241,7 +243,8 @@ export const DEOContextProvider = ({ children }) => {
     //   date: 1595601220673,
     //   status: "Pending",
     // },
-  ]);
+    // ]
+  );
 
   const [MEOList, setMEOList] = useState([]);
   const [schoolList, setSchoolList] = useState([]);

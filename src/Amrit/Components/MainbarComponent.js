@@ -1,5 +1,5 @@
 import React from "react";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Tab } from "@material-ui/core";
 
 export const EmptyComponent = () => {
   return (
@@ -35,4 +35,21 @@ export const MainbarErrorMessage = ({ message }) => {
       </div>
     </div>
   );
+};
+
+export const LinkTab = (props) => {
+  return (
+    <Tab
+      component="div"
+      onClick={(event) => {
+        event.preventDefault();
+      }}
+      {...props}
+    />
+  );
+};
+export const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return value === index ? children : null;
 };
