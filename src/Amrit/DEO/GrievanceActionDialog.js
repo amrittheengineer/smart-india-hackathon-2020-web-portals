@@ -4,42 +4,16 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import FormControl from "@material-ui/core/FormControl";
 import { Loading } from "../Components/MainbarComponent";
-import { TextField } from "@material-ui/core";
-import { SchoolContext } from "../Context/SchoolContext";
+import { Paper, Typography, Chip } from "@material-ui/core";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { grievanceCategories } from "../Constants";
+import { DEOContext } from "../Context/DEOContext";
 
-function SimpleSelect({ categoryRef }) {
-  return (
-    <div>
-      <FormControl variant="outlined" className="modal-input">
-        <InputLabel>Category</InputLabel>
-        <Select
-          autoFocus
-          inputRef={categoryRef}
-          defaultValue={grievanceCategories[0]}
-          label="Category"
-        >
-          {grievanceCategories.map((c) => (
-            <MenuItem key={c} value={c}>
-              {c}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  );
-}
-
-const GrievanceActionDialog = ({ visible, closeThis, categories }) => {
+const GrievanceActionDialog = ({ closeThis, grievance }) => {
   const [requestingAPI, setRequestingAPI] = useState(false);
   // const { reportGrievance } = useContext(SchoolContext);
   const { showToast } = useContext(GlobalStateContext);
+  const { getSchoolName, acceptGrievance } = useContext(DEOContext);
   const inputMessageRef = useRef(null);
   const inputSubjectRef = useRef(null);
   const inputCategoryRef = useRef(null);
@@ -47,71 +21,105 @@ const GrievanceActionDialog = ({ visible, closeThis, categories }) => {
   useEffect(() => {}, []);
   return (
     <>
-      <Dialog open={visible} maxWidth="sm" fullWidth>
-        <DialogTitle>New Grievance</DialogTitle>
+      <Dialog open={grievance !== null} maxWidth="sm" fullWidth>
+        <DialogTitle>School Grievance</DialogTitle>
         <DialogContent>
-          {requestingAPI ? (
-            <Loading message="Reporting to DEO..." />
+          {grievance === null ? null : requestingAPI ? (
+            <Loading message="Processing..." />
           ) : (
             <div>
-              {/* {visible ? (
-                <CheckboxesGroup
-                  categories={categories || []}
-                  selected={inAccurateReport ? inAccurateReport.categories : []}
-                  selectedCategories={selectedCategories}
-                />
-              ) : null} */}
-              <SimpleSelect categoryRef={inputCategoryRef} />
-              <TextField
-                label="Subject"
-                variant="outlined"
-                inputRef={(inp) => (inputSubjectRef.current = inp)}
-                className="modal-input"
-              />
-              <TextField
-                label="Ask your Grievance"
-                variant="outlined"
-                multiline={true}
-                inputProps={{ style: { minHeight: "80px" } }}
-                inputRef={(inp) => (inputMessageRef.current = inp)}
-                //   inputRef={(input) => (inputMessageRef.current = input)}
-                className="modal-input"
-              />
+              <Paper variant="outlined" style={{ padding: "16px" }}>
+                <Typography variant="h5" color="textPrimary">
+                  {`${grievance.subject}`}
+                </Typography>
+
+                <div
+                  style={{
+                    padding: "4px 0",
+                  }}
+                >
+                  <div style={{ display: "inline" }}>Status : </div>
+                  <Chip
+                    color={
+                      grievance.status === "Pending" ? "secondary" : "primary"
+                    }
+                    variant="outlined"
+                    label={grievance.status}
+                    className="category-indicator"
+                  />
+                </div>
+                <Paper
+                  variant="outlined"
+                  style={{
+                    padding: "16px",
+                    //   background: "#f50057",
+                    background: "#3f51b5",
+                  }}
+                >
+                  <Typography
+                    style={{
+                      color: "#fff",
+                    }}
+                    variant="body1"
+                  >
+                    {grievance.message}
+                  </Typography>
+                </Paper>
+                <Typography
+                  style={{
+                    padding: "8px 0",
+                    fontStyle: "italic",
+                    //   borderRadius: "12px",
+                  }}
+                  variant="subtitle2"
+                  color="textPrimary"
+                  align="right"
+                >
+                  {` - ${getSchoolName(grievance.schoolId)}`}
+                </Typography>
+                {/* <div
+                  style={{
+                    padding: "4px 0",
+                  }}
+                >
+                  <div style={{ display: "inline" }}>Category : </div>
+                  <Chip
+                    color={
+                      grievance.status === "Pending" ? "secondary" : "primary"
+                    }
+                    variant="outlined"
+                    label={grievance.category}
+                    className="category-indicator"
+                  />
+                </div> */}
+              </Paper>
             </div>
           )}
         </DialogContent>
-        <DialogActions style={requestingAPI ? { display: "none" } : {}}>
-          <Button onClick={closeThis} color="primary">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              // console.log(inputMessageRef.current);
-              // return;
-              const message = inputMessageRef.current.value.trim();
-              const subject = inputSubjectRef.current.value.trim();
-              const category = inputCategoryRef.current.value.trim();
-              if (!category) {
-                return showToast("Please choose the category.");
-              }
-              if (!subject) {
-                return showToast("Please give a subject of grievance.");
-              }
-              if (!message) {
-                return showToast("Kindly brief your complaint.");
-              }
+        <DialogActions>
+          {!requestingAPI ? (
+            <>
+              <Button onClick={closeThis} color="primary" key="close">
+                Close
+              </Button>
+              {grievance !== null && grievance.status === "Pending" ? (
+                <Button
+                  key="complete"
+                  onClick={() => {
+                    setRequestingAPI(true);
 
-              setRequestingAPI(true);
-
-              // reportGrievance(category, message, subject, () => {
-              //   closeThis();
-              //   setRequestingAPI(false);
-              // });
-            }}
-            color="primary"
-          >
-            Report
-          </Button>
+                    acceptGrievance(grievance.id, () => {
+                      setRequestingAPI(false);
+                      closeThis();
+                    });
+                  }}
+                  color="primary"
+                >
+                  Complete
+                </Button>
+              ) : null}
+            </>
+          ) : null}
         </DialogActions>
       </Dialog>
     </>

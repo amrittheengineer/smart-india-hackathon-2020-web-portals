@@ -22,10 +22,10 @@ import {
 import { parameterEstimateWarningThreshold } from "../Constants";
 import ViewInaccurateClaimDialog from "./ViewInaccurateClaimDialog";
 
-function DEOListReport() {
+const DEOListReport = ({ history }) => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
   const { visitList } = useContext(DEOContext);
-  const [tabIndex, setTabIndex] = useState(2);
+  const [tabIndex, setTabIndex] = useState(1);
 
   const [pendingVisits, setPendingVisits] = useState(null);
   const [inaccurateVisits, setInaccurateVisits] = useState(null);
@@ -134,10 +134,14 @@ function DEOListReport() {
                 )}
                 renderItem={(v) => {
                   // return <p>Hello</p>;
+                  console.log(v);
                   return (
                     <VisitReportCardCompleted
                       key={`${v.reportDate}`}
                       visit={v}
+                      onClick={() => {
+                        history.push(`/deo/reports/${v.visitId}`);
+                      }}
                     />
                   );
                 }}
@@ -171,6 +175,9 @@ function DEOListReport() {
                       key={`${v.reportDate}`}
                       visit={v}
                       setInaccurateClaim={setInaccurateClaim}
+                      onClick={() => {
+                        history.push(`/deo/reports/${v.visitId}`);
+                      }}
                     />
                   );
                 }}
@@ -192,7 +199,7 @@ function DEOListReport() {
       </div>
     </>
   );
-}
+};
 
 const VisitReportCardPending = ({ visit }) => {
   const { getSchoolName, getMEOName } = useContext(DEOContext);
@@ -227,7 +234,7 @@ const VisitReportCardPending = ({ visit }) => {
     </div>
   );
 };
-const VisitReportCardCompleted = ({ visit }) => {
+const VisitReportCardCompleted = ({ visit, onClick }) => {
   const { getSchoolName, getMEOName, calculateReportData } = useContext(
     DEOContext
   );
@@ -243,7 +250,7 @@ const VisitReportCardCompleted = ({ visit }) => {
   }, []);
 
   return (
-    <div className="message-container">
+    <div className="message-container" onClick={onClick}>
       <div className="message-icon">
         <AssignmentTurnedInTwoToneIcon color="primary" />
       </div>
@@ -305,7 +312,7 @@ const VisitReportCardCompleted = ({ visit }) => {
     </div>
   );
 };
-const VisitReportCardInaccurate = ({ visit, setInaccurateClaim }) => {
+const VisitReportCardInaccurate = ({ visit, setInaccurateClaim, onClick }) => {
   const { getSchoolName, getMEOName, calculateReportData } = useContext(
     DEOContext
   );
@@ -334,6 +341,13 @@ const VisitReportCardInaccurate = ({ visit, setInaccurateClaim }) => {
             variant="outlined"
           >
             View Claim
+          </Button>
+          <Button
+            onClick={onClick}
+            variant="outlined"
+            style={{ marginLeft: "16px" }}
+          >
+            View Report
           </Button>
         </div>
       </div>

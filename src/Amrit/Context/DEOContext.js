@@ -16,6 +16,8 @@ export const DEOContextProvider = ({ children }) => {
     name: "VRS School",
   });
 
+  const { getChartPlots } = useContext(GlobalStateContext);
+
   const getQrCode = () => {
     return new Promise((resolve, reject) => {
       if (!DEO.id) {
@@ -37,37 +39,6 @@ export const DEOContextProvider = ({ children }) => {
           reject(err);
         });
     });
-  };
-
-  const getChartPlots = (reportArray) => {
-    let aggregateData = {};
-    reportArray.forEach(({ reportData }) => {
-      reportData.map(({ categoryName, fieldData }) => {
-        if (!aggregateData[categoryName]) {
-          aggregateData[categoryName] = [];
-        }
-        aggregateData[categoryName].push(
-          // fieldData.reduce((old, { score, total }) => {
-          //   return old + (score / total) * 100;
-          // }, 0) / fieldData.length
-          (fieldData.reduce((old, { score }) => {
-            return old + score;
-          }, 0) /
-            fieldData.reduce((old, { total }) => {
-              return old + total;
-            }, 0)) *
-            100
-        );
-      });
-    });
-    const parameters = Object.keys(aggregateData);
-    parameters.forEach((p) => {
-      aggregateData[p] =
-        aggregateData[p].reduce((old, current) => {
-          return old + current;
-        }, 0) / aggregateData[p].length;
-    });
-    return aggregateData;
   };
 
   const getRawReport = (reportParam) => {
@@ -115,14 +86,33 @@ export const DEOContextProvider = ({ children }) => {
     //   deoId: DEO.id,
     // }
   );
+  const [visitId, setVisitId] = useState(null);
 
   useEffect(() => {
-    setLatestReportChart(null);
+    setLatestReport(null);
     setPreviousReport(null);
     if (school && school.id) {
       getSchoolReport(school.id);
     }
   }, [school]);
+
+  useEffect(() => {
+    setPreviousReport(null);
+    setLatestReport(null);
+    if (visitId && visitList) {
+      const report = visitList.find((d) => d.visitId === visitId);
+      console.log(report);
+      setLatestReport(report);
+    }
+  }, [visitId, visitList]);
+
+  const getVisitDataReportOf = (id) => {
+    if (id && visitList) {
+      const report = visitList.find((d) => d.visitId === id);
+      return report.reportData;
+    }
+    return null;
+  };
 
   // const [remarks, setRemarks] = useState(null);
 
@@ -152,6 +142,8 @@ export const DEOContextProvider = ({ children }) => {
       } else {
         setLabels(null);
       }
+    } else {
+      setLatestReportChart(null);
     }
   }, [latestReport]);
 
@@ -170,6 +162,8 @@ export const DEOContextProvider = ({ children }) => {
         });
         setPreviousReportChart(prevRepCopy);
       }
+    } else {
+      setPreviousReportChart(null);
     }
   }, [previousReport]);
 
@@ -197,10 +191,10 @@ export const DEOContextProvider = ({ children }) => {
 
       // {
       //   Library: {
-      //     q1: { answer: "Answer", score: 5, total: 8 },
-      //     q2: { answer: "Answer", score: 5, total: 8 },
-      //     q3: { answer: "Answer", score: 5, total: 8 },
-      //     q4: { answer: "Answer", score: 5, total: 8 },
+      //     q1: {  answer: "4", qType: 0 },
+      //     q2: {  answer: "4", qType: 0 },
+      //     q3: {  answer: "4", qType: 0 },
+      //     q4: {  answer: "4", qType: 0 },
       //   },
       //   reportDate: 1595229379918,
       // },
@@ -277,28 +271,28 @@ export const DEOContextProvider = ({ children }) => {
               categoryName: "Library",
               fieldData: [
                 {
-                  question: "q1",
-                  answer: "Answer",
-                  score: 6,
-                  total: 8,
+                  question: "What is the procedure to change the room, sir?",
+
+                  answer: "4",
+                  qType: 1,
                 },
                 {
-                  question: "q2",
-                  answer: "Answer",
-                  score: 6,
-                  total: 8,
+                  question: "What is the procedure to change the book, sir?",
+
+                  answer: "4",
+                  qType: 1,
                 },
                 {
                   question: "q3",
-                  answer: "Answer",
-                  score: 6,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
                 {
-                  question: "q4",
-                  answer: "Answer",
-                  score: 6,
-                  total: 8,
+                  question: "What is the procedure to change the school, sir?",
+
+                  answer: "4",
+                  qType: 1,
                 },
               ],
             },
@@ -307,27 +301,27 @@ export const DEOContextProvider = ({ children }) => {
               fieldData: [
                 {
                   question: "q1",
-                  answer: "Answer",
-                  score: 7,
-                  total: 8,
+
+                  answer: "3",
+                  qType: 0,
                 },
                 {
-                  question: "q2",
-                  answer: "Answer",
-                  score: 7,
-                  total: 8,
+                  question: "What is the procedure to change the food, sir?",
+
+                  answer: "5",
+                  qType: 1,
                 },
                 {
                   question: "q3",
-                  answer: "Answer",
-                  score: 7,
-                  total: 8,
+
+                  answer: "5",
+                  qType: 0,
                 },
                 {
                   question: "q4",
-                  answer: "Answer",
-                  score: 7,
-                  total: 8,
+
+                  answer: "1",
+                  qType: 0,
                 },
               ],
             },
@@ -356,27 +350,27 @@ export const DEOContextProvider = ({ children }) => {
               fieldData: [
                 {
                   question: "q1",
-                  answer: "Answer",
-                  score: 6,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
                 {
                   question: "q2",
-                  answer: "Answer",
-                  score: 6,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
                 {
                   question: "q3",
-                  answer: "Answer",
-                  score: 6,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
                 {
                   question: "q4",
-                  answer: "Answer",
-                  score: 6,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
               ],
             },
@@ -385,27 +379,27 @@ export const DEOContextProvider = ({ children }) => {
               fieldData: [
                 {
                   question: "q1",
-                  answer: "Answer",
-                  score: 7,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
                 {
                   question: "q2",
-                  answer: "Answer",
-                  score: 7,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
                 {
                   question: "q3",
-                  answer: "Answer",
-                  score: 7,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
                 {
                   question: "q4",
-                  answer: "Answer",
-                  score: 7,
-                  total: 8,
+
+                  answer: "4",
+                  qType: 0,
                 },
               ],
             },
@@ -458,6 +452,17 @@ export const DEOContextProvider = ({ children }) => {
     const meoData = MEOList.find((s) => s.mId === meoIdParam);
     return meoData ? meoData.name : null;
   };
+  const acceptGrievance = (grievanceId, callback) => {
+    setTimeout(() => {
+      setGrievances((prev) =>
+        prev.map((d) =>
+          d.id === grievanceId ? Object.assign(d, { status: "Completed" }) : d
+        )
+      );
+      callback();
+      showToast("Accepted Grievance!");
+    }, 2000);
+  };
 
   const getGrievances = () => {
     setTimeout(() => {
@@ -467,16 +472,18 @@ export const DEOContextProvider = ({ children }) => {
           message: "We need new books out there for good knowledge!",
           subject: "Need Books",
           date: 1595618220673,
-          status: "Accepted",
+          status: "Completed",
           schoolId: schoolId,
+          id: "euirrif-3rjf-rf45oig1",
         },
         {
           category: "Library",
           message: "We need more pullingo to join our school!",
-          subject: "hi",
+          subject: "Need more Pullingo",
           date: 1595601220673,
           status: "Pending",
           schoolId: schoolId,
+          id: "euirrif-3rjf-rf45oig2",
         },
       ]);
     }, 2000);
@@ -503,6 +510,9 @@ export const DEOContextProvider = ({ children }) => {
         visitList,
         getMEOName,
         calculateReportData,
+        acceptGrievance,
+        setVisitId,
+        getVisitDataReportOf,
       }}
     >
       {children}

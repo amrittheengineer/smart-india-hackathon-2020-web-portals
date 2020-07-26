@@ -1,5 +1,10 @@
 import React, { createContext } from "react";
 import { makeStyles, useTheme, Snackbar } from "@material-ui/core";
+import {
+  QUESTION_TYPE_DATA,
+  QUESTION_TYPE_SCORE,
+  MAX_SCORE,
+} from "../Constants";
 
 export const GlobalStateContext = createContext();
 
@@ -61,20 +66,29 @@ export const GlobalStateContextProvider = ({ children }) => {
   const getChartPlots = (reportArray) => {
     let aggregateData = {};
     reportArray.forEach(({ reportData }) => {
+      // const score_based_questions = reportData.filter(
+      //   ({ qType }) => qType === QUESTION_TYPE_SCORE
+      // );
+
       reportData.map(({ categoryName, fieldData }) => {
         if (!aggregateData[categoryName]) {
           aggregateData[categoryName] = [];
         }
+
+        const score_based_questions = fieldData.filter(
+          ({ qType }) => qType === QUESTION_TYPE_SCORE
+        );
+
+        console.log("score_based_questions", score_based_questions);
+
         aggregateData[categoryName].push(
           // fieldData.reduce((old, { score, total }) => {
           //   return old + (score / total) * 100;
           // }, 0) / fieldData.length
-          (fieldData.reduce((old, { score }) => {
-            return old + score;
+          (score_based_questions.reduce((old, { answer }) => {
+            return old + (isNaN(Number(answer)) ? 0 : Number(answer));
           }, 0) /
-            fieldData.reduce((old, { total }) => {
-              return old + total;
-            }, 0)) *
+            (score_based_questions.length * MAX_SCORE)) *
             100
         );
       });
@@ -89,6 +103,21 @@ export const GlobalStateContextProvider = ({ children }) => {
     return aggregateData;
   };
 
+  const getDataQuestions = (reportData) => {
+    let aggregateData = {};
+    reportData.map(({ categoryName, fieldData }) => {
+      const data_based_questions = fieldData
+        .filter(({ qType }) => qType === QUESTION_TYPE_DATA)
+        .map(({ question, answer }) => ({ question, answer }));
+
+      if (data_based_questions.length > 0) {
+        aggregateData[categoryName] = data_based_questions;
+        console.log("data_based_questions", data_based_questions);
+      }
+    });
+    return aggregateData;
+  };
+
   return (
     <GlobalStateContext.Provider
       value={{
@@ -98,6 +127,7 @@ export const GlobalStateContextProvider = ({ children }) => {
         handleDrawerToggle,
         showToast,
         getChartPlots,
+        getDataQuestions,
       }}
     >
       {children}

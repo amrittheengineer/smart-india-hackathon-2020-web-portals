@@ -28,7 +28,7 @@ function DEOListGrievance() {
   const [pendingGrievances, setPendingGrievances] = useState(null);
   const [completedGrievances, setCompletedGrievances] = useState(null);
 
-  const [grievanceDialogOpen, setGrievanceDialogOpen] = useState(false);
+  const [grievanceDialog, setGrievanceDialog] = useState(null);
   useEffect(() => {
     if (grievances) {
       setPendingGrievances(grievances.filter((g) => g.status === "Pending"));
@@ -41,8 +41,8 @@ function DEOListGrievance() {
   return (
     <>
       <GrievanceActionDialog
-        visible={grievanceDialogOpen}
-        closeThis={() => setGrievanceDialogOpen(false)}
+        grievance={grievanceDialog}
+        closeThis={() => setGrievanceDialog(null)}
       />
       <AppBar position="static">
         <Toolbar>
@@ -95,7 +95,7 @@ function DEOListGrievance() {
                     <GrievanceCard
                       key={`${new Date(v.date).toDateString()}`}
                       grievance={v}
-                      openGrievance={() => setGrievanceDialogOpen(v)}
+                      openGrievance={() => setGrievanceDialog(v)}
                     />
                   );
                 }}
@@ -123,7 +123,7 @@ function DEOListGrievance() {
                     <GrievanceCard
                       key={`${v.date}`}
                       grievance={v}
-                      openGrievance={() => setGrievanceDialogOpen(v)}
+                      openGrievance={() => setGrievanceDialog(v)}
                     />
                   );
                 }}

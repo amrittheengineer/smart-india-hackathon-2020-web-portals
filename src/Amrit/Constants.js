@@ -32,5 +32,8 @@ module.exports = {
   INDEX_OLD_REPORT: 0,
   INDEX_NEW_REPORT: 1,
   grievanceCategories: ["Library", "Hygiene", "Transportation"],
-  parameterEstimateWarningThreshold: 80,
+  parameterEstimateWarningThreshold: 75,
+  QUESTION_TYPE_DATA: 1,
+  QUESTION_TYPE_SCORE: 0,
+  MAX_SCORE: 5,
 };

@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
 
-function DEOListSchool(props) {
+const DEOListSchool = (props) => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
 
   return (
@@ -32,6 +32,6 @@ function DEOListSchool(props) {
       </div>
     </>
   );
-}
+};
 
 export default DEOListSchool;

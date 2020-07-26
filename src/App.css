@@ -90,6 +90,44 @@
   cursor: pointer;
 }
 
+.visit-report-page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+}
+
+.visit-report-page .graph {
+  height: 100%;
+  -webkit-box-flex: 4;
+      -ms-flex: 4;
+          flex: 4;
+}
+
+.visit-report-page .data-list-container {
+  -webkit-box-flex: 3;
+      -ms-flex: 3;
+          flex: 3;
+  padding: 16px;
+  background-color: transparent;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.data-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.category-data-accordion {
+  margin: 8px;
+}
+
 .category-indicator {
   margin-right: 16px;
   margin-bottom: 8px;

@@ -6,27 +6,23 @@
         "fieldData": [
           {
             "question": "q1",
-            "answer": "Answer",
-            "score": 6,
-            "total": 8
+            "answer": "3",
+            "qType": 0
           },
           {
             "question": "q2",
-            "answer": "Answer",
-            "score": 6,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           },
           {
             "question": "q3",
-            "answer": "Answer",
-            "score": 6,
-            "total": 8
+            "answer": "2",
+            "qType": 0
           },
           {
             "question": "q4",
-            "answer": "Answer",
-            "score": 6,
-            "total": 8
+            "answer": "1",
+            "qType": 0
           }
         ]
       },
@@ -35,27 +31,23 @@
         "fieldData": [
           {
             "question": "q1",
-            "answer": "Answer",
-            "score": 7,
-            "total": 8
+            "answer": "5",
+            "qType": 0
           },
           {
             "question": "q2",
-            "answer": "Answer",
-            "score": 7,
-            "total": 8
+            "answer": "3",
+            "qType": 0
           },
           {
             "question": "q3",
-            "answer": "Answer",
-            "score": 7,
-            "total": 8
+            "answer": "0",
+            "qType": 0
           },
           {
             "question": "q4",
-            "answer": "Answer",
-            "score": 7,
-            "total": 8
+            "answer": "2",
+            "qType": 0
           }
         ]
       }
@@ -75,27 +67,23 @@
         "fieldData": [
           {
             "question": "q1",
-            "answer": "Answer",
-            "score": 5,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           },
           {
             "question": "q2",
-            "answer": "Answer",
-            "score": 5,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           },
           {
             "question": "q3",
-            "answer": "Answer",
-            "score": 5,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           },
           {
             "question": "q4",
-            "answer": "Answer",
-            "score": 5,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           }
         ]
       },
@@ -104,27 +92,23 @@
         "fieldData": [
           {
             "question": "q1",
-            "answer": "Answer",
-            "score": 4,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           },
           {
             "question": "q2",
-            "answer": "Answer",
-            "score": 4,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           },
           {
             "question": "q3",
-            "answer": "Answer",
-            "score": 4,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           },
           {
             "question": "q4",
-            "answer": "Answer",
-            "score": 4,
-            "total": 8
+            "answer": "4",
+            "qType": 0
           }
         ]
       }

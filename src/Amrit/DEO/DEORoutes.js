@@ -19,6 +19,7 @@ import DEOListReport from "./DEOVisitorReport";
 import DEOListGrievance from "./DEOGrievance";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { DEOContextProvider } from "../Context/DEOContext";
+import ViewReportGraph from "./ViewReportGraph";
 
 const sidebarOptions = [
   {
@@ -126,8 +127,14 @@ function DEORoutes({ history, location }) {
                 key={title}
                 path={"/deo/" + title.toLowerCase()}
                 component={component}
+                exact
               />
             ))}
+            <Route
+              path="/deo/reports/:reportId"
+              exact
+              component={ViewReportGraph}
+            />
             <Route path="/" render={() => <Redirect to="/deo/reports" />} />
           </Switch>
         </main>

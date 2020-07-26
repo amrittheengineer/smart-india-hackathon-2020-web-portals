@@ -65,6 +65,28 @@ $white: #fff;
     }
   }
 }
+.visit-report-page {
+  display: flex;
+  height: 100%;
+  .graph {
+    height: 100%;
+    flex: 4;
+  }
+  .data-list-container {
+    flex: 3;
+    padding: 16px;
+    background-color: transparent;
+    text-align: center;
+    overflow-y: auto;
+  }
+}
+.data-list {
+  display: flex;
+  flex-direction: column;
+}
+.category-data-accordion {
+  margin: 8px;
+}
 .category-indicator {
   margin-right: 16px;
   margin-bottom: 8px;
