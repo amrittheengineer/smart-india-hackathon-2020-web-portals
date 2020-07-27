@@ -36,4 +36,8 @@ module.exports = {
   QUESTION_TYPE_DATA: 1,
   QUESTION_TYPE_SCORE: 0,
   MAX_SCORE: 5,
+  qTypes: [
+    { type: "Score", value: 0 },
+    { type: "Data", value: 1 },
+  ],
 };

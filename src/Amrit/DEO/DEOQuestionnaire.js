@@ -8,21 +8,28 @@ import { GlobalStateContext } from "../Context/GlobalStateContext";
 import { DEOContext } from "../Context/DEOContext";
 import SchoolIcon from "@material-ui/icons/School";
 import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
-import { Button } from "@material-ui/core";
 import Add from "@material-ui/icons/Add";
-import ScheduleSchoolVisit from "./ScheduleSchoolVisit";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  Button,
+  CardContent,
+} from "@material-ui/core";
+import CreateQuestionnaireDialog from "./CreateQuestionnaireDialog";
 
-const DEOListSchool = (props) => {
+const Questionnaire = (props) => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
-  const { schoolList } = useContext(DEOContext);
+  const { questionnaireList } = useContext(DEOContext);
 
-  const [scheduleSchoolId, setScheduleSchoolId] = useState(null);
+  const [createDialogVisibility, setCreateDialogVisibility] = useState(false);
 
   return (
     <>
-      <ScheduleSchoolVisit
-        schoolId={scheduleSchoolId}
-        closeThis={() => setScheduleSchoolId(null)}
+      <CreateQuestionnaireDialog
+        visible={createDialogVisibility}
+        closeThis={() => setCreateDialogVisibility(false)}
       />
       <AppBar position="relative" className="app-bar">
         <Toolbar>
@@ -36,39 +43,69 @@ const DEOListSchool = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Schools
+            Visit Questions
           </Typography>
           <Button
             color="inherit"
             variant="outlined"
-            onClick={() => {}}
+            onClick={() => setCreateDialogVisibility(true)}
             startIcon={<Add />}
             size="small"
           >
-            Add School
+            Add Visit Questions
           </Button>
         </Toolbar>
       </AppBar>
       <div className="mainbar-content">
-        {schoolList ? (
-          schoolList.length > 0 ? (
-            schoolList
-              .sort((a, b) => a.lastVisited > b.lastVisited)
-              .map((s) => (
-                <SchoolCard
-                  setScheduleSchoolId={setScheduleSchoolId}
-                  school={s}
-                  key={s.schoolId}
-                />
-              ))
+        {questionnaireList ? (
+          questionnaireList.length > 0 ? (
+            <QuestionnaireList questionnaireList={questionnaireList} />
           ) : (
             // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
-            <MainbarErrorMessage message="No schools found." />
+            <MainbarErrorMessage message="No Questions found." />
           )
         ) : (
-          <Loading message="Loading schools..." />
+          <Loading message="Loading Questions..." />
         )}
       </div>
+    </>
+  );
+};
+
+const QuestionnaireList = ({ questionnaireList }) => {
+  return (
+    <>
+      {questionnaireList.map((r) => (
+        <Accordion
+          key={r.categoryName}
+          variant="outlined"
+          className="category-data-accordion"
+          defaultExpanded
+          TransitionProps={{ unmountOnExit: true }}
+        >
+          <AccordionSummary aria-controls="panel1d-content">
+            <Typography>{r.categoryName}</Typography>
+          </AccordionSummary>
+          <AccordionDetails className="data-list">
+            {r.fieldData.map((q) => (
+              <Card
+                key={q.question + q.qType + Math.random()}
+                style={{ width: "100%" }}
+                variant="outlined"
+              >
+                <CardContent style={{ display: "flex" }}>
+                  <Typography style={{ flex: 1 }} variant="caption">
+                    {q.question}
+                  </Typography>
+                  <Typography variant="caption">
+                    Type: {q.qType ? "Data" : "Score"}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </>
   );
 };
@@ -107,4 +144,4 @@ const SchoolCard = ({ school, setScheduleSchoolId }) => {
   );
 };
 
-export default DEOListSchool;
+export default Questionnaire;

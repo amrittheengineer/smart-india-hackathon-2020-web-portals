@@ -8,6 +8,7 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import AssessmentIcon from "@material-ui/icons/Assessment";
 import SchoolIcon from "@material-ui/icons/School";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -16,6 +17,7 @@ import { GlobalStateContext } from "../Context/GlobalStateContext";
 import ListMEO from "./DEOListMEO";
 import DEOListSchool from "./DEOSchools";
 import DEOListReport from "./DEOVisitorReport";
+import Questionnaire from "./DEOQuestionnaire";
 import DEOListGrievance from "./DEOGrievance";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { DEOContextProvider } from "../Context/DEOContext";
@@ -41,6 +43,11 @@ const sidebarOptions = [
     title: "Grievance",
     iconComponent: <AnnouncementIcon />,
     component: DEOListGrievance,
+  },
+  {
+    title: "Questionnaire",
+    iconComponent: <AssessmentIcon />,
+    component: Questionnaire,
   },
 ];
 

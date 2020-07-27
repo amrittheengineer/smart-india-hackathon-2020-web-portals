@@ -121,6 +121,7 @@ export const DEOContextProvider = ({ children }) => {
     getSchoolList();
     getGrievances();
     getVisitsList();
+    getQuestionnaireList();
   }, [DEO.id]);
 
   useEffect(() => {
@@ -242,6 +243,7 @@ export const DEOContextProvider = ({ children }) => {
 
   const [MEOList, setMEOList] = useState(null);
   const [schoolList, setSchoolList] = useState(null);
+  const [questionnaireList, setQuestionnaireList] = useState(null);
 
   const schoolId = "iwje0-3843u94-43j";
   const meoId = "feur-4934-fcieru2";
@@ -301,13 +303,13 @@ export const DEOContextProvider = ({ children }) => {
                 {
                   question: "What is the procedure to change the room, sir?",
 
-                  answer: "4",
+                  answer: "Bala kitta soliten",
                   qType: 1,
                 },
                 {
                   question: "What is the procedure to change the book, sir?",
 
-                  answer: "4",
+                  answer: "Bala kitta soliten",
                   qType: 1,
                 },
                 {
@@ -319,7 +321,7 @@ export const DEOContextProvider = ({ children }) => {
                 {
                   question: "What is the procedure to change the school, sir?",
 
-                  answer: "4",
+                  answer: "Bala kitta soliten",
                   qType: 1,
                 },
               ],
@@ -336,7 +338,7 @@ export const DEOContextProvider = ({ children }) => {
                 {
                   question: "What is the procedure to change the food, sir?",
 
-                  answer: "5",
+                  answer: "Bala kitta soliten",
                   qType: 1,
                 },
                 {
@@ -532,7 +534,45 @@ export const DEOContextProvider = ({ children }) => {
       ]);
     }, 2000);
   };
+  const getQuestionnaireList = () => {
+    setTimeout(() => {
+      setQuestionnaireList([
+        {
+          categoryName: "Library",
+          fieldData: [
+            {
+              question: "What is the procedure to change the room, sir?",
+              qType: 0,
+            },
+            {
+              question: "What is the procedure to change the room, sir?",
+              qType: 1,
+            },
+          ],
+        },
+        {
+          categoryName: "Mess",
+          fieldData: [
+            {
+              question: "What is the procedure to change the room, sir?",
+              qType: 0,
+            },
+          ],
+        },
+      ]);
+    }, 1000);
+  };
 
+  const createQuestionnaire = (category, questionsSet, callback) => {
+    setTimeout(() => {
+      setQuestionnaireList((prev) => [
+        ...prev,
+        { categoryName: category, fieldData: questionsSet },
+      ]);
+      showToast("Created successfully!");
+      callback();
+    }, 2000);
+  };
   return (
     <DEOContext.Provider
       value={{
@@ -558,6 +598,8 @@ export const DEOContextProvider = ({ children }) => {
         setVisitId,
         getVisitDataReportOf,
         scheduleVisit,
+        questionnaireList,
+        createQuestionnaire,
       }}
     >
       {children}
