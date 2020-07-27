@@ -240,23 +240,51 @@ export const DEOContextProvider = ({ children }) => {
     // ]
   );
 
-  const [MEOList, setMEOList] = useState([]);
-  const [schoolList, setSchoolList] = useState([]);
+  const [MEOList, setMEOList] = useState(null);
+  const [schoolList, setSchoolList] = useState(null);
 
   const schoolId = "iwje0-3843u94-43j";
   const meoId = "feur-4934-fcieru2";
 
   const calculateReportData = (reportData) => getChartPlots(reportData);
 
+  const scheduleVisit = (schoolId, mId, reportDate, callback) => {
+    setTimeout(() => {
+      setVisitList((prev) => [...prev, { reportDate, mId, schoolId }]);
+      showToast(`Visit Scheduled successfully!`);
+      callback();
+    }, 2000);
+  };
+
   const getSchoolList = () => {
     setTimeout(() => {
       setSchoolList([
+        // {
+        //   schoolId: schoolId,
+        //   deoId: DEO.id,
+        //   schoolName: "Master Matriculation School",
+        //   lastVisited: 1545714572110,
+        //   mId: meoId,
+        // },
         {
-          schoolId: schoolId,
-          deoId: DEO.id,
-          name: "Master Matriculation School",
-          lastVisited: Date.now(),
-          mId: meoId,
+          lastVisited: 1545789572110,
+          schoolId: "b4b50e26-593e-4169-ae70-406b05407223",
+          schoolName: "CIT Matric Hr.Sec.School",
+          mandalName: "Kundrathur",
+          schoolAdress: "Sarathy Nagar, Kundrathur,Chennai.",
+          geoHash: "tf2cyvb8yj3p",
+          mId: "99adc5c4-d25b-430d-9b77-f0e9b9f4dd3cf",
+          dId: "06da6e93-cd10-4780-b67b-8e0613703ae9",
+        },
+        {
+          lastVisited: 1595289572110,
+          schoolId: "14b50e26-593e-4169-ae70-406b05407223",
+          schoolName: "Master Matric Hr.Sec.School",
+          mandalName: "Kundrathur",
+          schoolAdress: "Sairam Nagar, Kundrathur,Chennai.",
+          geoHash: "tf34dgr1ytsp",
+          mId: "99adc5c4-d25b-430d-9b77-f0e9b9f4dd3cr",
+          dId: "06da6e93-cd10-4780-b67b-8e0613703ae9",
         },
       ]);
     }, 2000);
@@ -425,28 +453,44 @@ export const DEOContextProvider = ({ children }) => {
   };
   const getMEOList = () => {
     setTimeout(() => {
-      setMEOList([
-        {
-          deoId: DEO.id,
-          mId: "feur-4934-fcieru1",
-          schoolsCount: 2,
-          zoneName: "Area 1",
-          name: "Mr. Bala Krishnan",
-        },
-        {
-          deoId: DEO.id,
-          mId: meoId,
-          schoolsCount: 1,
-          zoneName: "Area 2",
-          name: "Mr. Joseph Kuruvilla",
-        },
-      ]);
+      setMEOList(
+        //   [
+        //   {
+        //     deoId: DEO.id,
+        //     mId: "feur-4934-fcieru1",
+        //     schoolsCount: 2,
+        //     zoneName: "Area 1",
+        //     name: "Mr. Bala Krishnan",
+        //   },
+        //   {
+        //     deoId: DEO.id,
+        //     mId: meoId,
+        //     schoolsCount: 1,
+        //     zoneName: "Area 2",
+        //     name: "Mr. Joseph Kuruvilla",
+        //   },
+        // ]
+        [
+          {
+            name: "Joseph Kuruvilla",
+            mId: "99adc5c4-d25b-430d-9b77-f0e9b9f4dd3c",
+            dId: "06da6e93-cd10-4780-b67b-8e0613703ae9",
+            mandalName: "Kundrathur",
+          },
+          {
+            name: "Annie",
+            mId: "50ed655a-01ec-4bd4-96d8-c9dae67c180d",
+            dId: "06da6e93-cd10-4780-b67b-8e0613703ae9",
+            mandalName: "Royapuram",
+          },
+        ]
+      );
     }, 1000);
   };
 
   const getSchoolName = (schoolIdParam) => {
     const schoolData = schoolList.find((s) => s.schoolId === schoolIdParam);
-    return schoolData ? schoolData.name : null;
+    return schoolData ? schoolData.schoolName : null;
   };
   const getMEOName = (meoIdParam) => {
     const meoData = MEOList.find((s) => s.mId === meoIdParam);
@@ -473,7 +517,7 @@ export const DEOContextProvider = ({ children }) => {
           subject: "Need Books",
           date: 1595618220673,
           status: "Completed",
-          schoolId: schoolId,
+          schoolId: "b4b50e26-593e-4169-ae70-406b05407223",
           id: "euirrif-3rjf-rf45oig1",
         },
         {
@@ -482,7 +526,7 @@ export const DEOContextProvider = ({ children }) => {
           subject: "Need more Pullingo",
           date: 1595601220673,
           status: "Pending",
-          schoolId: schoolId,
+          schoolId: "14b50e26-593e-4169-ae70-406b05407223",
           id: "euirrif-3rjf-rf45oig2",
         },
       ]);
@@ -513,6 +557,7 @@ export const DEOContextProvider = ({ children }) => {
         acceptGrievance,
         setVisitId,
         getVisitDataReportOf,
+        scheduleVisit,
       }}
     >
       {children}

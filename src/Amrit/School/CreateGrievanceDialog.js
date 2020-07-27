@@ -36,7 +36,7 @@ function SimpleSelect({ categoryRef }) {
   );
 }
 
-const CreateGrievanceDialog = ({ visible, closeThis, categories }) => {
+const CreateGrievanceDialog = ({ visible, closeThis }) => {
   const [requestingAPI, setRequestingAPI] = useState(false);
   const { reportGrievance } = useContext(SchoolContext);
   const { showToast } = useContext(GlobalStateContext);
@@ -54,13 +54,6 @@ const CreateGrievanceDialog = ({ visible, closeThis, categories }) => {
             <Loading message="Reporting to DEO..." />
           ) : (
             <div>
-              {/* {visible ? (
-                <CheckboxesGroup
-                  categories={categories || []}
-                  selected={inAccurateReport ? inAccurateReport.categories : []}
-                  selectedCategories={selectedCategories}
-                />
-              ) : null} */}
               <SimpleSelect categoryRef={inputCategoryRef} />
               <TextField
                 label="Subject"

@@ -8,7 +8,6 @@ import { GlobalStateContext } from "../Context/GlobalStateContext";
 import { Tabs, Tab, Badge, Box, Chip, Button } from "@material-ui/core";
 import FlatList from "flatlist-react";
 import { DEOContext } from "../Context/DEOContext";
-import { InfoOutlined } from "@material-ui/icons";
 import ErrorTwoToneIcon from "@material-ui/icons/ErrorTwoTone";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import AssignmentTurnedInTwoToneIcon from "@material-ui/icons/AssignmentTurnedInTwoTone";
@@ -25,7 +24,7 @@ import ViewInaccurateClaimDialog from "./ViewInaccurateClaimDialog";
 const DEOListReport = ({ history }) => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
   const { visitList } = useContext(DEOContext);
-  const [tabIndex, setTabIndex] = useState(1);
+  const [tabIndex, setTabIndex] = useState(0);
 
   const [pendingVisits, setPendingVisits] = useState(null);
   const [inaccurateVisits, setInaccurateVisits] = useState(null);
@@ -169,7 +168,6 @@ const DEOListReport = ({ history }) => {
                     : 1
                 )}
                 renderItem={(v) => {
-                  // return <p>Hello</p>;
                   return (
                     <VisitReportCardInaccurate
                       key={`${v.reportDate}`}
@@ -354,17 +352,6 @@ const VisitReportCardInaccurate = ({ visit, setInaccurateClaim, onClick }) => {
       <div className="italic">{`Visited on : ${new Date(
         visit.reportDate
       ).toDateString()}`}</div>
-
-      {/* <div className="message-container">
-      <div className="message-icon">
-      <InfoOutlined color="primary" />
-      </div>
-      <div className="message-body">
-        <div className="posted-by">{getSchoolName(visit.schoolId) || "VVVVV School"}</div>
-        <div className="message">{grievance.message}</div>
-      </div>
-      <div className="italic">{new Date(visit.reportDate).toDateString()}</div>
-    </div> */}
     </div>
   );
 };
