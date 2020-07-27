@@ -15,34 +15,37 @@ function SchoolQRCode() {
   const [qrCodeComponent, setQrCodeComponent] = useState(
     <Loading message="Loading QR Code" />
   );
-  const { getQrCode } = useContext(SchoolContext);
+  const { schoolDetails } = useContext(SchoolContext);
 
   useEffect(() => {
     let unmounted = false;
-    getQrCode()
-      .then((visit) => {
-        setTimeout(() => {
-          if (!unmounted) setQrCodeComponent(<QRCodeWithVisit visit={visit} />);
-        }, 1000);
-      })
-      .catch((err) => {
-        setTimeout(() => {
-          if (!unmounted)
-            setQrCodeComponent(
-              <MainbarErrorMessage
-                message={
-                  err === NO_PENDING_VISITS
-                    ? "No pending visits are there for today!"
-                    : "Something went wrong!"
-                }
-              />
-            );
-        }, 1000);
-      });
+    if (schoolDetails && schoolDetails.geoHash) {
+      setQrCodeComponent(<QRCodeWithVisit geoHash={schoolDetails.geoHash} />);
+    }
+    // getQrCode()
+    //   .then((visit) => {
+    //     setTimeout(() => {
+    //       if (!unmounted) setQrCodeComponent(<QRCodeWithVisit visit={visit} />);
+    //     }, 1000);
+    //   })
+    //   .catch((err) => {
+    //     setTimeout(() => {
+    //       if (!unmounted)
+    //         setQrCodeComponent(
+    //           <MainbarErrorMessage
+    //             message={
+    //               err === NO_PENDING_VISITS
+    //                 ? "No pending visits are there for today!"
+    //                 : "Something went wrong!"
+    //             }
+    //           />
+    //         );
+    //     }, 1000);
+    //   });
     return () => {
       unmounted = true;
     };
-  }, []);
+  }, [schoolDetails]);
 
   return (
     <>
@@ -67,12 +70,11 @@ function SchoolQRCode() {
   );
 }
 
-const QRCodeWithVisit = ({ visit }) => {
+const QRCodeWithVisit = ({ geoHash }) => {
   return (
     <div className="container">
       <div className="content">
-        <QRCode value={visit.id} />
-        <h3>Visit Details: {visit.timings}</h3>
+        <QRCode value={geoHash} />
       </div>
     </div>
   );

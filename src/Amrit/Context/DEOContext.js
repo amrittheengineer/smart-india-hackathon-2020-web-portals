@@ -127,7 +127,7 @@ export const DEOContextProvider = ({ children }) => {
       getSchoolListFromDB();
       getGrievanceListFromDB();
       getVisitListFromDB();
-      getQuestionnaireList();
+      getQuestionnaireListFromDB();
     }
   }, [DEO]);
 
@@ -206,6 +206,19 @@ export const DEOContextProvider = ({ children }) => {
       })
       .catch((err) => console.error(err));
   };
+  const getQuestionnaireListFromDB = () => {
+    fetch(`${appUrl}/deo/getallquestions`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          console.log(res);
+          setQuestionnaireList(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
 
   const createQuestionnaire = (category, questionsSet, callback) => {
     fetch(`${appUrl}/deo/postquestions`, {
@@ -221,7 +234,7 @@ export const DEOContextProvider = ({ children }) => {
         setTimeout(() => {
           setQuestionnaireList((prev) => [
             ...prev,
-            { categoryName: category, fieldData: questionsSet },
+            { categoryName: category, questions: questionsSet },
           ]);
           showToast("Reported to DEO successfully!");
           callback();
@@ -252,6 +265,27 @@ export const DEOContextProvider = ({ children }) => {
           setVisitList((prev) => [...prev, { reportDate, mId, schoolId }]);
           showToast(`Visit Scheduled successfully!`);
           callback();
+        }, 200);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const acceptGrievance = (grievanceId, callback) => {
+    fetch(`${appUrl}/deo/acceptgrievance/${grievanceId}`, {
+      method: "POST",
+    })
+      .then((res) => {
+        console.log(res);
+        setTimeout(() => {
+          setGrievances((prev) =>
+            prev.map((d) =>
+              d.GrievanceId === grievanceId
+                ? Object.assign(d, { status: "Completed" })
+                : d
+            )
+          );
+          callback();
+          showToast("Accepted Grievance!");
         }, 200);
       })
       .catch((err) => console.error(err));
@@ -607,7 +641,7 @@ export const DEOContextProvider = ({ children }) => {
     const meoData = MEOList.find((s) => s.mId === meoIdParam);
     return meoData ? meoData.name : null;
   };
-  const acceptGrievance = (grievanceId, callback) => {
+  const acceptGrievanceOld = (grievanceId, callback) => {
     setTimeout(() => {
       setGrievances((prev) =>
         prev.map((d) =>

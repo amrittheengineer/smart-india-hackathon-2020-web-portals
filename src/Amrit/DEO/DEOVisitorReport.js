@@ -108,7 +108,10 @@ const DEOListReport = ({ history }) => {
                 renderItem={(v) => {
                   // return <p>Hello</p>;
                   return (
-                    <VisitReportCardPending key={`${v.reportDate}`} visit={v} />
+                    <VisitReportCardPending
+                      key={v.visitId || `${v.reportDate}${Math.random() * 800}`}
+                      visit={v}
+                    />
                   );
                 }}
                 groupBy={(g) => `${new Date(g.reportDate).toDateString()}`}
@@ -136,7 +139,7 @@ const DEOListReport = ({ history }) => {
                   console.log(v);
                   return (
                     <VisitReportCardCompleted
-                      key={`${v.reportDate}`}
+                      key={`${v.visitId}`}
                       visit={v}
                       onClick={() => {
                         history.push(`/deo/reports/${v.visitId}`);
@@ -170,7 +173,7 @@ const DEOListReport = ({ history }) => {
                 renderItem={(v) => {
                   return (
                     <VisitReportCardInaccurate
-                      key={`${v.reportDate}`}
+                      key={`${v.visitId}`}
                       visit={v}
                       setInaccurateClaim={setInaccurateClaim}
                       onClick={() => {
@@ -208,7 +211,9 @@ const VisitReportCardPending = ({ visit }) => {
         <HourglassFullTwoToneIcon color="primary" />
       </div>
       <div className="message-body">
-        <div className="posted-by">{visit.schoolName || "VVVVV School"}</div>
+        <div className="posted-by">
+          {visit.schoolName || getSchoolName(visit.schoolId) || "VVVVV School"}
+        </div>
         <div className="message italic">
           Visitor : {getMEOName(visit.mId) || "Mr. VVVVV"}
         </div>

@@ -13,20 +13,20 @@ export const SchoolContext = createContext();
 const schoolidTemp = "iuerhifrehfue";
 
 // Logged out
-// const school.idTemp = null;
+// const schoolIdTemp = null;
 
 export const SchoolContextProvider = ({ children }) => {
-  const [school, setschool] = useState({
-    id: "d4bf8383-bc7d-4b38-835d-ab52e744434a",
-    name: "CIT Matric Hr.Sec.School",
-  });
+  const [schoolId, setSchoolId] = useState(
+    "d4bf8383-bc7d-4b38-835d-ab52e744434a"
+  );
+  const [schoolDetails, setSchoolDetails] = useState(null);
 
   const getQrCode = () => {
     return new Promise((resolve, reject) => {
-      if (!school.id) {
+      if (!schoolId) {
         return reject(NOT_LOGGED_IN);
       }
-      fetch("/sample/school-qr-code.json?school.id=" + school.id, {
+      fetch("/sample/school-qr-code.json?schoolId=" + schoolId, {
         method: "GET",
       })
         .then((res) => res.json())
@@ -83,7 +83,8 @@ export const SchoolContextProvider = ({ children }) => {
   useEffect(() => {
     getSchoolReport();
     getGrievances();
-  }, [school.id]);
+    getSchoolDetails();
+  }, [schoolId]);
 
   useEffect(() => {
     if (latestReport) {
@@ -126,11 +127,31 @@ export const SchoolContextProvider = ({ children }) => {
   }, [previousReport]);
 
   const getSchoolReport = () => {
+    fetch(`${appUrl}/school/plotgraph/${schoolId}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((sampleData) => {
+        if (sampleData) {
+          console.log("sampleData", sampleData);
+          if (sampleData) {
+            // Sort in descending
+            sampleData.sort((a, b) => b.reportDate - a.reportDate);
+            setLatestReport(sampleData[0]);
+            setPreviousReport(sampleData[1]);
+
+            setInAccurateReport(sampleData[0].inaccurateReport);
+          }
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+  const getSchoolReportOld = () => {
     return new Promise((resolve, reject) => {
-      if (!school.id) {
+      if (!schoolId) {
         return reject(NOT_LOGGED_IN);
       }
-      fetch("/sample/school-report.json?school.id=" + school.id, {
+      fetch("/sample/school-report.json?schoolId=" + schoolId, {
         method: "GET",
       })
         .then((res) => res.json())
@@ -218,7 +239,7 @@ export const SchoolContextProvider = ({ children }) => {
       // },
       // console.log(getRawReport(sampleData[0]));
       return resolve();
-      fetch("/sample/school-qr-code.json?school.id=" + school.id, {
+      fetch("/sample/school-qr-code.json?schoolId=" + schoolId, {
         method: "GET",
       })
         .then((res) => res.json())
@@ -256,7 +277,21 @@ export const SchoolContextProvider = ({ children }) => {
   ]);
 
   const getGrievances = () => {
-    fetch("/sample/school-grievance.json?school.id=" + school.id, {
+    fetch(`${appUrl}/school/getallgrievances/${schoolId}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          setGrievances(res);
+        } else {
+          setGrievances([]);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+  const getGrievancesOld = () => {
+    fetch("/sample/school-grievance.json?schoolId=" + schoolId, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -266,9 +301,23 @@ export const SchoolContextProvider = ({ children }) => {
       .catch((err) => console.error(err));
   };
 
+  const getSchoolDetails = () => {
+    // ${latestReport.id}
+    fetch(`${appUrl}/school/getdetails/${schoolId}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        if (res) {
+          setSchoolDetails(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
   const reportInaccurate = (message, categories, callback) => {
     // ${latestReport.id}
-    fetch(`${appUrl}/school/complaint/5ea70384-4fa2-49e4-943f-9cf7ac91ff8b`, {
+    fetch(`${appUrl}/school/complaint/${latestReport.visitId}`, {
       method: "POST",
       body: JSON.stringify({
         inaccurateReport: {
@@ -297,7 +346,7 @@ export const SchoolContextProvider = ({ children }) => {
   };
   const reportGrievance = (message, subject, callback) => {
     // return;
-    fetch(`${appUrl}/school/postgrievance/${school.id}`, {
+    fetch(`${appUrl}/school/postgrievance/${schoolId}`, {
       method: "POST",
       body: JSON.stringify({
         message: message,
@@ -341,7 +390,6 @@ export const SchoolContextProvider = ({ children }) => {
   return (
     <SchoolContext.Provider
       value={{
-        school,
         getQrCode,
         getSchoolReport,
         latestReport,
@@ -355,6 +403,7 @@ export const SchoolContextProvider = ({ children }) => {
         reportInaccurate,
         reportGrievance,
         grievances,
+        schoolDetails,
       }}
     >
       {children}

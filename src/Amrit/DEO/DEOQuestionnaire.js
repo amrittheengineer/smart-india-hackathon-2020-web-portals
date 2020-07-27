@@ -84,20 +84,20 @@ const QuestionnaireList = ({ questionnaireList }) => {
           TransitionProps={{ unmountOnExit: true }}
         >
           <AccordionSummary aria-controls="panel1d-content">
-            <Typography>{r.categoryName}</Typography>
+            <Typography variant="h6">{r.categoryName}</Typography>
           </AccordionSummary>
           <AccordionDetails className="data-list">
-            {r.fieldData.map((q) => (
+            {r.questions.map((q) => (
               <Card
                 key={q.question + q.qType + Math.random()}
                 style={{ width: "100%" }}
                 variant="outlined"
               >
                 <CardContent style={{ display: "flex" }}>
-                  <Typography style={{ flex: 1 }} variant="caption">
+                  <Typography style={{ flex: 1 }} variant="body1">
                     {q.question}
                   </Typography>
-                  <Typography variant="caption">
+                  <Typography variant="body2">
                     Type: {q.qType ? "Data" : "Score"}
                   </Typography>
                 </CardContent>
