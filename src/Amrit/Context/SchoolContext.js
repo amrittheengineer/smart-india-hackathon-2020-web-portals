@@ -140,7 +140,9 @@ export const SchoolContextProvider = ({ children }) => {
             setLatestReport(sampleData[0]);
             setPreviousReport(sampleData[1]);
 
-            setInAccurateReport(sampleData[0].inaccurateReport);
+            setInAccurateReport(
+              sampleData[0] ? sampleData[0].inaccurateReport : null
+            );
           }
         }
       })
