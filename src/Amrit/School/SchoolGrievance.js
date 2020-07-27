@@ -57,7 +57,7 @@ function SchoolListGrievance() {
           <FlatList
             list={grievances.sort((a, b) => (a.status > b.status ? -1 : 1))}
             renderItem={(g) => {
-              return <GrievanceCard key={g.date} grievance={g} />;
+              return <GrievanceCard key={g.GrievanceId} grievance={g} />;
             }}
             groupBy={(g) => `${g.status}`}
             groupSeparator={(group, idx, groupLabel) => (
@@ -81,7 +81,6 @@ export const GrievanceCard = ({ grievance }) => {
       </div>
       <div className="message-body">
         <div className="posted-by">{grievance.subject}</div>
-        <div className="message italic">Category : {grievance.category}</div>
         <div className="message">{grievance.message}</div>
       </div>
       <div className="italic">{new Date(grievance.date).toDateString()}</div>

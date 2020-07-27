@@ -40,4 +40,5 @@ module.exports = {
     { type: "Score", value: 0 },
     { type: "Data", value: 1 },
   ],
+  appUrl: "https://smartindiahackathon-qilz-2020.herokuapp.com",
 };

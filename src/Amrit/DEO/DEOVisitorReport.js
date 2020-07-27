@@ -208,9 +208,7 @@ const VisitReportCardPending = ({ visit }) => {
         <HourglassFullTwoToneIcon color="primary" />
       </div>
       <div className="message-body">
-        <div className="posted-by">
-          {getSchoolName(visit.schoolId) || "VVVVV School"}
-        </div>
+        <div className="posted-by">{visit.schoolName || "VVVVV School"}</div>
         <div className="message italic">
           Visitor : {getMEOName(visit.mId) || "Mr. VVVVV"}
         </div>
@@ -253,9 +251,7 @@ const VisitReportCardCompleted = ({ visit, onClick }) => {
         <AssignmentTurnedInTwoToneIcon color="primary" />
       </div>
       <div className="message-body">
-        <div className="posted-by">
-          {getSchoolName(visit.schoolId) || "VVVVV School"}
-        </div>
+        <div className="posted-by">{visit.schoolName || "VVVVV School"}</div>
         <div className="message italic">
           Visitor : {getMEOName(visit.mId) || "Mr. VVVVV"}
         </div>
@@ -321,9 +317,7 @@ const VisitReportCardInaccurate = ({ visit, setInaccurateClaim, onClick }) => {
         <ErrorTwoToneIcon color="secondary" />
       </div>
       <div className="message-body">
-        <div className="posted-by">
-          {getSchoolName(visit.schoolId) || "VVVVV School"}
-        </div>
+        <div className="posted-by">{visit.schoolName || "VVVVV School"}</div>
         <div className="message italic">
           Visitor : {getMEOName(visit.mId) || "Mr. VVVVV"}
         </div>

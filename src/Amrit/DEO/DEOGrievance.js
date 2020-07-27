@@ -93,7 +93,7 @@ function DEOListGrievance() {
                 renderItem={(v) => {
                   return (
                     <GrievanceCard
-                      key={`${new Date(v.date).toDateString()}`}
+                      key={`${v.GrievanceId}`}
                       grievance={v}
                       openGrievance={() => setGrievanceDialog(v)}
                     />
@@ -121,7 +121,7 @@ function DEOListGrievance() {
                 renderItem={(v) => {
                   return (
                     <GrievanceCard
-                      key={`${v.date}`}
+                      key={`${v.GrievanceId}`}
                       grievance={v}
                       openGrievance={() => setGrievanceDialog(v)}
                     />
@@ -145,7 +145,6 @@ function DEOListGrievance() {
 }
 
 export const GrievanceCard = ({ grievance, openGrievance }) => {
-  const { getSchoolName } = useContext(DEOContext);
   return (
     <div
       className="message-container"
@@ -156,10 +155,7 @@ export const GrievanceCard = ({ grievance, openGrievance }) => {
         <RateReviewIcon color="primary" />
       </div>
       <div className="message-body">
-        <div className="posted-by">{`${getSchoolName(
-          grievance.schoolId
-        )}`}</div>
-        <div className="message italic">Category : {grievance.category}</div>
+        <div className="posted-by">{`${grievance.schoolName}`}</div>
         <div className="message italic">Subject : {grievance.subject}</div>
       </div>
       <div className="italic">{new Date(grievance.date).toDateString()}</div>

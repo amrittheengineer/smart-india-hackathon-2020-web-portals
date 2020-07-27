@@ -96,7 +96,7 @@ const CreateQuestionnaireDialog = ({ visible, closeThis }) => {
         <DialogTitle>New Questions Set</DialogTitle>
         <DialogContent>
           {requestingAPI ? (
-            <Loading message="Reporting to DEO..." />
+            <Loading message="Adding new questions set..." />
           ) : (
             <div>
               {/* <SimpleSelect categoryRef={inputCategoryRef} /> */}
@@ -130,32 +130,27 @@ const CreateQuestionnaireDialog = ({ visible, closeThis }) => {
               >
                 Add Another Question
               </Button>
-              {/* <TextField
-                label="Ask your Grievance"
-                variant="outlined"
-                multiline={true}
-                inputProps={{ style: { minHeight: "80px" } }}
-                inputRef={(inp) => (inputMessageRef.current = inp)}
-                //   inputRef={(input) => (inputMessageRef.current = input)}
-                className="modal-input"
-              /> */}
             </div>
           )}
         </DialogContent>
         <DialogActions style={requestingAPI ? { display: "none" } : {}}>
-          <Button onClick={closeThis} color="primary">
+          <Button
+            onClick={() => {
+              closeThis();
+              setQuestionsSetComponents([{ ...defaultValue }]);
+            }}
+            color="primary"
+          >
             Cancel
           </Button>
           <Button
             onClick={() => {
               // console.log(inputMessageRef.current);
               // return;
-              console.log(questionsSetComponents);
               const category = inputCategoryRef.current.value.trim();
               const validQuestionsSet = questionsSetComponents.filter(
                 ({ question }) => question.length > 0
               );
-              console.log(category);
               if (!category) {
                 return showToast("Please name the category.");
               }
@@ -167,6 +162,7 @@ const CreateQuestionnaireDialog = ({ visible, closeThis }) => {
 
               createQuestionnaire(category, validQuestionsSet, () => {
                 closeThis();
+                setQuestionsSetComponents([{ ...defaultValue }]);
                 setRequestingAPI(false);
               });
             }}

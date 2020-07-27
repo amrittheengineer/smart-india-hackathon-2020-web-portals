@@ -110,38 +110,4 @@ const QuestionnaireList = ({ questionnaireList }) => {
   );
 };
 
-const SchoolCard = ({ school, setScheduleSchoolId }) => {
-  const { getSchoolName } = useContext(DEOContext);
-
-  return (
-    <div className="message-container">
-      <div className="message-icon">
-        <SchoolIcon color="primary" />
-      </div>
-      <div className="message-body">
-        <div className="posted-by">
-          {`${getSchoolName(school.schoolId)} - ${school.mandalName}` ||
-            "VVVVV School"}
-        </div>
-        <div className="message italic">
-          Address : {school.schoolAdress || "School Address"}
-        </div>
-        <div className="message">
-          <Button
-            onClick={() => {
-              setScheduleSchoolId(school.schoolId);
-            }}
-            variant="outlined"
-          >
-            Schedule
-          </Button>
-        </div>
-      </div>
-      <div className="italic">{`Last visited on : ${new Date(
-        school.lastVisited
-      ).toDateString()}`}</div>
-    </div>
-  );
-};
-
 export default Questionnaire;

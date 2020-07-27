@@ -1,5 +1,10 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { NOT_LOGGED_IN, NO_PENDING_VISITS, NO_REPORTS } from "../Constants";
+import {
+  NOT_LOGGED_IN,
+  NO_PENDING_VISITS,
+  NO_REPORTS,
+  appUrl,
+} from "../Constants";
 import { GlobalStateContext } from "./GlobalStateContext";
 
 export const DEOContext = createContext();
@@ -12,8 +17,8 @@ const schoolidTemp = "iuerhifrehfue";
 
 export const DEOContextProvider = ({ children }) => {
   const [DEO, setDEO] = useState({
-    id: "vegrygue-irg-434jhveb",
-    name: "VRS School",
+    id: "06da6e93-cd10-4780-b67b-8e0613703ae9",
+    name: "Mr. Paltu",
   });
 
   const { getChartPlots } = useContext(GlobalStateContext);
@@ -117,12 +122,14 @@ export const DEOContextProvider = ({ children }) => {
   // const [remarks, setRemarks] = useState(null);
 
   useEffect(() => {
-    getMEOList();
-    getSchoolList();
-    getGrievances();
-    getVisitsList();
-    getQuestionnaireList();
-  }, [DEO.id]);
+    if (DEO && DEO.id) {
+      getMEOListFromDB();
+      getSchoolListFromDB();
+      getGrievanceListFromDB();
+      getVisitListFromDB();
+      getQuestionnaireList();
+    }
+  }, [DEO]);
 
   useEffect(() => {
     if (latestReport) {
@@ -147,6 +154,108 @@ export const DEOContextProvider = ({ children }) => {
       setLatestReportChart(null);
     }
   }, [latestReport]);
+
+  const getSchoolListFromDB = () => {
+    fetch(`${appUrl}/deo/getallschools/${DEO.id}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          setSchoolList(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+  const getMEOListFromDB = () => {
+    fetch(`${appUrl}/deo/getallmeos/${DEO.id}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          console.log(res);
+          setMEOList(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+  const getVisitListFromDB = () => {
+    fetch(`${appUrl}/deo/getallvisits/${DEO.id}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          console.log(res);
+          setVisitList(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+  const getGrievanceListFromDB = () => {
+    fetch(`${appUrl}/deo/getgrievances/${DEO.id}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          console.log(res);
+          setGrievances(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const createQuestionnaire = (category, questionsSet, callback) => {
+    fetch(`${appUrl}/deo/postquestions`, {
+      method: "POST",
+      body: JSON.stringify({ categoryName: category, questions: questionsSet }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setTimeout(() => {
+          setQuestionnaireList((prev) => [
+            ...prev,
+            { categoryName: category, fieldData: questionsSet },
+          ]);
+          showToast("Reported to DEO successfully!");
+          callback();
+        }, 200);
+      })
+      .catch((err) => console.error(err));
+  };
+  const scheduleVisit = (schoolId, mId, reportDate, callback) => {
+    fetch(`${appUrl}/deo/createvisit`, {
+      method: "POST",
+      body: JSON.stringify({
+        schoolId,
+        mId,
+        reportDate,
+        dId: DEO.id,
+        inaccurateReport: null,
+        reportData: null,
+        remarks: null,
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setTimeout(() => {
+          setVisitList((prev) => [...prev, { reportDate, mId, schoolId }]);
+          showToast(`Visit Scheduled successfully!`);
+          callback();
+        }, 200);
+      })
+      .catch((err) => console.error(err));
+  };
 
   useEffect(() => {
     if (previousReport) {
@@ -250,7 +359,7 @@ export const DEOContextProvider = ({ children }) => {
 
   const calculateReportData = (reportData) => getChartPlots(reportData);
 
-  const scheduleVisit = (schoolId, mId, reportDate, callback) => {
+  const scheduleVisitOld = (schoolId, mId, reportDate, callback) => {
     setTimeout(() => {
       setVisitList((prev) => [...prev, { reportDate, mId, schoolId }]);
       showToast(`Visit Scheduled successfully!`);
@@ -502,7 +611,9 @@ export const DEOContextProvider = ({ children }) => {
     setTimeout(() => {
       setGrievances((prev) =>
         prev.map((d) =>
-          d.id === grievanceId ? Object.assign(d, { status: "Completed" }) : d
+          d.GrievanceId === grievanceId
+            ? Object.assign(d, { status: "Completed" })
+            : d
         )
       );
       callback();
@@ -563,7 +674,7 @@ export const DEOContextProvider = ({ children }) => {
     }, 1000);
   };
 
-  const createQuestionnaire = (category, questionsSet, callback) => {
+  const createQuestionnaireOld = (category, questionsSet, callback) => {
     setTimeout(() => {
       setQuestionnaireList((prev) => [
         ...prev,
@@ -573,6 +684,7 @@ export const DEOContextProvider = ({ children }) => {
       callback();
     }, 2000);
   };
+
   return (
     <DEOContext.Provider
       value={{

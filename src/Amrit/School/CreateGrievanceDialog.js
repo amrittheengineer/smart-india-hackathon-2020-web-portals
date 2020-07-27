@@ -54,7 +54,7 @@ const CreateGrievanceDialog = ({ visible, closeThis }) => {
             <Loading message="Reporting to DEO..." />
           ) : (
             <div>
-              <SimpleSelect categoryRef={inputCategoryRef} />
+              {/* <SimpleSelect categoryRef={inputCategoryRef} /> */}
               <TextField
                 label="Subject"
                 variant="outlined"
@@ -83,10 +83,10 @@ const CreateGrievanceDialog = ({ visible, closeThis }) => {
               // return;
               const message = inputMessageRef.current.value.trim();
               const subject = inputSubjectRef.current.value.trim();
-              const category = inputCategoryRef.current.value.trim();
-              if (!category) {
-                return showToast("Please choose the category.");
-              }
+              // const category = inputCategoryRef.current.value.trim();
+              // if (!category) {
+              //   return showToast("Please choose the category.");
+              // }
               if (!subject) {
                 return showToast("Please give a subject of grievance.");
               }
@@ -96,7 +96,7 @@ const CreateGrievanceDialog = ({ visible, closeThis }) => {
 
               setRequestingAPI(true);
 
-              reportGrievance(category, message, subject, () => {
+              reportGrievance(message, subject, () => {
                 closeThis();
                 setRequestingAPI(false);
               });

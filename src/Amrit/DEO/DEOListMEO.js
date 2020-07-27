@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -62,6 +62,13 @@ function ListMEO(props) {
 
 const MEOCard = ({ meo }) => {
   const { getMEOName } = useContext(DEOContext);
+  // const [name, setName] = useState("");
+
+  // useEffect(() => {
+  //   if (MEOList) {
+  //     setName()
+  //   }
+  // } , [MEOList])
 
   return (
     <div className="message-container">

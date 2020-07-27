@@ -75,7 +75,7 @@ const GrievanceActionDialog = ({ closeThis, grievance }) => {
                   color="textPrimary"
                   align="right"
                 >
-                  {` - ${getSchoolName(grievance.schoolId)}`}
+                  {` - ${grievance.schoolName}`}
                 </Typography>
                 {/* <div
                   style={{
@@ -108,7 +108,7 @@ const GrievanceActionDialog = ({ closeThis, grievance }) => {
                   onClick={() => {
                     setRequestingAPI(true);
 
-                    acceptGrievance(grievance.id, () => {
+                    acceptGrievance(grievance.GrievanceId, () => {
                       setRequestingAPI(false);
                       closeThis();
                     });

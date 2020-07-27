@@ -1,5 +1,10 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { NOT_LOGGED_IN, NO_PENDING_VISITS, NO_REPORTS } from "../Constants";
+import {
+  NOT_LOGGED_IN,
+  NO_PENDING_VISITS,
+  NO_REPORTS,
+  appUrl,
+} from "../Constants";
 import { GlobalStateContext } from "./GlobalStateContext";
 
 export const SchoolContext = createContext();
@@ -12,10 +17,8 @@ const schoolidTemp = "iuerhifrehfue";
 
 export const SchoolContextProvider = ({ children }) => {
   const [school, setschool] = useState({
-    id: "vegrygue-irg-434jhveb",
-    name: "VRS School",
-    mId: "ciue2933-vrtgu3-5",
-    deoId: "iceurfh-4985j-3fve",
+    id: "d4bf8383-bc7d-4b38-835d-ab52e744434a",
+    name: "CIT Matric Hr.Sec.School",
   });
 
   const getQrCode = () => {
@@ -264,21 +267,71 @@ export const SchoolContextProvider = ({ children }) => {
   };
 
   const reportInaccurate = (message, categories, callback) => {
-    setTimeout(() => {
-      setInAccurateReport({
-        categories,
-        message,
-      });
-      showToast("Reported to DEO successfully!");
-      callback();
-    }, 2000);
+    // ${latestReport.id}
+    fetch(`${appUrl}/school/complaint/5ea70384-4fa2-49e4-943f-9cf7ac91ff8b`, {
+      method: "POST",
+      body: JSON.stringify({
+        inaccurateReport: {
+          message,
+          complaintDate: Date.now(),
+          categories,
+        },
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setTimeout(() => {
+          setInAccurateReport({
+            categories,
+            message,
+          });
+          showToast("Reported to DEO successfully!");
+          callback();
+        }, 200);
+      })
+      .catch((err) => console.error(err));
   };
-
-  const reportGrievance = (category, message, subject, callback) => {
+  const reportGrievance = (message, subject, callback) => {
+    // return;
+    fetch(`${appUrl}/school/postgrievance/${school.id}`, {
+      method: "POST",
+      body: JSON.stringify({
+        message: message,
+        subject: subject,
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setTimeout(() => {
+          setGrievances((prev) => [
+            ...prev,
+            {
+              message,
+              subject,
+              date: Date.now(),
+              status: "Pending",
+              GrievanceId: `${Date.now()}${Math.random()}`,
+            },
+          ]);
+          showToast("Reported to DEO successfully!");
+          callback();
+        }, 200);
+      })
+      .catch((err) => console.error(err));
+  };
+  const reportGrievanceOld = (message, subject, callback) => {
     setTimeout(() => {
       setGrievances((prev) => [
         ...prev,
-        { category, message, subject, date: Date.now(), status: "Pending" },
+        { message, subject, date: Date.now(), status: "Pending" },
       ]);
       showToast("Reported to DEO successfully!");
       callback();
