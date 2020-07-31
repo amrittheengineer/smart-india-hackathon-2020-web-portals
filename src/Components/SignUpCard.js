@@ -32,13 +32,22 @@ export default function OutlinedCard() {
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography variant="h5" component="h2" color="primary">
-                    Login
+                    Create a New Account
                 </Typography>
                 <br />
                 <TextField
                     required
                     id="outlined-required"
-                    label="Email-id"
+                    label="Email-Id"
+                    defaultValue=""
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                />
+                <TextField
+                    required
+                    id="outlined-required"
+                    label="Mobile Number"
                     defaultValue=""
                     variant="outlined"
                     fullWidth
@@ -54,10 +63,19 @@ export default function OutlinedCard() {
                     fullWidth
                     margin="normal"
                 />
+                <TextField
+                    required
+                    id="outlined-password-input"
+                    label="Confirm Password"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                />
             </CardContent>
             <br />
             <CardActions>
-                <Button size="small" color="primary">Log In</Button>
                 <Button size="small" color="primary">Sign Up</Button>
             </CardActions>
         </Card>
