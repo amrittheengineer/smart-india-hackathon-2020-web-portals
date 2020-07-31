@@ -87,7 +87,7 @@ const SchoolCard = ({ school, setScheduleSchoolId }) => {
             "VVVVV School"}
         </div>
         <div className="message italic">
-          Address : {school.schoolAdress || "School Address"}
+          Address : {school.schoolAddress || "School Address"}
         </div>
         <div className="message">
           <Button

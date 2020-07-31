@@ -5,8 +5,8 @@ import DEORoutes from "./DEO/DEORoutes";
 import SchoolRoutes from "./School/SchoolRoutes";
 import { SchoolContextProvider } from "./Context/SchoolContext";
 import { AuthContextProvider } from "./Context/AuthContext";
-import { DEOContextProvider } from "./Context/DEOContext";
-import { createMuiTheme } from "@material-ui/core";
+import TeacherRoutes from "./Teacher/TeacherRoutes";
+import StudentRoutes from "./Student/StudentRoutes";
 
 function App() {
   return (
@@ -17,6 +17,8 @@ function App() {
             <Route path="/" exact component={() => <Redirect to="/deo" />} />
             {/* <DEOContextProvider> */}
             <Route path="/deo" component={DEORoutes} />
+            <Route path="/teacher" component={TeacherRoutes} />
+            <Route path="/student" component={StudentRoutes} />
             {/* </DEOContextProvider> */}
             <SchoolContextProvider>
               <Route path="/school" component={SchoolRoutes} />

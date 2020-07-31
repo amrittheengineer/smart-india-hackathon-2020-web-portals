@@ -17,7 +17,9 @@ const schoolidTemp = "iuerhifrehfue";
 
 export const SchoolContextProvider = ({ children }) => {
   const [schoolId, setSchoolId] = useState(
-    "d4bf8383-bc7d-4b38-835d-ab52e744434a"
+    // "d4bf8383-bc7d-4b38-835d-ab52e744434a"
+    // "6e861b1f-0952-4ad7-97cb-d60fe2e533b5"
+    "5d961b1f-0952-4ad7-97cb-d60fe2e534c8"
   );
   const [schoolDetails, setSchoolDetails] = useState(null);
 

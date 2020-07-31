@@ -76,7 +76,7 @@ const MEOCard = ({ meo }) => {
         <AccountCircleIcon color="primary" />
       </div>
       <div className="message-body">
-        <div className="posted-by">{`${meo.name}` || "VVVVV"}</div>
+        <div className="posted-by">{`${meo.userId}` || "VVVVV"}</div>
         <div className="message italic">{`${meo.mandalName}`}</div>
         {/* <div className="message">
           <Button

@@ -1,4 +1,4 @@
-$color: #003171;
+$color: #3f51b5;
 $background: #27272f;
 $white: #fff;
 
@@ -63,6 +63,51 @@ $white: #fff;
         cursor: pointer;
       }
     }
+  }
+}
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  // width: 50%;
+  .profile-avatar {
+    align-self: center;
+    width: 40%;
+    height: 40%;
+  }
+  .profile-entity-holder {
+    display: flex;
+    // padding: 16px;
+    justify-content: center;
+    // flex-direction: column;
+    margin: 8px;
+    .profile-entity {
+      flex: 1;
+      padding: 8px 32px;
+      // text-align: center;
+    }
+    .profile-entity:nth-child(1) {
+      font-style: italic;
+      text-align: right;
+      color: $color;
+    }
+    .profile-entity:nth-child(2) {
+      font-weight: bold;
+      text-align: start;
+    }
+  }
+}
+.indicator-list {
+  display: flex;
+  justify-content: center;
+}
+.indicator-card {
+  margin: 8px 24px;
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  .indicator-category {
+    align-self: center;
   }
 }
 .visit-report-page {
