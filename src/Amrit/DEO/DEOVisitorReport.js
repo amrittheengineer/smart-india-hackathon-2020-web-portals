@@ -11,7 +11,7 @@ import { DEOContext } from "../Context/DEOContext";
 import ErrorTwoToneIcon from "@material-ui/icons/ErrorTwoTone";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import AssignmentTurnedInTwoToneIcon from "@material-ui/icons/AssignmentTurnedInTwoTone";
-import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
+import SchoolIcon from "@material-ui/icons/School";
 import {
   MainbarErrorMessage,
   Loading,
@@ -85,7 +85,7 @@ const DEOListReport = ({ history }) => {
             }
           />
           <LinkTab label="Completed" />
-          <LinkTab
+          {/* <LinkTab
             label={
               <Badge
                 color="secondary"
@@ -94,7 +94,7 @@ const DEOListReport = ({ history }) => {
                 <Typography>Inaccurate Claims</Typography>
               </Badge>
             }
-          />
+          /> */}
         </Tabs>
       </AppBar>
       <div className="mainbar-content">
@@ -208,7 +208,7 @@ const VisitReportCardPending = ({ visit }) => {
   return (
     <div className="message-container">
       <div className="message-icon">
-        <HourglassFullTwoToneIcon color="primary" />
+        <SchoolIcon color="primary" />
       </div>
       <div className="message-body">
         <div className="posted-by">
@@ -221,24 +221,11 @@ const VisitReportCardPending = ({ visit }) => {
       <div className="italic">{`Schedued : ${new Date(
         visit.reportDate
       ).toDateString()}`}</div>
-
-      {/* <div className="message-container">
-      <div className="message-icon">
-      <InfoOutlined color="primary" />
-      </div>
-      <div className="message-body">
-        <div className="posted-by">{getSchoolName(visit.schoolId) || "VVVVV School"}</div>
-        <div className="message">{grievance.message}</div>
-      </div>
-      <div className="italic">{new Date(visit.reportDate).toDateString()}</div>
-    </div> */}
     </div>
   );
 };
 const VisitReportCardCompleted = ({ visit, onClick }) => {
-  const { getSchoolName, getMEOName, calculateReportData } = useContext(
-    DEOContext
-  );
+  const { getMEOName, calculateReportData } = useContext(DEOContext);
 
   const [reportEstimate, setReportEstimate] = useState({});
 
@@ -312,9 +299,7 @@ const VisitReportCardCompleted = ({ visit, onClick }) => {
   );
 };
 const VisitReportCardInaccurate = ({ visit, setInaccurateClaim, onClick }) => {
-  const { getSchoolName, getMEOName, calculateReportData } = useContext(
-    DEOContext
-  );
+  const { getMEOName } = useContext(DEOContext);
 
   return (
     <div className="message-container">

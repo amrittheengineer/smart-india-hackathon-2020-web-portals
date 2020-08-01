@@ -15,6 +15,7 @@ import StudentFeedback from "./StudentFeedback";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import { StudentContextProvider } from "../Context/StudentContext";
 import StudentProfile from "./StudentProfile";
+import logo from "../images/logo.jpeg";
 
 const sidebarOptions = [
   {
@@ -35,7 +36,6 @@ const StudentRoutes = ({ history, location }) => {
   );
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
       <Divider />
       <List>
         {sidebarOptions.map(({ title, iconComponent }) => (
@@ -89,6 +89,7 @@ const StudentRoutes = ({ history, location }) => {
                 keepMounted: true, // Better open performance on mobile.
               }}
             >
+              <img src={logo} style={{ objectFit: "scale-down" }} />
               {drawer}
             </Drawer>
           </Hidden>
@@ -100,6 +101,7 @@ const StudentRoutes = ({ history, location }) => {
               variant="permanent"
               open
             >
+              <img src={logo} style={{ objectFit: "scale-down" }} />
               {drawer}
             </Drawer>
           </Hidden>

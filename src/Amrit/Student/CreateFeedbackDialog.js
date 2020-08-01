@@ -29,7 +29,7 @@ function SelectTeacher({ teacherRef }) {
         >
           {teachersList !== null
             ? teachersList.map((c) => (
-                <MenuItem key={c.id} value={c.id}>
+                <MenuItem key={c.teacherId} value={c.teacherId}>
                   {c.name}
                 </MenuItem>
               ))

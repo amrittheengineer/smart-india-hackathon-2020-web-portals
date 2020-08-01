@@ -13,31 +13,60 @@ export const TeacherContext = createContext();
 const schoolidTemp = "iuerhifrehfue";
 
 // Logged out
-// const Teacher.idTemp = null;
+// const teacher.teacherIdTemp = null;
 
 export const TeacherContextProvider = ({ children }) => {
-  const [Teacher, setTeacher] = useState({
-    id: "06da6e93-cd10-4780-b67b-8e0613703ae9",
-    name: "Mr. Paltu",
-    // id: "69bd7ffd-e3ea-402a-9577-c2810fb66d4",
+  // const [teacher, setteacher] = useState({
+  //   teacherId: "fe1d5c4b-35ae-4b40-86dd-a05218813744",
+  //   name: "teacher. Paltu",
+  //   // id: "69bd7ffd-e3ea-402a-9577-c2810fb66d4",
+  // });
+  const [teacher, setTeacher] = useState({
+    handling: ["class_1", "class_4"],
+    name: "Annie Teacher",
+    institute: "CIT Matric Hr.Sec.School",
+    ph_no: 9876553210,
+    schoolId: "d4bf8383-bc7d-4b38-835d-ab52e744434a",
+    // teacherId: "e31be291-6d31-4cde-96cd-3987a4abe540",
+    teacherId: "fd2ae741-d312-4d9e-ba9c-2c281e663692",
+    password: "9876553210",
   });
+
+  const changePassword = (password, callback) => {
+    fetch(`${appUrl}/teacher/changepassword/${teacher.teacherId}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        password,
+      }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          callback();
+          setTeacher((prev) => Object.assign({}, prev, { password }));
+        }
+      })
+      .catch((err) => console.error(err));
+  };
 
   const { getChartPlots } = useContext(GlobalStateContext);
 
-  const [reviewsList, setReviewsList] = useState(null);
+  const [feedbackList, setFeedbackList] = useState(null);
 
   const [latestReport, setLatestReport] = useState(null);
-  const [previousReport, setPreviousReport] = useState(null);
 
   const [latestReportChart, setLatestReportChart] = useState(null);
   const [remarks, setRemarks] = useState(null);
 
   useEffect(() => {
-    if (Teacher && Teacher.id) {
-      getReviewsList();
+    if (teacher && teacher.teacherId) {
+      getFeedbacksFromDB();
       getClassRoomTransactions();
     }
-  }, [Teacher]);
+  }, [teacher]);
 
   const getClassRoomTransactions = () => {
     setTimeout(() => {
@@ -94,43 +123,24 @@ export const TeacherContextProvider = ({ children }) => {
     }
   }, [latestReport]);
 
-  const getReviewsFromDB = () => {
-    fetch(`${appUrl}/Teacher/getallschools/${Teacher.id}`, {
+  const getFeedbacksFromDB = () => {
+    fetch(`${appUrl}/teacher/listfeedbacks/${teacher.teacherId}`, {
       method: "GET",
     })
       .then((res) => res.json())
       .then((res) => {
         if (res) {
-          setReviewsList(res);
+          setFeedbackList(res);
         }
       })
       .catch((err) => console.error(err));
   };
-  // useEffect(() => {
-  //   if (previousReport) {
-  //     let prevPlots = getChartPlots([previousReport]);
-  //     const prevRepCopy = [];
-
-  //     // Setting labels
-  //     const labels = latestReport.reportData.map(
-  //       ({ categoryName }) => categoryName
-  //     );
-  //     if (labels.length > 0) {
-  //       labels.forEach((l) => {
-  //         prevRepCopy.push(prevPlots[l]);
-  //       });
-  //       setPreviousReportChart(prevRepCopy);
-  //     }
-  //   } else {
-  //     setPreviousReportChart(null);
-  //   }
-  // }, [previousReport]);
 
   const { showToast } = useContext(GlobalStateContext);
 
-  const getReviewsList = () => {
+  const getFeedbacks = () => {
     setTimeout(() => {
-      setReviewsList([
+      setFeedbackList([
         {
           subject: "Poor Explaination",
           userName: "Anonymous",
@@ -143,13 +153,24 @@ export const TeacherContextProvider = ({ children }) => {
     }, 1000);
   };
 
+  const checkOldPasswordMatches = (password) => {
+    return teacher.password === password;
+  };
+
+  const isPasswordChanged = () => {
+    return teacher.password !== `${teacher.ph_no}`;
+  };
+
   return (
     <TeacherContext.Provider
       value={{
-        Teacher,
-        reviewsList,
+        teacher,
+        feedbackList,
         latestReportChart,
         remarks,
+        isPasswordChanged,
+        changePassword,
+        checkOldPasswordMatches,
       }}
     >
       {children}

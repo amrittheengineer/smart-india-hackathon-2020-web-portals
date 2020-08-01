@@ -66,7 +66,7 @@ function SchoolListGrievance() {
           />
         ) : (
           // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
-          <MainbarErrorMessage message="No grievances found." />
+          <MainbarErrorMessage message="No requirements found." />
         )}
       </div>
     </>

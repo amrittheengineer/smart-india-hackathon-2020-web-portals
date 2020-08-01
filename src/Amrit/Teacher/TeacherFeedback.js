@@ -16,7 +16,7 @@ import { TeacherContext } from "../Context/TeacherContext";
 
 const TeacherFeedback = () => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
-  const { reviewsList } = useContext(TeacherContext);
+  const { feedbackList } = useContext(TeacherContext);
 
   const [viewReview, setViewReview] = useState(null);
 
@@ -54,9 +54,9 @@ const TeacherFeedback = () => {
         </Toolbar>
       </AppBar>
       <div className="mainbar-content">
-        {reviewsList ? (
-          reviewsList.length > 0 ? (
-            reviewsList.map((review, ind) => {
+        {feedbackList ? (
+          feedbackList.length > 0 ? (
+            feedbackList.map((review, ind) => {
               return (
                 <ReviewCard
                   review={review}
@@ -66,10 +66,10 @@ const TeacherFeedback = () => {
               );
             })
           ) : (
-            <MainbarErrorMessage message="No remarks found" />
+            <MainbarErrorMessage message="No feedbacks found" />
           )
         ) : (
-          <Loading message="Loading remarks..." />
+          <Loading message="Loading feebacks..." />
         )}
       </div>
     </>

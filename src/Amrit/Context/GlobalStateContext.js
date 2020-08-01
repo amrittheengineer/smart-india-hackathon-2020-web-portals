@@ -8,7 +8,7 @@ import {
 
 export const GlobalStateContext = createContext();
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",

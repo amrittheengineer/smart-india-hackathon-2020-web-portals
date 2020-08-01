@@ -2,6 +2,15 @@ $color: #3f51b5;
 $background: #27272f;
 $white: #fff;
 
+// * {
+//   font-family: "Montserrat", sans-serif;
+// }
+.teacher-logo {
+  width: 100%;
+  ::after {
+    content: "Teacher";
+  }
+}
 .mainbar {
   width: 100%;
   overflow: hidden;
@@ -31,8 +40,8 @@ $white: #fff;
     align-self: center;
     margin: 0 16px;
     svg {
-      height: 72px;
-      width: 72px;
+      height: 48px;
+      width: 48px;
     }
   }
   padding: 16px 16px 16px 0;
@@ -43,11 +52,11 @@ $white: #fff;
     // flex-grow: 1;
     flex-direction: column;
     .posted-by {
-      font-weight: bold;
-      font-size: 1.4rem;
+      // font-weight: bold;
+      font-size: 1.2rem;
     }
     .message {
-      font-size: 1.2rem;
+      font-size: 0.8rem;
       flex: 1;
       margin-top: 8px;
       overflow-wrap: anywhere;
@@ -138,9 +147,12 @@ $white: #fff;
   margin-top: 8px;
 }
 .post-category {
-  text-align: center;
-  font-weight: bolder;
-  font-size: 1.4rem;
+  font-size: 0.8rem;
+  width: fit-content;
+  background-color: $color;
+  color: $white;
+  padding: 4px 8px;
+  border-radius: 8px;
 }
 .italic {
   font-style: italic;

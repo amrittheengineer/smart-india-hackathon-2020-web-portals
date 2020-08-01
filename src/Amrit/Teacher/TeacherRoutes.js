@@ -7,16 +7,20 @@ import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import AnnouncementIcon from "@material-ui/icons/Announcement";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SidebarItem from "../../Components/SidebarItem";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
-import CropFreeIcon from "@material-ui/icons/CropFree";
-import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@material-ui/core";
 import TeacherReview from "./TeacherReview";
 import TeacherFeedback from "./TeacherFeedback";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import { TeacherContextProvider } from "../Context/TeacherContext";
+import logo from "../images/teacher-img.jpg";
 
 const sidebarOptions = [
   {
@@ -29,11 +33,10 @@ const sidebarOptions = [
     iconComponent: <SupervisorAccountIcon />,
     component: TeacherFeedback,
   },
-
   // {
-  //   title: "",
-  //   iconComponent: <CropFreeIcon />,
-  //   // component: SchoolQRCode,
+  //   title: "Profile",
+  //   iconComponent: <AccountCircleIcon />,
+  //   component: TeacherProfile,
   // },
 ];
 
@@ -43,7 +46,6 @@ const TeacherRoutes = ({ history, location }) => {
   );
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
       <Divider />
       <List>
         {sidebarOptions.map(({ title, iconComponent }) => (
@@ -98,6 +100,11 @@ const TeacherRoutes = ({ history, location }) => {
                 keepMounted: true, // Better open performance on mobile.
               }}
             >
+              <img src={logo} className="teacher-logo" />
+              <Typography
+                variant="h5"
+                style={{ marginLeft: "16px" }}
+              >{`Teacher`}</Typography>
               {drawer}
             </Drawer>
           </Hidden>
@@ -109,6 +116,11 @@ const TeacherRoutes = ({ history, location }) => {
               variant="permanent"
               open
             >
+              <img src={logo} className="teacher-logo" />
+              <Typography
+                variant="h5"
+                style={{ marginLeft: "16px" }}
+              >{`Teacher`}</Typography>
               {drawer}
             </Drawer>
           </Hidden>

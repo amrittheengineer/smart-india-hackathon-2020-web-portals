@@ -17,6 +17,7 @@ import SchoolReport from "./SchoolReport";
 import SchoolListGrievance from "./SchoolGrievance";
 import SchoolQRCode from "./SchoolQRCode";
 import SchoolRemark from "./SchoolRemark";
+import logo from "../images/logo.jpeg";
 
 const sidebarOptions = [
   {
@@ -42,7 +43,6 @@ const SchoolRoutes = ({ history, location }) => {
   );
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
       <Divider />
       <List>
         {sidebarOptions.map(({ title, iconComponent }) => (
@@ -96,6 +96,7 @@ const SchoolRoutes = ({ history, location }) => {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
+            <img src={logo} style={{ objectFit: "scale-down" }} />
             {drawer}
           </Drawer>
         </Hidden>
@@ -107,6 +108,7 @@ const SchoolRoutes = ({ history, location }) => {
             variant="permanent"
             open
           >
+            <img src={logo} style={{ objectFit: "scale-down" }} />
             {drawer}
           </Drawer>
         </Hidden>

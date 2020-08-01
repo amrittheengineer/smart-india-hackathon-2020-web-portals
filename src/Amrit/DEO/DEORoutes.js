@@ -22,6 +22,7 @@ import DEOListGrievance from "./DEOGrievance";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { DEOContextProvider } from "../Context/DEOContext";
 import ViewReportGraph from "./ViewReportGraph";
+import logo from "../images/logo.jpeg";
 
 const sidebarOptions = [
   {
@@ -39,11 +40,11 @@ const sidebarOptions = [
     iconComponent: <SchoolIcon />,
     component: DEOListSchool,
   },
-  {
-    title: "Grievance",
-    iconComponent: <AnnouncementIcon />,
-    component: DEOListGrievance,
-  },
+  // {
+  //   title: "Requirements",
+  //   iconComponent: <AnnouncementIcon />,
+  //   component: DEOListGrievance,
+  // },
   {
     title: "Questionnaire",
     iconComponent: <AssessmentIcon />,
@@ -57,7 +58,6 @@ function DEORoutes({ history, location }) {
   );
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
       <Divider />
       <List>
         {sidebarOptions.map(({ title, iconComponent }) => (
@@ -112,6 +112,11 @@ function DEORoutes({ history, location }) {
                 keepMounted: true, // Better open performance on mobile.
               }}
             >
+              <img
+                src={logo}
+                className="govt-logo"
+                style={{ objectFit: "scale-down" }}
+              />
               {drawer}
             </Drawer>
           </Hidden>
@@ -123,6 +128,11 @@ function DEORoutes({ history, location }) {
               variant="permanent"
               open
             >
+              <img
+                src={logo}
+                className="govt-logo"
+                style={{ objectFit: "scale-down" }}
+              />
               {drawer}
             </Drawer>
           </Hidden>

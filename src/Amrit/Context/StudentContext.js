@@ -16,7 +16,7 @@ const schoolidTemp = "iuerhifrehfue";
 // const student.studentIdTemp = null;
 
 export const StudentContextProvider = ({ children }) => {
-  const [student, setstudent] = useState({
+  const [student, setStudent] = useState({
     name: "Rithik",
     institute: "CIT Matric Hr.Sec.School",
     position: "class_1",
@@ -28,6 +28,9 @@ export const StudentContextProvider = ({ children }) => {
     password: "02012000",
     __v: 0,
   });
+  const isPasswordChanged = () => {
+    return student.password !== student.dob;
+  };
 
   const [feedbackList, setFeedbackList] = useState(null);
 
@@ -39,7 +42,7 @@ export const StudentContextProvider = ({ children }) => {
   useEffect(() => {
     if (student && student.studentId) {
       getFeebackFromDB();
-      getTeachersList();
+      getTeachersListFromDB();
     }
   }, [student]);
 
@@ -67,6 +70,43 @@ export const StudentContextProvider = ({ children }) => {
       .catch((err) => console.error(err));
   };
 
+  const getTeachersListFromDB = () => {
+    fetch(`${appUrl}/student/listteachers/${student.studentId}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          setTeachersList(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const changePassword = (password, callback) => {
+    // callback();
+    // setStudent((prev) => Object.assign({}, prev, { password }));
+
+    // console.log("Password changed", password);
+    // return;
+    fetch(`${appUrl}/student/changepassword/${student.studentId}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        password,
+      }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          callback();
+          setStudent((prev) => Object.assign({}, prev, { password }));
+        }
+      })
+      .catch((err) => console.error(err));
+  };
   const reportFeedback = (
     message,
     title,
@@ -137,25 +177,6 @@ export const StudentContextProvider = ({ children }) => {
       callback();
     }, 1000);
   };
-  // useEffect(() => {
-  //   if (previousReport) {
-  //     let prevPlots = getChartPlots([previousReport]);
-  //     const prevRepCopy = [];
-
-  //     // Setting labels
-  //     const labels = latestReport.reportData.map(
-  //       ({ categoryName }) => categoryName
-  //     );
-  //     if (labels.length > 0) {
-  //       labels.forEach((l) => {
-  //         prevRepCopy.push(prevPlots[l]);
-  //       });
-  //       setPreviousReportChart(prevRepCopy);
-  //     }
-  //   } else {
-  //     setPreviousReportChart(null);
-  //   }
-  // }, [previousReport]);
 
   const { showToast } = useContext(GlobalStateContext);
 
@@ -176,6 +197,10 @@ export const StudentContextProvider = ({ children }) => {
     }, 1000);
   };
 
+  const checkOldPasswordMatches = (password) => {
+    return student.password === password;
+  };
+
   return (
     <StudentContext.Provider
       value={{
@@ -185,6 +210,9 @@ export const StudentContextProvider = ({ children }) => {
         remarks,
         reportFeedback,
         teachersList,
+        checkOldPasswordMatches,
+        isPasswordChanged,
+        changePassword,
       }}
     >
       {children}

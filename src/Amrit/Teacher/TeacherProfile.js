@@ -11,14 +11,12 @@ import { Button, Paper } from "@material-ui/core";
 import { AuthContext } from "../Context/AuthContext";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import "react-circular-progressbar/dist/styles.css";
-import { parameterEstimateWarningThreshold } from "../Constants";
-import { InfoOutlined } from "@material-ui/icons";
-import { StudentContext } from "../Context/StudentContext";
+import { TeacherContext } from "../Context/TeacherContext";
 import ChangePasswordDialog from "./ChangePasswordDialog";
 
-const StudentProfile = () => {
+const TeacherProfile = () => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
-  const { student } = useContext(StudentContext);
+  const { teacher } = useContext(TeacherContext);
 
   const [changePasswordDialog, setChangePasswordDialog] = useState(false);
 
@@ -41,7 +39,7 @@ const StudentProfile = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap className={classes.title}>
-            Student Profile
+            Teacher Profile
           </Typography>
           <Button
             color="inherit"
@@ -60,25 +58,20 @@ const StudentProfile = () => {
         <Paper variant="outlined" className="profile-container">
           <AccountCircleIcon color="primary" className="profile-avatar" />
           {/* <div className="profile-entity-container"> */}
-          <ProfileEntity name="Name" value={`${student.name}`} />
+          <ProfileEntity name="Name" value={`${teacher.name}`} />
           <ProfileEntity
-            name="Class"
-            value={`${student.position ? student.position.split("_")[1] : ""}`}
-          />
-          <ProfileEntity name="Roll No." value={`${student.roll_no}`} />
-          <ProfileEntity
-            name="Date of birth"
+            name="Handling"
             value={`${
-              student.dob
-                ? `${student.dob.slice(0, 2)} / ${student.dob.slice(
-                    2,
-                    4
-                  )} / ${student.dob.slice(4, 8)}`
+              teacher.handling
+                ? `${teacher.handling.reduce(
+                    (prev, cur) => prev + cur.split("_")[1],
+                    ""
+                  )}`
                 : ""
             }`}
           />
-          <ProfileEntity name="Phone" value={`${student.ph_no}`} />
-          <ProfileEntity name="Institute" value={`${student.institute}`} />
+          <ProfileEntity name="Phone" value={`${teacher.ph_no}`} />
+          <ProfileEntity name="Institute" value={`${teacher.institute}`} />
           {/* </div> */}
         </Paper>
 
@@ -131,4 +124,4 @@ export const ProfileEntity = ({ name, value }) => {
 //   );
 // };
 
-export default StudentProfile;
+export default TeacherProfile;
