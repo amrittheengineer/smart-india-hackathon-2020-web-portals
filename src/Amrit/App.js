@@ -7,23 +7,34 @@ import { SchoolContextProvider } from "./Context/SchoolContext";
 import { AuthContextProvider } from "./Context/AuthContext";
 import TeacherRoutes from "./Teacher/TeacherRoutes";
 import StudentRoutes from "./Student/StudentRoutes";
+import { DEOContextProvider } from "./Context/DEOContext";
+import { TeacherContextProvider } from "./Context/TeacherContext";
+import { StudentContextProvider } from "./Context/StudentContext";
 
 function App() {
   return (
     <BrowserRouter>
       <GlobalStateContextProvider>
         <AuthContextProvider>
-          <Switch>
-            <Route path="/" exact component={() => <Redirect to="/deo" />} />
-            {/* <DEOContextProvider> */}
-            <Route path="/deo" component={DEORoutes} />
-            <Route path="/teacher" component={TeacherRoutes} />
-            <Route path="/student" component={StudentRoutes} />
-            {/* </DEOContextProvider> */}
-            <SchoolContextProvider>
-              <Route path="/school" component={SchoolRoutes} />
-            </SchoolContextProvider>
-          </Switch>
+          <SchoolContextProvider>
+            <StudentContextProvider>
+              <TeacherContextProvider>
+                <DEOContextProvider>
+                  <Switch>
+                    <Route path="/school" component={SchoolRoutes} />
+                    <Route path="/deo" component={DEORoutes} />
+                    <Route path="/teacher" component={TeacherRoutes} />
+                    <Route path="/student" component={StudentRoutes} />
+                    <Route
+                      path="/"
+                      exact
+                      component={() => <Redirect to="/deo" />}
+                    />
+                  </Switch>
+                </DEOContextProvider>
+              </TeacherContextProvider>
+            </StudentContextProvider>
+          </SchoolContextProvider>
         </AuthContextProvider>
       </GlobalStateContextProvider>
     </BrowserRouter>

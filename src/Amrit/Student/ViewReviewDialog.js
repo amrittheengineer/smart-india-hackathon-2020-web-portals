@@ -33,7 +33,7 @@ const ViewReviewDialog = ({ closeThis, review }) => {
                   variant="outlined"
                   style={{
                     padding: "16px",
-                    background: "#3f51b5",
+                    background: "#7d47bd",
                   }}
                 >
                   <Typography
@@ -54,7 +54,7 @@ const ViewReviewDialog = ({ closeThis, review }) => {
                   color="textPrimary"
                   align="right"
                 >
-                  {` - ${review.name}`}
+                  {` - ${review.userName}`}
                 </Typography>
               </Paper>
             </div>

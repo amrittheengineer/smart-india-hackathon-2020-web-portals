@@ -222,10 +222,19 @@ export const DEOContextProvider = ({ children }) => {
       .catch((err) => console.error(err));
   };
 
-  const createQuestionnaire = (category, questionsSet, callback) => {
+  const createQuestionnaire = (
+    category,
+    questionsSet,
+    visibleToTeachers,
+    callback
+  ) => {
     fetch(`${appUrl}/deo/postquestions`, {
       method: "POST",
-      body: JSON.stringify({ categoryName: category, questions: questionsSet }),
+      body: JSON.stringify({
+        categoryName: category,
+        questions: questionsSet,
+        visibleForTeachers: visibleToTeachers,
+      }),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

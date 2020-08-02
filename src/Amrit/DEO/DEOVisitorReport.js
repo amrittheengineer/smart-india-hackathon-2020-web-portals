@@ -49,7 +49,7 @@ const DEOListReport = ({ history }) => {
         inaccurateClaim={inaccurateClaim}
         closeThis={() => setInaccurateClaim(null)}
       />
-      <AppBar position="static" color="primary">
+      <AppBar position="static">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -71,8 +71,9 @@ const DEOListReport = ({ history }) => {
             setTabIndex(selectedIndex);
           }}
           aria-label="Report Tabs"
-          indicatorColor="secondary"
-          TabIndicatorProps={{ style: { background: "#fff" } }}
+          indicatorColor="primary"
+
+          // TabIndicatorProps={{ style: { background: "#fff" } }}
         >
           <LinkTab
             label={
@@ -85,16 +86,16 @@ const DEOListReport = ({ history }) => {
             }
           />
           <LinkTab label="Completed" />
-          {/* <LinkTab
+          <LinkTab
             label={
               <Badge
                 color="secondary"
                 badgeContent={inaccurateVisits ? inaccurateVisits.length : 0}
               >
-                <Typography>Inaccurate Claims</Typography>
+                <Typography>Inaccurate Reports</Typography>
               </Badge>
             }
-          /> */}
+          />
         </Tabs>
       </AppBar>
       <div className="mainbar-content">
@@ -106,7 +107,6 @@ const DEOListReport = ({ history }) => {
                   a.reportDate > b.reportDate ? -1 : 1
                 )}
                 renderItem={(v) => {
-                  // return <p>Hello</p>;
                   return (
                     <VisitReportCardPending
                       key={v.visitId || `${v.reportDate}${Math.random() * 800}`}
@@ -120,7 +120,6 @@ const DEOListReport = ({ history }) => {
                 )}
               />
             ) : (
-              // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
               <MainbarErrorMessage message="No grievances found." />
             )
           ) : (
@@ -153,7 +152,6 @@ const DEOListReport = ({ history }) => {
                 )}
               />
             ) : (
-              // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
               <MainbarErrorMessage message="No grievances found." />
             )
           ) : (
@@ -190,7 +188,6 @@ const DEOListReport = ({ history }) => {
                 )}
               />
             ) : (
-              // grievances.map((g) => <GrievanceCard key={g.date} grievance={g} />)
               <MainbarErrorMessage message="No grievances found." />
             )
           ) : (
@@ -218,7 +215,7 @@ const VisitReportCardPending = ({ visit }) => {
           Visitor : {getMEOName(visit.mId) || "Mr. VVVVV"}
         </div>
       </div>
-      <div className="italic">{`Schedued : ${new Date(
+      <div className="italic">{`Scheduled : ${new Date(
         visit.reportDate
       ).toDateString()}`}</div>
     </div>
@@ -233,7 +230,6 @@ const VisitReportCardCompleted = ({ visit, onClick }) => {
     if (visit.reportData) {
       let d = calculateReportData([visit]);
       setReportEstimate(d);
-      console.log(d);
     }
   }, []);
 
@@ -249,52 +245,36 @@ const VisitReportCardCompleted = ({ visit, onClick }) => {
         </div>
         <div className="message">
           {reportEstimate
-            ? [...Object.keys(reportEstimate)].map((r, i) => (
+            ? [
+                ...Object.keys(reportEstimate).filter(
+                  (r) => reportEstimate[r] < parameterEstimateWarningThreshold
+                ),
+              ].map((r, i) => (
                 <Chip
                   color={
-                    reportEstimate[r] > parameterEstimateWarningThreshold
-                      ? "primary"
-                      : "secondary"
+                    // reportEstimate[r] > parameterEstimateWarningThreshold
+                    //   ? "primary"
+                    //   :
+                    "secondary"
                   }
                   icon={
-                    reportEstimate[r] > parameterEstimateWarningThreshold ? (
-                      <CheckCircleIcon />
-                    ) : (
-                      <ErrorTwoToneIcon />
-                    )
+                    // reportEstimate[r] > parameterEstimateWarningThreshold ? (
+                    //   <CheckCircleIcon />
+                    // ) :
+                    <ErrorTwoToneIcon />
                   }
                   key={r}
                   label={r}
                   className="category-indicator"
+                  variant="outlined"
                 />
               ))
             : null}
-          {/* <Chip
-            color="primary"
-            label="Clickable Link"
-            className="category-indicator"
-          />
-          <Chip
-            color="secondary"
-            label="Clickable Link"
-            className="category-indicator"
-          /> */}
         </div>
       </div>
       <div className="italic">{`Visited on : ${new Date(
         visit.reportDate
       ).toDateString()}`}</div>
-
-      {/* <div className="message-container">
-      <div className="message-icon">
-      <InfoOutlined color="primary" />
-      </div>
-      <div className="message-body">
-        <div className="posted-by">{getSchoolName(visit.schoolId) || "VVVVV School"}</div>
-        <div className="message">{grievance.message}</div>
-      </div>
-      <div className="italic">{new Date(visit.reportDate).toDateString()}</div>
-    </div> */}
     </div>
   );
 };

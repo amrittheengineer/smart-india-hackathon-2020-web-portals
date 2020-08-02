@@ -6,7 +6,12 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
 import { Loading } from "../Components/MainbarComponent";
-import { TextField, Typography } from "@material-ui/core";
+import {
+  TextField,
+  Typography,
+  FormControlLabel,
+  Switch,
+} from "@material-ui/core";
 import { SchoolContext } from "../Context/SchoolContext";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -82,6 +87,7 @@ const CreateQuestionnaireDialog = ({ visible, closeThis }) => {
   const { createQuestionnaire } = useContext(DEOContext);
   const { showToast } = useContext(GlobalStateContext);
   const inputCategoryRef = useRef(null);
+  const [visibleToTeachers, setVisibleToTeachers] = useState(true);
   const [questionsSetComponents, setQuestionsSetComponents] = useState([
     { ...defaultValue },
   ]);
@@ -92,7 +98,7 @@ const CreateQuestionnaireDialog = ({ visible, closeThis }) => {
   };
   return (
     <>
-      <Dialog open={visible} maxWidth="sm" fullWidth>
+      <Dialog open={visible} maxWidth="md" fullWidth>
         <DialogTitle>New Questions Set</DialogTitle>
         <DialogContent>
           {requestingAPI ? (
@@ -100,6 +106,7 @@ const CreateQuestionnaireDialog = ({ visible, closeThis }) => {
           ) : (
             <div>
               {/* <SimpleSelect categoryRef={inputCategoryRef} /> */}
+
               <TextField
                 label="Category Name"
                 variant="outlined"
@@ -107,7 +114,20 @@ const CreateQuestionnaireDialog = ({ visible, closeThis }) => {
                 className="modal-input"
                 autoFocus
               />
-              <Typography variant="caption">Add questions from here</Typography>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={visibleToTeachers}
+                    onChange={(e) => {
+                      setVisibleToTeachers(e.target.checked);
+                    }}
+                    color="primary"
+                  />
+                }
+                label="Visible to teacher"
+                style={{ display: "block" }}
+              />
+              {/* <Typography variant="caption">Add questions from here</Typography> */}
               {questionsSetComponents.map((q, ind) => (
                 <Question
                   key={ind}
@@ -160,11 +180,16 @@ const CreateQuestionnaireDialog = ({ visible, closeThis }) => {
               // return;
               setRequestingAPI(true);
 
-              createQuestionnaire(category, validQuestionsSet, () => {
-                closeThis();
-                setQuestionsSetComponents([{ ...defaultValue }]);
-                setRequestingAPI(false);
-              });
+              createQuestionnaire(
+                category,
+                validQuestionsSet,
+                visibleToTeachers,
+                () => {
+                  closeThis();
+                  setQuestionsSetComponents([{ ...defaultValue }]);
+                  setRequestingAPI(false);
+                }
+              );
             }}
             color="primary"
           >

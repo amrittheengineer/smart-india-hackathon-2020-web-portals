@@ -16,9 +16,8 @@ const SidebarItem = ({ title, iconComponent, isActive, onClick }) => {
         onClick={onClick}
       >
         <ListItemIcon>{iconComponent}</ListItemIcon>
-        <ListItemText primary={title} />
+        <ListItemText className="sidebar-item-text" primary={title} />
       </ListItem>
-      <Divider />
     </React.Fragment>
   );
 };

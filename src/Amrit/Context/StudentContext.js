@@ -23,10 +23,9 @@ export const StudentContextProvider = ({ children }) => {
     dob: "02012000",
     ph_no: 9876543230,
     schoolId: "d4bf8383-bc7d-4b38-835d-ab52e744434a",
-    studentId: "0eb5408e-46b3-49fa-b0b5-95f4c8004557",
+    studentId: "cef2d05f-74a2-4e10-9348-c6f10868446a",
     roll_no: "01002",
     password: "02012000",
-    __v: 0,
   });
   const isPasswordChanged = () => {
     return student.password !== student.dob;
@@ -115,6 +114,8 @@ export const StudentContextProvider = ({ children }) => {
     isAnonymous,
     callback
   ) => {
+    // console.log(teachersList.find((t) => t.teacherId === teacherId));
+    // return;
     fetch(`${appUrl}/student/sendFeedBack/${student.studentId}`, {
       method: "POST",
       headers: {
@@ -123,29 +124,31 @@ export const StudentContextProvider = ({ children }) => {
       },
       body: JSON.stringify({
         subject: title,
-        name: isAnonymous ? "Anonymous" : student.name,
+        name: `${isAnonymous ? "Anonymous" : student.name}`,
         message: message,
         // date: Date.now(),
         rating,
         teacherId,
         position: student.position,
-        // teacherName: teachersList.find((t) => t.id === teacherId).name,
+        teacherName: teachersList.find((t) => t.teacherId === teacherId).name,
       }),
     })
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
           callback();
           setFeedbackList((prev) => [
             ...prev,
             {
               subject: title,
-              name: `${isAnonymous ? "Anonymous" : student.name}`,
+              userName: `${isAnonymous ? "Anonymous" : student.name}`,
               message: message,
-              // date: Date.now(),
+              date: Date.now(),
               rating,
               id: `${Date.now()}${Math.random()}`,
               teacherId,
-              // teacherName: teachersList.find((t) => t.id === teacherId).name,
+              teacherName: teachersList.find((t) => t.teacherId === teacherId)
+                .name,
             },
           ]);
         }

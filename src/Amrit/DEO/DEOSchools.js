@@ -38,7 +38,7 @@ const DEOListSchool = (props) => {
           <Typography variant="h6" className={classes.title}>
             Schools
           </Typography>
-          <Button
+          {/* <Button
             color="inherit"
             variant="outlined"
             onClick={() => {}}
@@ -46,7 +46,7 @@ const DEOListSchool = (props) => {
             size="small"
           >
             Add School
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
       <div className="mainbar-content">

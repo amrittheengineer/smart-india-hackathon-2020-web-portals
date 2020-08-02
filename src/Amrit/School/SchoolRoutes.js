@@ -18,15 +18,17 @@ import SchoolListGrievance from "./SchoolGrievance";
 import SchoolQRCode from "./SchoolQRCode";
 import SchoolRemark from "./SchoolRemark";
 import logo from "../images/logo.jpeg";
+import { SupervisedUserCircleRounded } from "@material-ui/icons";
+import { SchoolContext } from "../Context/SchoolContext";
 
 const sidebarOptions = [
   {
-    title: "Reports",
+    title: "Dashboard",
     iconComponent: <SupervisorAccountIcon />,
     component: SchoolReport,
   },
   {
-    title: "Grievance",
+    title: "Our Requirements",
     iconComponent: <AnnouncementIcon />,
     component: SchoolListGrievance,
   },
@@ -43,8 +45,18 @@ const SchoolRoutes = ({ history, location }) => {
   );
   const drawer = (
     <div>
-      <Divider />
       <List>
+        <ListItem style={{ padding: "16px" }}>
+          <ListItemText primary="School" className="sidebar-role" />
+        </ListItem>
+        <Divider />
+        <ListItem style={{ padding: "16px" }}>
+          <ListItemIcon>
+            <SupervisedUserCircleRounded />
+          </ListItemIcon>
+          <ListItemText primary="DON Bosco" />
+        </ListItem>
+        <Divider />
         {sidebarOptions.map(({ title, iconComponent }) => (
           <SidebarItem
             key={title}
@@ -67,9 +79,8 @@ const SchoolRoutes = ({ history, location }) => {
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary="Log Out" />
+            <ListItemText className="sidebar-item-text" primary="Log Out" />
           </ListItem>
-          <Divider />
         </React.Fragment>
       </List>
     </div>
@@ -96,7 +107,6 @@ const SchoolRoutes = ({ history, location }) => {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            <img src={logo} style={{ objectFit: "scale-down" }} />
             {drawer}
           </Drawer>
         </Hidden>
@@ -108,7 +118,6 @@ const SchoolRoutes = ({ history, location }) => {
             variant="permanent"
             open
           >
-            <img src={logo} style={{ objectFit: "scale-down" }} />
             {drawer}
           </Drawer>
         </Hidden>
@@ -132,7 +141,7 @@ const SchoolRoutes = ({ history, location }) => {
           <Route
             key="default"
             path="/school"
-            component={() => <Redirect to="/school/reports" />}
+            component={() => <Redirect to="/school/dashboard" />}
           />
         </Switch>
       </main>

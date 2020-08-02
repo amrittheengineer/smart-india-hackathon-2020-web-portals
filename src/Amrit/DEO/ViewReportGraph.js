@@ -7,7 +7,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
 import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
-import { colors, INDEX_OLD_REPORT, INDEX_NEW_REPORT } from "../Constants";
+import {
+  colors,
+  INDEX_OLD_REPORT,
+  INDEX_NEW_REPORT,
+  parameterEstimateWarningThreshold,
+} from "../Constants";
 import { useParams } from "react-router-dom";
 import { DEOContext } from "../Context/DEOContext";
 import {
@@ -51,7 +56,7 @@ const ViewReportGraph = ({ history }) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <div className="mainbar-content">
+      <div className="mainbar-content view-report">
         {labels ? (
           labels.length > 0 && latestReportChart ? (
             <div className="visit-report-page">
@@ -64,7 +69,11 @@ const ViewReportGraph = ({ history }) => {
                         fill: colors[1],
                         data: latestReportChart,
                         type: "horizontalBar",
-                        backgroundColor: colors[1],
+                        backgroundColor: latestReportChart.map((l) =>
+                          l < parameterEstimateWarningThreshold
+                            ? colors[0]
+                            : colors[1]
+                        ),
                         borderColor: colors[1],
                       },
                     ],

@@ -56,7 +56,7 @@ function DEOListGrievance() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            School Grievances
+            School Requirements
           </Typography>
         </Toolbar>
         <Tabs

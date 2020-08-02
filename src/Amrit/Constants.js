@@ -4,6 +4,7 @@ module.exports = {
   NO_REPORTS: 3,
   colors: [
     "#e34309",
+    "#7d47bd",
     "#3f51b5",
     "#374874",
     "#3ede04",
@@ -46,10 +47,12 @@ module.exports = {
   parameterEstimateWarningThreshold: 75,
   QUESTION_TYPE_DATA: 1,
   QUESTION_TYPE_SCORE: 0,
+  QUESTION_TYPE_YES_OR_NO: 2,
   MAX_SCORE: 5,
   qTypes: [
     { type: "Score", value: 0 },
     { type: "Data", value: 1 },
+    { type: "Yes/No", value: 2 },
   ],
   // appUrl: "http://ec2-15-207-86-28.ap-south-1.compute.amazonaws.com:5000",
   // appUrl: "http://ec2-13-234-240-75.ap-south-1.compute.amazonaws.com:5000",

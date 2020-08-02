@@ -17,7 +17,7 @@ import { TeacherContext } from "../Context/TeacherContext";
 
 const TeacherReview = ({ history }) => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
-  const { latestReportChart, remarks } = useContext(TeacherContext);
+  const { remarks, reportChart, labels } = useContext(TeacherContext);
 
   return (
     <>
@@ -51,34 +51,33 @@ const TeacherReview = ({ history }) => {
         </Toolbar>
       </AppBar>
       <div className="mainbar-content">
-        {latestReportChart && remarks ? (
-          <>
-            <div className="indicator-list">
-              {/* <CircularProgressbar value={80} text={`${80}%`} /> */}
-              {latestReportChart
-                ? Object.keys(latestReportChart).map((c) => (
-                    <FeedbackIndicator
-                      category={c}
-                      value={latestReportChart[c]}
-                      text={`${latestReportChart[c]}%`}
-                      strokeWidth={5}
-                      key={c}
-                    />
-                  ))
-                : null}
-            </div>
-            <hr style={{ border: "2px solid #ddd" }} />
-            <div className="post-category">Remarks</div>
-            <div className="remark-list">
-              {remarks &&
-                remarks.map((remark) => (
-                  <RemarkCard remark={remark} key={remark.id + Math.random()} />
-                ))}
-            </div>
-          </>
-        ) : (
-          <Loading message="Loading reports..." />
-        )}
+        <>
+          <div className="indicator-list">
+            {/* <CircularProgressbar value={80} text={`${80}%`} /> */}
+            {reportChart ? (
+              Object.keys(reportChart).map((c) => (
+                <FeedbackIndicator
+                  category={c}
+                  value={reportChart[c]}
+                  text={`${reportChart[c]}%`}
+                  strokeWidth={5}
+                  key={c}
+                />
+              ))
+            ) : (
+              <Loading message="Loading score..." />
+            )}
+          </div>
+          {/* <hr style={{ border: "2px solid #ddd" }} /> */}
+          <div className="post-category">Remarks</div>
+          {remarks ? (
+            remarks.map((remark) => (
+              <RemarkCard remark={remark} key={remark.id + Math.random()} />
+            ))
+          ) : (
+            <Loading message="Loading remarks..." />
+          )}
+        </>
       </div>
     </>
   );

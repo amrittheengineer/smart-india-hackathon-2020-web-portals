@@ -9,8 +9,9 @@ import List from "@material-ui/core/List";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import AssessmentIcon from "@material-ui/icons/Assessment";
-import SchoolIcon from "@material-ui/icons/School";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
+import SchoolIcon from "@material-ui/icons/School";
+import Home from "@material-ui/icons/Home";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SidebarItem from "../../Components/SidebarItem";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
@@ -18,13 +19,19 @@ import ListMEO from "./DEOListMEO";
 import DEOListSchool from "./DEOSchools";
 import DEOListReport from "./DEOVisitorReport";
 import Questionnaire from "./DEOQuestionnaire";
-import DEOListGrievance from "./DEOGrievance";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { DEOContextProvider } from "../Context/DEOContext";
+import { DEOContext } from "../Context/DEOContext";
 import ViewReportGraph from "./ViewReportGraph";
-import logo from "../images/logo.jpeg";
+import DEOListGrievance from "./DEOGrievance";
+import DistrictWiseReport from "./DistrictWiseReport";
+import { SupervisedUserCircleRounded } from "@material-ui/icons";
 
 const sidebarOptions = [
+  {
+    title: "Dashboard",
+    iconComponent: <Home />,
+    component: DistrictWiseReport,
+  },
   {
     title: "Reports",
     iconComponent: <SupervisorAccountIcon />,
@@ -40,11 +47,11 @@ const sidebarOptions = [
     iconComponent: <SchoolIcon />,
     component: DEOListSchool,
   },
-  // {
-  //   title: "Requirements",
-  //   iconComponent: <AnnouncementIcon />,
-  //   component: DEOListGrievance,
-  // },
+  {
+    title: "Requirements",
+    iconComponent: <AnnouncementIcon />,
+    component: DEOListGrievance,
+  },
   {
     title: "Questionnaire",
     iconComponent: <AssessmentIcon />,
@@ -56,10 +63,21 @@ function DEORoutes({ history, location }) {
   const { classes, theme, mobileOpen, handleDrawerToggle } = useContext(
     GlobalStateContext
   );
+  const { DEO } = useContext(DEOContext);
   const drawer = (
     <div>
-      <Divider />
       <List>
+        <ListItem style={{ padding: "16px" }}>
+          <ListItemText primary="Administrator" className="sidebar-role" />
+        </ListItem>
+        <Divider />
+        <ListItem style={{ padding: "16px" }}>
+          <ListItemIcon>
+            <SupervisedUserCircleRounded />
+          </ListItemIcon>
+          <ListItemText primary={DEO.name} />
+        </ListItem>
+        <Divider />
         {sidebarOptions.map(({ title, iconComponent }) => (
           <SidebarItem
             key={title}
@@ -82,9 +100,8 @@ function DEORoutes({ history, location }) {
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary="Log Out" />
+            <ListItemText className="sidebar-item-text" primary="Log Out" />
           </ListItem>
-          <Divider />
         </React.Fragment>
       </List>
     </div>
@@ -93,70 +110,61 @@ function DEORoutes({ history, location }) {
   const container = window.document.body;
 
   return (
-    <DEOContextProvider>
-      <div className={classes.root}>
-        <CssBaseline />
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === "rtl" ? "right" : "left"}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-            >
-              <img
-                src={logo}
-                className="govt-logo"
-                style={{ objectFit: "scale-down" }}
-              />
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              <img
-                src={logo}
-                className="govt-logo"
-                style={{ objectFit: "scale-down" }}
-              />
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className="mainbar">
-          <Switch>
-            {sidebarOptions.map(({ title, component }) => (
-              <Route
-                key={title}
-                path={"/deo/" + title.toLowerCase()}
-                component={component}
-                exact
-              />
-            ))}
+    <div className={classes.root}>
+      <CssBaseline />
+      <nav
+        // style={{ backgroundColor: "#8964e0" }}
+        className={classes.drawer}
+        aria-label="mailbox folders"
+      >
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
+      <main className="mainbar">
+        <Switch>
+          {sidebarOptions.map(({ title, component }) => (
             <Route
-              path="/deo/reports/:reportId"
+              key={title}
+              path={"/deo/" + title.toLowerCase()}
+              component={component}
               exact
-              component={ViewReportGraph}
             />
-            <Route path="/" render={() => <Redirect to="/deo/reports" />} />
-          </Switch>
-        </main>
-      </div>
-    </DEOContextProvider>
+          ))}
+          <Route
+            path="/deo/reports/:reportId"
+            exact
+            component={ViewReportGraph}
+          />
+          <Route path="/" render={() => <Redirect to="/deo/dashboard" />} />
+        </Switch>
+      </main>
+    </div>
   );
 }
 

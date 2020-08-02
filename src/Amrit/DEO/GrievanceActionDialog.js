@@ -53,7 +53,7 @@ const GrievanceActionDialog = ({ closeThis, grievance }) => {
                   style={{
                     padding: "16px",
                     //   background: "#f50057",
-                    background: "#3f51b5",
+                    background: "#7d47bd",
                   }}
                 >
                   <Typography

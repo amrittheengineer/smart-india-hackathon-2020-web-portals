@@ -35,26 +35,27 @@ const ViewInaccurateClaimDialog = ({ visible, closeThis, inaccurateClaim }) => {
                 <div
                   style={{
                     padding: "8px 0",
-                    //   borderRadius: "12px",
                   }}
                 >
                   <div style={{ display: "inline" }}>Categories : </div>
                   {inaccurateClaim.categories
-                    ? inaccurateClaim.categories.map((r, i) => (
-                        <Chip
-                          color={
-                            // reportEstimate[r] > parameterEstimateWarningThreshold
-                            //   ?
-                            // "primary"
-                            //   :
-                            "secondary"
-                          }
-                          variant="outlined"
-                          key={r}
-                          label={r}
-                          className="category-indicator"
-                        />
-                      ))
+                    ? inaccurateClaim.categories
+                        .sort((prev, current) => prev - current)
+                        .map((r, i) => (
+                          <Chip
+                            color={
+                              // reportEstimate[r] > parameterEstimateWarningThreshold
+                              //   ?
+                              // "primary"
+                              //   :
+                              "secondary"
+                            }
+                            variant="outlined"
+                            key={r}
+                            label={r}
+                            className="category-indicator"
+                          />
+                        ))
                     : null}
                 </div>
                 <Paper
@@ -62,7 +63,7 @@ const ViewInaccurateClaimDialog = ({ visible, closeThis, inaccurateClaim }) => {
                   style={{
                     padding: "16px",
                     //   background: "#f50057",
-                    background: "#3f51b5",
+                    background: "#7d47bd",
                   }}
                 >
                   <Typography

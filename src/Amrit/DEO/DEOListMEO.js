@@ -10,6 +10,7 @@ import { Button } from "@material-ui/core";
 import { DEOContext } from "../Context/DEOContext";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
+import TableMEO from "./TableMEO";
 
 function ListMEO(props) {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
@@ -31,7 +32,7 @@ function ListMEO(props) {
           <Typography variant="h6" className={classes.title}>
             Visitors
           </Typography>
-          <Button
+          {/* <Button
             color="inherit"
             variant="outlined"
             onClick={() => {}}
@@ -39,10 +40,11 @@ function ListMEO(props) {
             size="small"
           >
             Add Visitor
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
       <div className="mainbar-content">
+        {/* <TableMEO list={[]} /> */}
         {MEOList ? (
           MEOList.length > 0 ? (
             MEOList.sort((a, b) => a.lastVisited > b.lastVisited).map((m) => (

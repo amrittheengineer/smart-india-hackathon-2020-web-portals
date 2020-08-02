@@ -1,14 +1,46 @@
-$color: #3f51b5;
+$color: #7d47bd;
 $background: #27272f;
 $white: #fff;
 
-// * {
-//   font-family: "Montserrat", sans-serif;
-// }
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #fff !important;
+}
+
+.govt-logo {
+  width: 50%;
+  margin: 8% 0;
+  align-self: center;
+  object-fit: contain;
+}
 .teacher-logo {
   width: 100%;
-  ::after {
-    content: "Teacher";
+}
+.district-graph-container {
+  display: flex;
+  width: 100%;
+  // height: 40vh;
+  // flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  .district-graph-card {
+    width: 46%;
+    // margin: 2%;
+    margin: 16px;
+    .district-name {
+      margin-top: 16px;
+      text-align: center;
+    }
+    .district-graph {
+      height: 40vh;
+      padding: 16px;
+      // height: 100%;
+      // width: 100%;
+    }
+    // background-color: #c1c1c1;
   }
 }
 .mainbar {
@@ -25,10 +57,16 @@ $white: #fff;
     padding: 16px;
     height: 91vh;
   }
+  .mainbar-content:not(.view-report) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 .message-container {
   // background-color: #c1c1c1;
   display: flex;
+  width: 100%;
 
   border-radius: 4px;
   margin: 16px 8px;
@@ -52,11 +90,13 @@ $white: #fff;
     // flex-grow: 1;
     flex-direction: column;
     .posted-by {
+      color: #000;
       // font-weight: bold;
       font-size: 1.2rem;
     }
     .message {
       font-size: 0.8rem;
+      color: #000;
       flex: 1;
       margin-top: 8px;
       overflow-wrap: anywhere;
@@ -73,6 +113,43 @@ $white: #fff;
       }
     }
   }
+}
+.MuiAppBar-colorPrimary {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+.MuiListItem-button.Mui-selected {
+  background-color: #fff !important;
+  color: $color !important;
+  .MuiListItemIcon-root {
+    color: $color !important;
+  }
+}
+.MuiTypography-root {
+  font-family: "Montserrat", sans-serif !important;
+}
+.MuiDivider-root {
+  background-color: #fff !important;
+  height: 0.2px !important;
+  margin: 0 8% !important;
+}
+.MuiListItemText-root.sidebar-item-text {
+  .MuiTypography-root {
+    font-family: "Rowdies", cursive !important;
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important;
+  }
+}
+.MuiListItemText-root.sidebar-role {
+  .MuiTypography-root {
+    font-family: "Rowdies", cursive !important;
+    text-align: center;
+    text-transform: uppercase !important;
+    font-size: 1.2rem !important;
+  }
+}
+.MuiListItemIcon-root {
+  color: #fff !important;
 }
 .profile-container {
   display: flex;
@@ -149,6 +226,7 @@ $white: #fff;
 .post-category {
   font-size: 0.8rem;
   width: fit-content;
+  text-align: center;
   background-color: $color;
   color: $white;
   padding: 4px 8px;
@@ -156,6 +234,7 @@ $white: #fff;
 }
 .italic {
   font-style: italic;
+  color: #000;
 }
 .modal-input {
   width: 100%;

@@ -1,5 +1,11 @@
 import React, { createContext } from "react";
-import { makeStyles, useTheme, Snackbar } from "@material-ui/core";
+import {
+  makeStyles,
+  useTheme,
+  Snackbar,
+  MuiThemeProvider,
+  createMuiTheme,
+} from "@material-ui/core";
 import {
   QUESTION_TYPE_DATA,
   QUESTION_TYPE_SCORE,
@@ -8,16 +14,19 @@ import {
 
 export const GlobalStateContext = createContext();
 
-const drawerWidth = 300;
+const drawerWidth = 280;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    color: "#fff",
+    backgroundColor: "#fff",
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
+    backgroundColor: "#8964e0",
   },
   appBar: {
     [theme.breakpoints.up("sm")]: {
@@ -35,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    height: "100%",
+    // backgroundColor: theme.palette.background,
+    backgroundColor: "#8964e0",
+    color: "#fff",
   },
   content: {
     flexGrow: 1,
@@ -44,6 +57,19 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
+
+const appTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#7d47bd",
+    },
+    // divider: "#fff",
+    // background: "#fff",
+    secondary: {
+      main: "#ff0000",
+    },
+  },
+});
 
 export const GlobalStateContextProvider = ({ children }) => {
   const classes = useStyles();
@@ -79,7 +105,7 @@ export const GlobalStateContextProvider = ({ children }) => {
           ({ qType }) => qType === QUESTION_TYPE_SCORE
         );
 
-        console.log("score_based_questions", score_based_questions);
+        // console.log("score_based_questions", score_based_questions);
 
         aggregateData[categoryName].push(
           // fieldData.reduce((old, { score, total }) => {
@@ -95,11 +121,13 @@ export const GlobalStateContextProvider = ({ children }) => {
     });
     const parameters = Object.keys(aggregateData);
     parameters.forEach((p) => {
-      aggregateData[p] =
+      aggregateData[p] = Math.floor(
         aggregateData[p].reduce((old, current) => {
           return old + current;
-        }, 0) / aggregateData[p].length;
+        }, 0) / aggregateData[p].length
+      );
     });
+    // console.log(aggregateData);
     return aggregateData;
   };
 
@@ -128,14 +156,17 @@ export const GlobalStateContextProvider = ({ children }) => {
         showToast,
         getChartPlots,
         getDataQuestions,
+        appTheme,
       }}
     >
-      {children}
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        message={toast}
-        open={toast !== ""}
-      />
+      <MuiThemeProvider theme={appTheme}>
+        {children}
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          message={toast}
+          open={toast !== ""}
+        />
+      </MuiThemeProvider>
     </GlobalStateContext.Provider>
   );
 };

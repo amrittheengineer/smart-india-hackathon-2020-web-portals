@@ -80,7 +80,6 @@ const QuestionnaireList = ({ questionnaireList }) => {
           key={r.categoryName}
           variant="outlined"
           className="category-data-accordion"
-          defaultExpanded
           TransitionProps={{ unmountOnExit: true }}
         >
           <AccordionSummary aria-controls="panel1d-content">

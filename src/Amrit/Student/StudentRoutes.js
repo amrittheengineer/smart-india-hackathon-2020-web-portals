@@ -13,9 +13,13 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import StudentFeedback from "./StudentFeedback";
 import RateReviewIcon from "@material-ui/icons/RateReview";
-import { StudentContextProvider } from "../Context/StudentContext";
+import {
+  StudentContextProvider,
+  StudentContext,
+} from "../Context/StudentContext";
 import StudentProfile from "./StudentProfile";
 import logo from "../images/logo.jpeg";
+import { SupervisedUserCircleRounded } from "@material-ui/icons";
 
 const sidebarOptions = [
   {
@@ -34,10 +38,21 @@ const StudentRoutes = ({ history, location }) => {
   const { classes, theme, mobileOpen, handleDrawerToggle } = useContext(
     GlobalStateContext
   );
+  const { student } = useContext(StudentContext);
   const drawer = (
     <div>
-      <Divider />
       <List>
+        <ListItem style={{ padding: "16px" }}>
+          <ListItemText primary="Student" className="sidebar-role" />
+        </ListItem>
+        <Divider />
+        <ListItem style={{ padding: "16px" }}>
+          <ListItemIcon>
+            <SupervisedUserCircleRounded />
+          </ListItemIcon>
+          <ListItemText primary={student.name} />
+        </ListItem>
+        <Divider />
         {sidebarOptions.map(({ title, iconComponent }) => (
           <SidebarItem
             key={title}
@@ -60,9 +75,8 @@ const StudentRoutes = ({ history, location }) => {
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary="Log Out" />
+            <ListItemText className="sidebar-item-text" primary="Log Out" />
           </ListItem>
-          <Divider />
         </React.Fragment>
       </List>
     </div>
@@ -89,7 +103,7 @@ const StudentRoutes = ({ history, location }) => {
                 keepMounted: true, // Better open performance on mobile.
               }}
             >
-              <img src={logo} style={{ objectFit: "scale-down" }} />
+              {" "}
               {drawer}
             </Drawer>
           </Hidden>
@@ -101,7 +115,6 @@ const StudentRoutes = ({ history, location }) => {
               variant="permanent"
               open
             >
-              <img src={logo} style={{ objectFit: "scale-down" }} />
               {drawer}
             </Drawer>
           </Hidden>

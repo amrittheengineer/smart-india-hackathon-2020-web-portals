@@ -23,10 +23,10 @@ export const TeacherContextProvider = ({ children }) => {
   // });
   const [teacher, setTeacher] = useState({
     handling: ["class_1", "class_4"],
-    name: "Annie Teacher",
+    name: "Ms.Premalatha G",
     institute: "CIT Matric Hr.Sec.School",
     ph_no: 9876553210,
-    schoolId: "d4bf8383-bc7d-4b38-835d-ab52e744434a",
+    schoolId: "5d961b1f-0952-4ad7-97cb-d60fe2e534c8",
     // teacherId: "e31be291-6d31-4cde-96cd-3987a4abe540",
     teacherId: "fd2ae741-d312-4d9e-ba9c-2c281e663692",
     password: "9876553210",
@@ -56,21 +56,20 @@ export const TeacherContextProvider = ({ children }) => {
 
   const [feedbackList, setFeedbackList] = useState(null);
 
-  const [latestReport, setLatestReport] = useState(null);
-
-  const [latestReportChart, setLatestReportChart] = useState(null);
+  // const [reportChart, setReportChart] = useState(null);
   const [remarks, setRemarks] = useState(null);
 
   useEffect(() => {
     if (teacher && teacher.teacherId) {
       getFeedbacksFromDB();
-      getClassRoomTransactions();
+      // getClassRoomTransactions();
+      getTeacherReport();
     }
   }, [teacher]);
 
   const getClassRoomTransactions = () => {
     setTimeout(() => {
-      setLatestReport({
+      setReportChart({
         reportData: [
           {
             categoryName: "Teaching",
@@ -113,16 +112,6 @@ export const TeacherContextProvider = ({ children }) => {
     }, 3000);
   };
 
-  useEffect(() => {
-    if (latestReport) {
-      let newPlots = getChartPlots([latestReport]);
-
-      setLatestReportChart(newPlots);
-    } else {
-      setLatestReportChart(null);
-    }
-  }, [latestReport]);
-
   const getFeedbacksFromDB = () => {
     fetch(`${appUrl}/teacher/listfeedbacks/${teacher.teacherId}`, {
       method: "GET",
@@ -131,6 +120,61 @@ export const TeacherContextProvider = ({ children }) => {
       .then((res) => {
         if (res) {
           setFeedbackList(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const [reportChart, setReportChart] = useState(null);
+  const [labels, setLabels] = useState(null);
+
+  useEffect(() => {
+    if (reportChart) {
+    }
+  }, [reportChart]);
+
+  const getTeacherReport = () => {
+    fetch(`${appUrl}/school/plotgraph/${teacher.schoolId}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((sampleData) => {
+        if (sampleData) {
+          // Sort in descending
+          sampleData.sort((a, b) => b.reportDate - a.reportDate);
+          if (sampleData[0]) {
+            let newPlots = getChartPlots([sampleData[0]]);
+            const newRepCopy = [];
+
+            // Setting labels
+            console.log(sampleData[0].reportData);
+            const labels = sampleData[0].reportData
+              // .filter((d) => d.visibleForTeachers)
+              .map(({ categoryName }) => categoryName);
+
+            // Object.keys(getReportsOnly(reportChart));
+            if (labels.length > 0) {
+              const remarks = sampleData[0].remarks.filter(
+                (d) =>
+                  labels.includes(d.categoryName) && d.message.trim().length
+              );
+              labels.forEach((l) => {
+                newRepCopy.push(newPlots[l]);
+              });
+
+              setReportChart(
+                labels.reduce(
+                  (prev, current) =>
+                    Object.assign(prev, { [current]: newPlots[current] }),
+                  {}
+                )
+              );
+              setLabels(labels);
+              setRemarks(remarks);
+            } else {
+              setLabels(null);
+            }
+          }
         }
       })
       .catch((err) => console.error(err));
@@ -166,8 +210,9 @@ export const TeacherContextProvider = ({ children }) => {
       value={{
         teacher,
         feedbackList,
-        latestReportChart,
+        reportChart,
         remarks,
+        labels,
         isPasswordChanged,
         changePassword,
         checkOldPasswordMatches,

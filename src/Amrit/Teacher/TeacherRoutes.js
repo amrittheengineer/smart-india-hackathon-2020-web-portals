@@ -19,8 +19,12 @@ import {
 import TeacherReview from "./TeacherReview";
 import TeacherFeedback from "./TeacherFeedback";
 import AssessmentIcon from "@material-ui/icons/Assessment";
-import { TeacherContextProvider } from "../Context/TeacherContext";
+import {
+  TeacherContextProvider,
+  TeacherContext,
+} from "../Context/TeacherContext";
 import logo from "../images/teacher-img.jpg";
+import { SupervisedUserCircleRounded } from "@material-ui/icons";
 
 const sidebarOptions = [
   {
@@ -44,10 +48,21 @@ const TeacherRoutes = ({ history, location }) => {
   const { classes, theme, mobileOpen, handleDrawerToggle } = useContext(
     GlobalStateContext
   );
+  const { teacher } = useContext(TeacherContext);
   const drawer = (
     <div>
-      <Divider />
       <List>
+        <ListItem style={{ padding: "16px" }}>
+          <ListItemText primary="Teacher" className="sidebar-role" />
+        </ListItem>
+        <Divider />
+        <ListItem style={{ padding: "16px" }}>
+          <ListItemIcon>
+            <SupervisedUserCircleRounded />
+          </ListItemIcon>
+          <ListItemText primary={teacher.name} />
+        </ListItem>
+        <Divider />
         {sidebarOptions.map(({ title, iconComponent }) => (
           <SidebarItem
             key={title}
@@ -70,9 +85,8 @@ const TeacherRoutes = ({ history, location }) => {
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary="Log Out" />
+            <ListItemText className="sidebar-item-text" primary="Log Out" />
           </ListItem>
-          <Divider />
         </React.Fragment>
       </List>
     </div>
@@ -81,69 +95,57 @@ const TeacherRoutes = ({ history, location }) => {
   const container = window.document.body;
 
   return (
-    <TeacherContextProvider>
-      <div className={classes.root}>
-        <CssBaseline />
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === "rtl" ? "right" : "left"}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-            >
-              <img src={logo} className="teacher-logo" />
-              <Typography
-                variant="h5"
-                style={{ marginLeft: "16px" }}
-              >{`Teacher`}</Typography>
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              <img src={logo} className="teacher-logo" />
-              <Typography
-                variant="h5"
-                style={{ marginLeft: "16px" }}
-              >{`Teacher`}</Typography>
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className="mainbar">
-          <Switch>
-            {sidebarOptions.map(({ title, component }) => (
-              <Route
-                key={title}
-                path={"/teacher/" + title.toLowerCase()}
-                component={component}
-              />
-            ))}
-
+    <div className={classes.root}>
+      <CssBaseline />
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
+      <main className="mainbar">
+        <Switch>
+          {sidebarOptions.map(({ title, component }) => (
             <Route
-              key="default"
-              path="/teacher"
-              component={() => <Redirect to="/teacher/reviews" />}
+              key={title}
+              path={"/teacher/" + title.toLowerCase()}
+              component={component}
             />
-          </Switch>
-        </main>
-      </div>
-    </TeacherContextProvider>
+          ))}
+
+          <Route
+            key="default"
+            path="/teacher"
+            component={() => <Redirect to="/teacher/reviews" />}
+          />
+        </Switch>
+      </main>
+    </div>
   );
 };
 
