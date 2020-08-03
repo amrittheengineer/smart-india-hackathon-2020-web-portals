@@ -65,14 +65,14 @@ const PublicRoutes = ({ history, location }) => {
         <ListItem style={{ padding: "16px" }}>
           <ListItemText primary="AP-AMS" className="sidebar-role" />
         </ListItem>
-        {/* 
+
         <Divider />
         <ListItem style={{ padding: "16px" }}>
           <ListItemIcon>
             <SupervisedUserCircleRounded />
           </ListItemIcon>
-          <ListItemText primary={DEO.name} />
-        </ListItem> */}
+          <ListItemText primary={"Public Portal"} />
+        </ListItem>
         <Divider />
         {sidebarOptions.map(({ title, iconComponent }) => (
           <SidebarItem

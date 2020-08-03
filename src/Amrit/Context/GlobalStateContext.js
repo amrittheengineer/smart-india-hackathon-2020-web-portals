@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import {
   makeStyles,
   useTheme,
@@ -76,6 +76,17 @@ export const GlobalStateContextProvider = ({ children }) => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [toast, showToast] = React.useState("");
+
+  const [schools, setSchools] = useState([
+    "Don bosco School",
+    "Don bosco Mat. School",
+    "Union public School",
+  ]);
+  const [districts, setDistricts] = useState([
+    "Anantapur",
+    "Chittoor",
+    "Guntur",
+  ]);
 
   React.useEffect(() => {
     if (toast) {
@@ -157,6 +168,8 @@ export const GlobalStateContextProvider = ({ children }) => {
         getChartPlots,
         getDataQuestions,
         appTheme,
+        schools,
+        districts,
       }}
     >
       <MuiThemeProvider theme={appTheme}>

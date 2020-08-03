@@ -28,7 +28,7 @@ function SelectTeacher({ setState, selectList, category }) {
         <InputLabel>{category}</InputLabel>
         <Select
           autoFocus
-          defaultValue={0}
+          // defaultValue={}
           onChange={(e) => (setState ? setState(e.target.value) : null)}
           label={category}
         >
@@ -46,22 +46,14 @@ function SelectTeacher({ setState, selectList, category }) {
 }
 
 const PublicSchoolReviews = () => {
-  const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
+  const { classes, handleDrawerToggle, schools, districts } = useContext(
+    GlobalStateContext
+  );
 
   const [viewReview, setViewReview] = useState(null);
 
   const [reviews, setreviews] = useState(null);
   const [currentSchool, setCurrentSchool] = useState(null);
-  const [schools, setSchools] = useState([
-    "Don bosco School",
-    "Don bosco Mat. School",
-    "Union public School",
-  ]);
-  const [districts, setDistricts] = useState([
-    "Anantapur",
-    "Chittoor",
-    "Guntur",
-  ]);
 
   useEffect(() => {
     fetch(`${appUrl}/student/getPublicReviews`)

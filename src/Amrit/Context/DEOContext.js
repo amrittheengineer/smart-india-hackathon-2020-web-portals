@@ -18,7 +18,7 @@ const schoolidTemp = "iuerhifrehfue";
 export const DEOContextProvider = ({ children }) => {
   const [DEO, setDEO] = useState({
     // id: "06da6e93-cd10-4780-b67b-8e0613703ae9",
-    name: "Mr. Paltu",
+    name: "Mr. Vignesh",
     id: "69bd7ffd-e3ea-402a-9577-c2810fb66d46",
     // id: "65ba4296-1fe9-40a1-a883-5c8b2cb4a09d",
   });
