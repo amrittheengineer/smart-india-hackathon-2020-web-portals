@@ -6,7 +6,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
-import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
+import {
+  MainbarErrorMessage,
+  Loading,
+  FeedbackIndicator,
+} from "../Components/MainbarComponent";
 import { Button } from "@material-ui/core";
 import { AuthContext } from "../Context/AuthContext";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
@@ -92,38 +96,6 @@ export const RemarkCard = ({ remark }) => {
       <div className="message-body">
         <div className="posted-by">{remark.categoryName || "Remark"}</div>
         <div className="message">{remark.message}</div>
-      </div>
-    </div>
-  );
-};
-
-const FeedbackIndicator = ({ category, ...props }) => {
-  return (
-    <div className="indicator-card">
-      <div className="indicator">
-        <CircularProgressbar
-          {...props}
-          styles={buildStyles(
-            props.value >= parameterEstimateWarningThreshold
-              ? {
-                  textColor: "#3f51b5",
-                  pathColor: "#3f51b5",
-                  // trailColor: "gold",
-                }
-              : { textColor: "#f50057", pathColor: "#f50057" }
-          )}
-        />
-      </div>
-      <div className="indicator-category">
-        <h4
-          style={
-            props.value >= parameterEstimateWarningThreshold
-              ? { color: "#3f51b5" }
-              : { color: "#f50057" }
-          }
-        >
-          {category}
-        </h4>
       </div>
     </div>
   );

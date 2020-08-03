@@ -9,7 +9,7 @@ import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
 import { DistrictGraph } from "../Components/DistrictGraph";
 import { appUrl } from "../Constants";
 
-const DistrictWiseReport = (props) => {
+const DistrictWiseReportPublic = (props) => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
 
   const [districtData, setDistrictData] = useState(null);
@@ -27,22 +27,6 @@ const DistrictWiseReport = (props) => {
 
   return (
     <>
-      <AppBar position="relative" className="app-bar">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            District Reports
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <div className="mainbar-content">
         {districtData ? (
           districtData.length > 0 ? (
@@ -62,4 +46,4 @@ const DistrictWiseReport = (props) => {
   );
 };
 
-export default DistrictWiseReport;
+export default DistrictWiseReportPublic;

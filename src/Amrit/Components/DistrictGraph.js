@@ -7,34 +7,41 @@ import {
   INDEX_NEW_REPORTS,
 } from "../Constants";
 import { Typography, Paper } from "@material-ui/core";
+import { FeedbackIndicator, Loading } from "./MainbarComponent";
 
 export const DistrictGraph = ({ districtData }) => {
   return (
     <Paper variant="elevation" elevation={8} className="district-graph-card">
       <Typography className="district-name" variant="h5">
-        District 1
+        {districtData.districtName}
       </Typography>
       <div className="district-graph">
-        <Bar
+        {districtData.reportData ? (
+          Object.keys(districtData.reportData).map((c) => (
+            <FeedbackIndicator
+              category={c}
+              value={districtData.reportData[c]}
+              text={`${districtData.reportData[c]}%`}
+              strokeWidth={5}
+              key={c}
+            />
+          ))
+        ) : (
+          <Loading message="Loading report..." />
+        )}
+
+        {/* <Bar
           data={{
             datasets: [
               {
                 fill: colors[1],
-                data: [...Array(7)].map((d) => Math.floor(Math.random() * 100)),
+                data: Object.values(districtData.reportData),
                 type: "bar",
                 backgroundColor: colors[1],
                 borderColor: colors[1],
               },
             ],
-            labels: [
-              "Library",
-              "Hygiene",
-              "Infrastructure",
-              "Teachers",
-              "Labs",
-              "Class Room",
-              "Academics",
-            ],
+            labels: Object.keys(districtData.reportData),
           }}
           legend={{
             labels: {
@@ -95,7 +102,7 @@ export const DistrictGraph = ({ districtData }) => {
               },
             },
           }}
-        />
+        /> */}
       </div>
     </Paper>
   );

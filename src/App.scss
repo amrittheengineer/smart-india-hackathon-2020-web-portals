@@ -10,6 +10,14 @@ body {
   background-color: #fff !important;
 }
 
+.public-nav {
+  display: flex;
+  .public-nav-item {
+    margin-left: 16px;
+    white-space: nowrap;
+  }
+}
+
 .govt-logo {
   width: 50%;
   margin: 8% 0;
@@ -27,7 +35,7 @@ body {
   flex-wrap: wrap;
   justify-content: space-evenly;
   .district-graph-card {
-    width: 46%;
+    // width: 46%;
     // margin: 2%;
     margin: 16px;
     .district-name {
@@ -35,8 +43,11 @@ body {
       text-align: center;
     }
     .district-graph {
-      height: 40vh;
+      // height: 40vh;
       padding: 16px;
+      display: flex;
+      width: 100%;
+
       // height: 100%;
       // width: 100%;
     }

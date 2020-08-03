@@ -6,6 +6,17 @@ body {
   background-color: #fff !important;
 }
 
+.public-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.public-nav .public-nav-item {
+  margin-left: 16px;
+  white-space: nowrap;
+}
+
 .govt-logo {
   width: 50%;
   margin: 8% 0;
@@ -33,7 +44,6 @@ body {
 }
 
 .district-graph-container .district-graph-card {
-  width: 46%;
   margin: 16px;
 }
 
@@ -43,8 +53,11 @@ body {
 }
 
 .district-graph-container .district-graph-card .district-graph {
-  height: 40vh;
   padding: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
 }
 
 .mainbar {

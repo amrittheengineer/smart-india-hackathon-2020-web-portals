@@ -1,5 +1,7 @@
 import React from "react";
 import { CircularProgress, Tab } from "@material-ui/core";
+import { parameterEstimateWarningThreshold } from "../Constants";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 export const EmptyComponent = () => {
   return (
@@ -16,12 +18,43 @@ export const EmptyComponent = () => {
   );
 };
 
+export const FeedbackIndicator = ({ category, ...props }) => {
+  return (
+    <div className="indicator-card">
+      <div className="indicator">
+        <CircularProgressbar
+          {...props}
+          styles={buildStyles(
+            props.value >= parameterEstimateWarningThreshold
+              ? {
+                  textColor: "#3f51b5",
+                  pathColor: "#3f51b5",
+                }
+              : { textColor: "#f50057", pathColor: "#f50057" }
+          )}
+        />
+      </div>
+      <div className="indicator-category">
+        <h4
+          style={
+            props.value >= parameterEstimateWarningThreshold
+              ? { color: "#3f51b5" }
+              : { color: "#f50057" }
+          }
+        >
+          {category}
+        </h4>
+      </div>
+    </div>
+  );
+};
+
 export const Loading = ({ message }) => {
   return (
     <div className="container">
       <div className="content">
         <CircularProgress />
-        <p>{message}</p>
+        <p style={{ color: "#000" }}>{message}</p>
       </div>
     </div>
   );
@@ -31,7 +64,7 @@ export const MainbarErrorMessage = ({ message }) => {
   return (
     <div className="container">
       <div className="content">
-        <p>{message}</p>
+        <p style={{ color: "#000" }}>{message}</p>
       </div>
     </div>
   );

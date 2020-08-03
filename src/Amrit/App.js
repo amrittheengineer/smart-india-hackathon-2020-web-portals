@@ -10,6 +10,7 @@ import StudentRoutes from "./Student/StudentRoutes";
 import { DEOContextProvider } from "./Context/DEOContext";
 import { TeacherContextProvider } from "./Context/TeacherContext";
 import { StudentContextProvider } from "./Context/StudentContext";
+import PublicRoutes from "./Public/PublicRoutes";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/deo" component={DEORoutes} />
                     <Route path="/teacher" component={TeacherRoutes} />
                     <Route path="/student" component={StudentRoutes} />
+                    <Route path="/public" component={PublicRoutes} />
                     <Route
                       path="/"
                       exact

@@ -82,6 +82,8 @@ export const DEOContextProvider = ({ children }) => {
   const [latestReportChart, setLatestReportChart] = useState(null);
   const [previousReportChart, setPreviousReportChart] = useState(null);
 
+  const [generalMessage, setGeneralMessage] = useState(null);
+
   const [inAccurateReport, setInAccurateReport] = useState(null);
 
   const [school, setSchool] = useState(
@@ -276,6 +278,33 @@ export const DEOContextProvider = ({ children }) => {
           setVisitList((prev) => [...prev, { reportDate, mId, schoolId }]);
           showToast(`Visit Scheduled successfully!`);
           callback();
+        }, 200);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const postGeneralMessage = (title, message, callback) => {
+    fetch(`${appUrl}/deo/postgeneralmessage/${DEO.id}`, {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        message,
+        date: Date.now(),
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setTimeout(() => {
+          setGeneralMessage((prev) => [
+            ...prev,
+            { subject: title, message, date: Date.now() },
+          ]);
+          callback();
+          showToast("General message has been posted!");
         }, 200);
       })
       .catch((err) => console.error(err));
@@ -757,6 +786,7 @@ export const DEOContextProvider = ({ children }) => {
         scheduleVisit,
         questionnaireList,
         createQuestionnaire,
+        generalMessage,
       }}
     >
       {children}
