@@ -7,8 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import QRCode from "react-qr-code";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
 import { SchoolContext } from "../Context/SchoolContext";
-import { NO_PENDING_VISITS } from "../Constants";
+import { appUrl } from "../Constants";
 import { Loading, MainbarErrorMessage } from "../Components/MainbarComponent";
+import { Paper } from "@material-ui/core";
 
 function SchoolQRCode() {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
@@ -17,10 +18,21 @@ function SchoolQRCode() {
   );
   const { schoolDetails } = useContext(SchoolContext);
 
+  const [meoDetails, setMeoDetails] = useState(null);
+
   useEffect(() => {
     let unmounted = false;
     if (schoolDetails && schoolDetails.geoHash) {
       setQrCodeComponent(<QRCodeWithVisit geoHash={schoolDetails.geoHash} />);
+
+      fetch(`${appUrl}/school/getMeoDetails/${schoolDetails.mId}`)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res) {
+            setMeoDetails(res);
+          }
+        })
+        .catch((err) => console.log(err));
     }
     // getQrCode()
     //   .then((visit) => {
@@ -65,10 +77,41 @@ function SchoolQRCode() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <div className="mainbar-content">{qrCodeComponent}</div>
+      <div className="mainbar-content">
+        <div className="meo-details">
+          {qrCodeComponent}
+          {meoDetails ? (
+            <Paper variant="outlined" className="profile-container">
+              <img
+                src={meoDetails.imageUrl}
+                color="primary"
+                className="profile-avatar"
+              />
+              {/* <div className="profile-entity-container"> */}
+              <ProfileEntity name="Name" value={`${meoDetails.userId}`} />
+              <ProfileEntity
+                name="Mandal Name"
+                value={`${meoDetails.mandalName}`}
+              />
+              {/* </div> */}
+            </Paper>
+          ) : (
+            <Loading message="Loading Visitor details..." />
+          )}
+        </div>
+      </div>
     </>
   );
 }
+
+export const ProfileEntity = ({ name, value }) => {
+  return (
+    <Paper variant="outlined" className="profile-entity-holder">
+      <div className="profile-entity">{`${name}: `}</div>
+      <div className="profile-entity">{`${value}`}</div>
+    </Paper>
+  );
+};
 
 const QRCodeWithVisit = ({ geoHash }) => {
   return (

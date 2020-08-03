@@ -18,6 +18,18 @@ body {
   }
 }
 
+.meo-details {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  .profile-container {
+    margin-left: 24px;
+    height: auto;
+  }
+}
+
 .govt-logo {
   width: 50%;
   margin: 8% 0;
