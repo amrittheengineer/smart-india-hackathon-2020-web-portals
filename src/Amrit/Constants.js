@@ -44,7 +44,7 @@ module.exports = {
     "Buses",
     "Toilet",
   ],
-  parameterEstimateWarningThreshold: 75,
+  parameterEstimateWarningThreshold: 50,
   QUESTION_TYPE_DATA: 1,
   QUESTION_TYPE_SCORE: 0,
   QUESTION_TYPE_YES_OR_NO: 2,

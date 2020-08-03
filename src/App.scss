@@ -196,6 +196,11 @@ body {
 }
 .indicator-list {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  // flex-direction: column;
+  // height: 50%;
+  width: 100%;
   justify-content: center;
 }
 .indicator-card {
@@ -205,6 +210,7 @@ body {
   flex-direction: column;
   .indicator-category {
     align-self: center;
+    white-space: nowrap;
   }
 }
 .visit-report-page {

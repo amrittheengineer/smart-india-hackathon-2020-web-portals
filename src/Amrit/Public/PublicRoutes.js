@@ -22,7 +22,8 @@ import { SupervisedUserCircleRounded } from "@material-ui/icons";
 import SidebarItem from "../../Components/SidebarItem";
 // import DistrictWiseReportPublic from "./DistrictWiseReportPublic";
 import DistrictWiseReport from "../DEO/DistrictWiseReport";
-import PublicHome from "./PublicHome";
+import PublicSchoolReviews from "./PublicSchoolReviews";
+import GeneralPosts from "./GeneralPosts";
 
 const sidebarOptions = [
   // {
@@ -42,7 +43,7 @@ const sidebarOptions = [
   // },
   {
     title: "Home",
-    // component: PublicHome,
+    component: GeneralPosts,
   },
   {
     title: "District Reports",
@@ -50,7 +51,7 @@ const sidebarOptions = [
   },
   {
     title: "Reviews",
-    component: PublicHome,
+    component: PublicSchoolReviews,
   },
 ];
 

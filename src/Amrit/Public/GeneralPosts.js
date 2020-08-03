@@ -9,10 +9,8 @@ import { GlobalStateContext } from "../Context/GlobalStateContext";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import Rating from "@material-ui/lab/Rating";
 import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
-import { Button } from "@material-ui/core";
-import { AuthContext } from "../Context/AuthContext";
-import ViewReviewDialog from "./ViewReviewDialog";
 import { TeacherContext } from "../Context/TeacherContext";
+import { appUrl } from "../Constants";
 
 const GeneralPosts = () => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
@@ -20,12 +18,21 @@ const GeneralPosts = () => {
 
   const [viewReview, setViewReview] = useState(null);
 
+  const [gposts, setGPosts] = useState(null);
+
+  useEffect(() => {
+    fetch(`${appUrl}/student/getNotifications`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          setGPosts(res[0].data);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
-      <ViewReviewDialog
-        review={viewReview}
-        closeThis={() => setViewReview(null)}
-      />
       {/* <InaccurateReportButton /> */}
       <AppBar position="relative" className="app-bar">
         <Toolbar>
@@ -39,7 +46,7 @@ const GeneralPosts = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap className={classes.title}>
-            Student Feedback
+            AP-AMS Notifications
           </Typography>
           {/* <Button
             color="secondary"
@@ -54,9 +61,9 @@ const GeneralPosts = () => {
         </Toolbar>
       </AppBar>
       <div className="mainbar-content">
-        {feedbackList ? (
-          feedbackList.length > 0 ? (
-            feedbackList.map((review, ind) => {
+        {gposts ? (
+          gposts.length > 0 ? (
+            gposts.map((review, ind) => {
               return (
                 <ReviewCard
                   review={review}
@@ -76,19 +83,16 @@ const GeneralPosts = () => {
   );
 };
 
-export const ReviewCard = ({ review, onClick }) => {
+export const ReviewCard = ({ review }) => {
   return (
-    <div className="message-container" onClick={onClick}>
+    <div className="message-container">
       <div className="message-icon">
         <RateReviewIcon color="primary" />
       </div>
       <div className="message-body">
-        <div className="posted-by">{review.subject}</div>
-        <div className="message">
-          <Rating name="read-only" value={review.rating} readOnly />
-        </div>
+        <div className="posted-by">{review.title}</div>
+        <div className="message">{review.message}</div>
       </div>
-      <div className="italic">{new Date(review.date).toDateString()}</div>
     </div>
   );
 };
