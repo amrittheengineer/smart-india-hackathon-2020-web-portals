@@ -1,27 +1,19 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Bar, Line } from "react-chartjs-2";
+import React, { useContext } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
-import {
-  MainbarErrorMessage,
-  Loading,
-  FeedbackIndicator,
-} from "../Components/MainbarComponent";
-import { Button } from "@material-ui/core";
-import { AuthContext } from "../Context/AuthContext";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { Loading, FeedbackIndicator } from "../Components/MainbarComponent";
 import "react-circular-progressbar/dist/styles.css";
-import { parameterEstimateWarningThreshold } from "../Constants";
 import { InfoOutlined } from "@material-ui/icons";
+
 import { TeacherContext } from "../Context/TeacherContext";
 
 const TeacherReview = ({ history }) => {
   const { classes, handleDrawerToggle } = useContext(GlobalStateContext);
-  const { remarks, reportChart, labels } = useContext(TeacherContext);
+  const { remarks, reportChart } = useContext(TeacherContext);
 
   return (
     <>

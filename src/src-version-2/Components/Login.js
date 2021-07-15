@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
-import "../../App.css";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -15,25 +14,19 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import FlatList from "flatlist-react";
-import { DEOContext } from "../Context/DEOContext";
 import ErrorTwoToneIcon from "@material-ui/icons/ErrorTwoTone";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import AssignmentTurnedInTwoToneIcon from "@material-ui/icons/AssignmentTurnedInTwoTone";
 import SchoolIcon from "@material-ui/icons/School";
-import {
-  MainbarErrorMessage,
-  Loading,
-  LinkTab,
-  TabPanel,
-} from "../Components/MainbarComponent";
+
+import { DEOContext } from "../Context/DEOContext";
 import { parameterEstimateWarningThreshold } from "../Constants";
+import "../../App.css";
 
 function SelectCategory({ defaultValue, onChange }) {
   return (
     <div>
       <FormControl variant="outlined" className="modal-input">
-        <InputLabel>Select Rold</InputLabel>
+        <InputLabel>Select Role</InputLabel>
         <Select
           onChange={(e) => onChange(e.target.value)}
           autoFocus

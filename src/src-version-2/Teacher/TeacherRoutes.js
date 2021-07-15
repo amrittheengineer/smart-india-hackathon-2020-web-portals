@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import "../../App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -8,23 +7,16 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import SidebarItem from "../../Components/SidebarItem";
-import { GlobalStateContext } from "../Context/GlobalStateContext";
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import TeacherReview from "./TeacherReview";
 import TeacherFeedback from "./TeacherFeedback";
 import AssessmentIcon from "@material-ui/icons/Assessment";
-import {
-  TeacherContextProvider,
-  TeacherContext,
-} from "../Context/TeacherContext";
-import logo from "../images/teacher-img.jpg";
 import { SupervisedUserCircleRounded } from "@material-ui/icons";
+
+import SidebarItem from "../../Components/SidebarItem";
+import { GlobalStateContext } from "../Context/GlobalStateContext";
+import { TeacherContext } from "../Context/TeacherContext";
+import "../../App.css";
 
 const sidebarOptions = [
   {
@@ -45,9 +37,8 @@ const sidebarOptions = [
 ];
 
 const TeacherRoutes = ({ history, location }) => {
-  const { classes, theme, mobileOpen, handleDrawerToggle } = useContext(
-    GlobalStateContext
-  );
+  const { classes, theme, mobileOpen, handleDrawerToggle } =
+    useContext(GlobalStateContext);
   const { teacher } = useContext(TeacherContext);
   const drawer = (
     <div>

@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Bar, Line } from "react-chartjs-2";
+import React, { useContext, useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { GlobalStateContext } from "../Context/GlobalStateContext";
-import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
 import { Button, Paper } from "@material-ui/core";
-import { AuthContext } from "../Context/AuthContext";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import "react-circular-progressbar/dist/styles.css";
+
 import { TeacherContext } from "../Context/TeacherContext";
 import ChangePasswordDialog from "./ChangePasswordDialog";
 

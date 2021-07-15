@@ -1,17 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Bar, Line } from "react-chartjs-2";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { GlobalStateContext } from "../Context/GlobalStateContext";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import Rating from "@material-ui/lab/Rating";
-import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
-import { Button } from "@material-ui/core";
-import { AuthContext } from "../Context/AuthContext";
+
 import ViewReviewDialog from "./ViewReviewDialog";
+import { MainbarErrorMessage, Loading } from "../Components/MainbarComponent";
+import { GlobalStateContext } from "../Context/GlobalStateContext";
+import { AuthContext } from "../Context/AuthContext";
 import { TeacherContext } from "../Context/TeacherContext";
 
 const TeacherFeedback = () => {

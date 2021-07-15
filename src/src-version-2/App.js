@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+
 import { GlobalStateContextProvider } from "./Context/GlobalStateContext";
 import DEORoutes from "./DEO/DEORoutes";
 import SchoolRoutes from "./School/SchoolRoutes";
@@ -32,7 +33,7 @@ function App() {
                     <Route
                       path="/"
                       exact
-                      component={() => <Redirect to="/deo" />}
+                      component={() => <Redirect to="/login" />}
                     />
                   </Switch>
                 </DEOContextProvider>
